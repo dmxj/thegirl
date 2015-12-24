@@ -8,33 +8,12 @@ var flash = require('express-flash');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var mongoosekeeper = require('./app/services/mongoosekeeper');
-
-mongoosekeeper.init();
-
 var conf = require('./bin/config');
 //var ppSetting = require('./bin/ppSetting');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var Account = require('./app/models/user');
 
-// passport.serializeUser(Account.serializeUser());
-// passport.deserializeUser(Account.deserializeUser());
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  Account.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
-passport.use(new LocalStrategy({ usernameField: 'uname' },function(username, password, done) {
-  //Account._authenticate(username, password, done);
-  console.log('密码不匹配');
-  return done(null, false, '密码不匹配');
-}));
+mongoosekeeper.init();
 
 var routerIndex = require(path.join(conf.router_dir, 'index'));
 var routerAdmin =  require(path.join(conf.router_dir, 'routerAdmin'));
@@ -59,6 +38,21 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
+var Account = require('./app/models/user');
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+passport.use(new LocalStrategy({ usernameField: 'uname' },function(username, password, done) {
+  //Account._authenticate(username, password, done);
+  console.log('密码不匹配');
+  return done(null, false, '密码不匹配');
+}));
+
+
 app.use('/upload',express.static(path.join(__dirname, 'asset')));
 app.use(express.static(path.join(__dirname, 'public')));
 
