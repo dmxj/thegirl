@@ -1,4 +1,4 @@
-var shop = require('../model/shop');
+var shop = require('../models/shop');
 
 exports.getMyShop = function(req, res, next)
 {
