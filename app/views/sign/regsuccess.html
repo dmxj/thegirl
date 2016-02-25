@@ -1,0 +1,12 @@
+<%- include ../includes/sign/header.html %>
+<div class="container">
+    <div class="row">
+        <% if(email){ %>
+        <p>邮箱<%=email%>注册成功，请进入邮箱进行确认</p>
+        <div><a href="">未收到邮件？重新发送邮件</a><a href="<%= mailsite %>">登录邮箱进行确认</a></div>
+        <% }else if(phonenumber){ %>
+        <p>手机号<%= phonenumber %>注册成功，5秒后跳转到登录页面</p>
+        <% } %>
+    </div>
+</div>
+<%- include ../includes/sign/footer.html %>

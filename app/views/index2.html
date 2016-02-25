@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div><img src="leilei.jpg"></div>
+    <div><img src="upload/leilei4.jpg"></div>
+  <script src="/javascript/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      var socket = io();
+      socket.emit('hi');
+      socket.on('welcome',function(msg){
+        console.log('server:'+msg);
+      });
+    });
+  </script>
+  </body>
+</html>

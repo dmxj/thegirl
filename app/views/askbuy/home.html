@@ -1,0 +1,24 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <h2>求购<%= askbuy.title %>的主页</h2>
+    <% if(askbuy.is_delete){ %>
+        <h3>该求购已被作者删除</h3>
+    <% }else if(!askbuy.is_valid){ %>
+        <h3>该求购不合法</h3>
+    <% }else{%>
+        <h4>描述：<%= askbuy.describe %></h4>
+        <% if(askbuy.pictures && askbuy.pictures.length>0){ %>
+            <ul class="askbuy-pictures-list">
+                <% for(var i=0;i < askbuy.pictures.length;i++){ %>
+                <li class="askbuy-pictures-list-item">
+                    <img src="<%= askbuy.pictures[i] %>" alt=""/>
+                </li>
+                <% } %>
+            </ul>
+        <% } %>
+        <h4>理想最低价格：<%= askbuy.minPrice %></h4>
+        <h4>理想最高价格：<%= askbuy.minPrice %></h4>
+        <h4>理想销售范围：<%= askbuy.mayScope ? askbuy.mayScope.name : "不限"%></h4>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

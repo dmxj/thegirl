@@ -1,0 +1,15 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+            <h3>任务发布者：<a href="/user?uid=<%= task.goodId.boss %>"><%= task.goodId.boss %></a></h3>
+
+            <h3>报酬：<%= task.reward %></h3>
+
+            <h3>内容：<%= task.content %></h3>
+
+            <div class="receiver">
+                <% for(var k=0 ; k < task.receiveTasks.length ; k++){ %>
+                <p>接任务者：<%= task.receiveTasks[k].user %> | 信息：<%= task.receiveTasks[k].message %> | 接任务的时间:<%= task.receiveTasks[k].sign_at %></p>
+                <% } %>
+            </div>
+</div>
+<%- include ../includes/common/footer.html %>

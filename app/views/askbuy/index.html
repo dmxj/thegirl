@@ -1,0 +1,31 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <% } %>
+    <div>
+        <form action="/askbuy" method="get">
+            <input type="text" name="q" placeholder="搜索求购标题或描述"/>
+            <input type="button" id="searchAskbuySubmit" value="搜索"/>
+        </form>
+    </div>
+    <% if(askbuys && askbuys.length>0){ %>
+    <ul class="askbuy-list">
+        <% for(var i=0 ; i < askbuys.length ; i++){ %>
+        <li class="askbuy-list-item">
+            <p>标题：<a href="/askbuy/<%= askbuys[i]._id %>"><%= askbuys[i].title %></a></p>
+            <p>描述：<%= askbuys[i].describe %></p>
+            <p><%= askbuys[i].pictures.length %>张图片</p>
+            <p>最大价格：<%= askbuys[i].minPrice %>，最小价格：<%= askbuys[i].maxPrice %></p>
+            <p>收藏人数：<%= askbuys[i].collectionCount %></p>
+            <p>浏览人数：<%= askbuys[i].visitCount %></p>
+        </li>
+        <% } %>
+    </ul>
+    <% }else{ %>
+    <p>暂时没有求购或查询出错</p>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

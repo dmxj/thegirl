@@ -1,0 +1,36 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
+    <div>
+        <form action="/task" method="get">
+            <input type="text" name="q" placeholder="搜索任务"/>
+            <input type="button" id="searchTaskSubmit" value="搜索"/>
+        </form>
+    </div>
+    <% if(tasks){ %>
+    <ul class="task-list">
+        <% for(var i=0 ; i < tasks.length ; i++){ %>
+        <li class="task-list-item">
+            <h3>任务发布者：<a href="/user?uid=<%= tasks[i].goodId.boss %>"><%= tasks[i].goodId.boss %></a></h3>
+
+            <h3>报酬：<%= tasks[i].reward %></h3>
+
+            <h3>内容：<%= tasks[i].content %></h3>
+
+            <div class="receiver">
+                <% for(var k=0 ; k < tasks[i].receiveTasks.length ; k++){ %>
+                <p>接任务者：<%= tasks[i].receiveTasks[k].user %> | 信息：<%= tasks[i].receiveTasks[k].message %> | 接任务的时间:<%= tasks[i].receiveTasks[k].sign_at %></p>
+                <% } %>
+            </div>
+        </li>
+        <% } %>
+    </ul>
+    <% }else{ %>
+    <p>没有店铺或查询出错</p>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

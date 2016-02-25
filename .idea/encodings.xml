@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/app/const/commentType.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/const/followType.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/activityCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/askbuyCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/commentCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/feedbackCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/followCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/goodCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/orderCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/reportCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/searchCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/storeCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/topicCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/controller/userCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/helper/myStrHelper.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/middleware/res_method.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/activity.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/activityInfo.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/askbuy.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/auction.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/baseModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/cancelReason.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/comment.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/education.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/educationItem.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/feedback.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/follow.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/good.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/goodType.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/notification.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/order.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/report.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/secondHand.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/sellScope.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/store.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/task.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/taskInfo.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/topic.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/user.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/proxy/follow2.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/services/check.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/includes/tail.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/config/authLogin.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/config/express.js" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

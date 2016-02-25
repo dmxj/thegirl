@@ -1,0 +1,858 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<base href="http://www.wowsai.com/" />
+
+<!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7 charset=" />-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>哇噻网 全球优质设计师纯手工制作产品购物网站</title>
+<meta name="description" content="365天不打烊的创意市集，汇集全球优质设计师产品、纯手工手作产品的购物网站，创意礼物首选网站，中国领先的设计师手工diy产品网购平台，小清新电商
+" />
+<meta name="keywords" content="手工制作,手工制作产品,购物,设计师,原创设计,生日礼物,橱窗,创意画报,闪购,哇塞网" />
+<meta name="author" content="wowsai" />
+<meta name="copyright" content="WOWSAI Inc. All Rights Reserved" />
+<link type="image/x-icon" href="http://cache.wowsai.com/favicon.ico" rel="icon" />
+<link type="image/x-icon" href="http://cache.wowsai.com/favicon.ico" rel="shortcut icon" />
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/css/wowsai.css" rel="stylesheet" type="text/css" />
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/css/common_new.css" rel="stylesheet" type="text/css" />
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/css/wowsai_new.css" rel="stylesheet" type="text/css" />
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/css/letter.css" rel="stylesheet" type="text/css" />
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/css/logoTip.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen,projection" href="/themes/mall/wowsai/topics/css/ui.totop.css" />
+
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/ecmall.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/js/nav.js" charset="utf-8"></script>
+<!--<script type="text/javascript" src="{res file=js/select.js" charset="utf-8"></script>-->
+<script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/member.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/jquery.plugins/jquery.cookie.js" charset="utf-8"></script>
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/css/gerenzhanghu.css" rel="stylesheet" type="text/css" />
+
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/alertify/css/alertify.core.css" rel="stylesheet" type="text/css" />
+<link href="http://www.wowsai.com/themes/mall/wowsai/styles/default/alertify/css/alertify.default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/alertify/js/alertify.js"></script>
+
+<script type="text/javascript">
+//<!CDATA[
+var SITE_URL = "http://www.wowsai.com";
+var SSITE_URL = "";
+var PRICE_FORMAT = '￥%s';
+var USER_ID =  '0';//用户id，用来判断用户是否登录
+//]]>
+//判断是否开店
+/*$.getJSON("index.php?app=shopping&act=isOpenStore", {},
+  function(data){
+    if (data.done){
+        if (data.retval == 0){//没有开店
+            $("#isOpen").hide();
+            $("#isopen2").show();
+        }else if(data.retval == 1){
+        	 $("#isOpen").show();
+        	 $("#isopen2").hide();
+        }else{ //0 和其他是没有开店 
+        	 $("#isOpen").hide();
+        	 $("#isopen2").show();
+        }
+    }
+     
+   
+  });*/
+</script>
+<script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/message.js" charset="utf-8"></script>
+<!-- <script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/ad_ui.js" charset="utf-8"></script> -->
+<script  type="text/javascript">
+if(SITE_URL.indexOf("wowsai.com") > -1){
+	var _bdhm_top = 0;
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	var _bdhm_tim = new Image(1,1);
+	_bdhm_tim.id = "bdhmPerimg";
+	_bdhm_tim.src = _bdhmProtocol + "hm.baidu.com/_tt.gif?si=042bfe5d3298a8b8706dfe247c7beb2e&rnd=" + Math.round(Math.random()*2147483647);
+	_bdhm_tim.onload=function(){_bdhm_top = 1;}
+}
+</script>
+<style type="text/css">
+	.ws_header_bottom{margin-bottom: 0px;}//首页页头和页中的距离减小
+</style>
+<!--<editmode></editmode>-->
+</head>
+
+<body>
+  <script src="http://www.wowsai.com/themes/mall/wowsai/topics/js/easing.js" type="text/javascript"></script>
+  
+  <script src="http://www.wowsai.com/themes/mall/wowsai/topics/js/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $().UItoTop({easingType: 'easeOutQuart'});
+	
+});
+</script>
+<div id="ewm_pic" style="display:none;"><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newimages/erweima.png" /></div>
+<div id="erweima" style="cursor:pointer" title="哇噻网二维码"></div>
+<div id="toTop" style="cursor: pointer" title="回顶部">
+</div>
+	<!--<a id="toRegister" style="cursor: pointer;display:block" href="index.php?app=member&act=register"></a>-->
+<!--<a  style="cursor: pointer" href="index.php?app=member&act=register">--><div id="over"></div>
+<div id="header_new">
+	<div class="header_body">
+    	<div class="header_top fixed" style="position:relative;">
+        	<div id="logins">
+            </div>
+            <h1 id="logo"><a href="http://www.wowsai.com">哇噻网</a></h1>
+        </div>
+        
+        <div class="header_bottom">
+        	             
+        	<ul class="site_nav siteNav fl" style="display:block;">
+            	
+            	<li class="siteNavL"><a href="http://www.wowsai.com">首页</a></li>
+                
+            	
+                <li><a href="shiji">市集</a></li>
+                <li><a href="shopping/xinpin">新品</a></li>
+                <li><a href="shopping/ranking">热卖</a></li>
+                <li><a href="shopping/groupidea">闪购</a></li>
+                <li id="site_nav_diy" class="last">
+                	<a href="diy">定制</a>
+					<div class="content" area="diy_list" widget_type="area"> 
+    				
+<div id="_widget_737" name="diy_list" widget_type="widget" class="widget">
+<div class="cateTip">
+                                <div class="cateTipTop fixed">
+                                    <a href="/diy" class="a1"><p class="english" style="color:#f3142b;">CUSTOM</p><p>定制首页</p></a>
+                                    <a href="/diy" class="a2"><p class="english" style="color:#78dd00;">NEW</p><p>最新</p></a>
+                                    <a href="/diy" class="a3"><p class="english" style="color:#ff6c00;">HOT</p><p>最热</p></a>
+                                    <a href="/diy" class="a4"><p class="english" style="color:#ff48b4;">LOVE</p><p>喜欢最多</p></a>
+                                </div>
+                                <div class="cateTipItem center">
+                                	                                    <a href="/diy/g1.html" target="_blank">服装服饰</a>
+                                                                        <a href="/diy/g8.html" target="_blank">饰品饰物</a>
+                                                                        <a href="/diy/g17.html" target="_blank">鞋帽包袋</a>
+                                                                        <a href="/diy/g25.html" target="_blank">家居日用</a>
+                                                                        <a href="/diy/g36.html" target="_blank">食品/植物/其它</a>
+                                                                        <a href="/diy/g32.html" target="_blank">数码周边</a>
+                                                                        <a href="/diy/g33.html" target="_blank">办公文具</a>
+                                                                        <a href="/diy/g34.html" target="_blank">卡片/玩具玩偶</a>
+                                                                    </div>
+                                <div class="cateTipTag">
+                                	                                                                        <dl class="fixed colorTag">
+                                        <dt>颜色筛选：</dt>
+                                                                                <dd><a href="/diy/d9.html" style="background:#ff0087;" ></a></dd>
+                                                                                <dd><a href="/diy/d2.html" style="background:#ff0000;" ></a></dd>
+                                                                                <dd><a href="/diy/d5.html" style="background:#ff8100;" ></a></dd>
+                                                                                <dd><a href="/diy/d8.html" style="background:#f4cd00;" ></a></dd>
+                                                                                <dd><a href="/diy/d11.html" style="background:#fffe09;" ></a></dd>
+                                                                                <dd><a href="/diy/d14.html" style="background:#00e405;" ></a></dd>
+                                                                                <dd><a href="/diy/d4.html" style="background:#714b25;" ></a></dd>
+                                                                                <dd><a href="/diy/d12.html" style="background:#a40cf5;" ></a></dd>
+                                                                                <dd><a href="/diy/d6.html" style="background:#0200fb;" ></a></dd>
+                                                                                <dd><a href="/diy/d3.html" style="background:#04d4f5;" ></a></dd>
+                                                                                <dd><a href="/diy/d10.html" style="background:#ffffff;border:1px solid #cecece; border-radius:10px;" ></a></dd>
+                                                                                <dd><a href="/diy/d13.html" style="background:#818181;" ></a></dd>
+                                                                                <dd><a href="/diy/d7.html" style="background:#000000;" ></a></dd>
+                                                                            </dl>
+                                                                                                                                                <dl class="fixed">
+                                        <dt>定制材料：</dt>
+                                                                                <dd><a href="/diy/d26.html">棉</a></dd>
+                                                                                <dd><a href="/diy/d37.html">金</a></dd>
+                                                                                <dd><a href="/diy/d27.html">亚麻</a></dd>
+                                                                                <dd><a href="/diy/d38.html">银</a></dd>
+                                                                                <dd><a href="/diy/d23.html">塑料</a></dd>
+                                                                                <dd><a href="/diy/d28.html">毛料</a></dd>
+                                                                                <dd><a href="/diy/d39.html">铜</a></dd>
+                                                                                <dd><a href="/diy/d24.html">纸</a></dd>
+                                                                                <dd><a href="/diy/d29.html">雪纺</a></dd>
+                                                                                <dd><a href="/diy/d40.html">合金</a></dd>
+                                                                                <dd><a href="/diy/d25.html">复合材料</a></dd>
+                                                                                <dd><a href="/diy/d30.html">毛线</a></dd>
+                                                                                <dd><a href="/diy/d41.html">木质</a></dd>
+                                                                                <dd><a href="/diy/d42.html">真皮</a></dd>
+                                                                                <dd><a href="/diy/d31.html">牛仔</a></dd>
+                                                                                <dd><a href="/diy/d32.html">绸缎</a></dd>
+                                                                                <dd><a href="/diy/d43.html">PU</a></dd>
+                                                                                <dd><a href="/diy/d33.html">帆布</a></dd>
+                                                                                <dd><a href="/diy/d44.html">真丝</a></dd>
+                                                                                <dd><a href="/diy/d34.html">灯芯绒</a></dd>
+                                                                                <dd><a href="/diy/d35.html">聚酯纤维</a></dd>
+                                                                                <dd><a href="/diy/d101.html">玻璃/水晶</a></dd>
+                                                                                <dd><a href="/diy/d36.html">其他</a></dd>
+                                                                                <dd><a href="/diy/d102.html">宝石/珍珠</a></dd>
+                                                                            </dl>
+                                                                                                                                                <dl class="fixed">
+                                        <dt>定制工艺：</dt>
+                                                                                <dd><a href="/diy/d45.html">手工</a></dd>
+                                                                                <dd><a href="/diy/d46.html">机器</a></dd>
+                                                                            </dl>
+                                                                                                                                                <dl class="fixed">
+                                        <dt>定制内容：</dt>
+                                                                                <dd><a href="/diy/d61.html">量体</a></dd>
+                                                                                <dd><a href="/diy/d62.html">来图</a></dd>
+                                                                                <dd><a href="/diy/d63.html">其他</a></dd>
+                                                                            </dl>
+                                                                                                                                                <dl class="fixed">
+                                        <dt>礼物推荐：</dt>
+                                                                                <dd><a href="/diy/d68.html">送給他</a></dd>
+                                                                                <dd><a href="/diy/d69.html">送給她</a></dd>
+                                                                                <dd><a href="/diy/d70.html">送闺密</a></dd>
+                                                                                <dd><a href="/diy/d71.html">送兄弟</a></dd>
+                                                                                <dd><a href="/diy/d72.html">送长辈</a></dd>
+                                                                                <dd><a href="/diy/d73.html">送儿童</a></dd>
+                                                                                <dd><a href="/diy/d74.html">送老板</a></dd>
+                                                                                <dd><a href="/diy/d75.html">送员工</a></dd>
+                                                                                <dd><a href="/diy/d76.html">送客户</a></dd>
+                                                                                <dd><a href="/diy/d77.html">送自己</a></dd>
+                                                                                <dd><a href="/diy/d78.html">乔迁礼物</a></dd>
+                                                                                <dd><a href="/diy/d79.html">生日礼物</a></dd>
+                                                                            </dl>
+                                                                                                                                                <dl class="fixed">
+                                        <dt>节日推荐：</dt>
+                                                                                <dd><a href="/diy/d80.html">春节</a></dd>
+                                                                                <dd><a href="/diy/d91.html">七夕</a></dd>
+                                                                                <dd><a href="/diy/d81.html">清明</a></dd>
+                                                                                <dd><a href="/diy/d82.html">端午</a></dd>
+                                                                                <dd><a href="/diy/d83.html">父亲</a></dd>
+                                                                                <dd><a href="/diy/d84.html">母亲</a></dd>
+                                                                                <dd><a href="/diy/d85.html">儿童</a></dd>
+                                                                                <dd><a href="/diy/d86.html">中秋</a></dd>
+                                                                                <dd><a href="/diy/d87.html">万圣</a></dd>
+                                                                                <dd><a href="/diy/d88.html">重阳</a></dd>
+                                                                                <dd><a href="/diy/d90.html">情人</a></dd>
+                                                                                <dd><a href="/diy/d89.html">圣诞</a></dd>
+                                                                                <dd><a href="/diy/d92.html">愚人</a></dd>
+                                                                            </dl>
+                                                                                                                                                <dl class="fixed">
+                                        <dt>情景推荐：</dt>
+                                                                                <dd><a href="/diy/d99.html">上班</a></dd>
+                                                                                <dd><a href="/diy/d93.html">约会</a></dd>
+                                                                                <dd><a href="/diy/d94.html">表白</a></dd>
+                                                                                <dd><a href="/diy/d95.html">婚礼</a></dd>
+                                                                                <dd><a href="/diy/d96.html">年会</a></dd>
+                                                                                <dd><a href="/diy/d97.html">装修</a></dd>
+                                                                                <dd><a href="/diy/d98.html">旅行</a></dd>
+                                                                                <dd><a href="/diy/d100.html">聚会</a></dd>
+                                                                            </dl>
+                                                                                                        </div>
+                        
+                        <div class="cateTagMore">
+                        	<a href="/diy">MORE 更多分类 ></a>
+                        </div>
+                        <div class="dot"></div>
+                    </div>
+</div>
+					</div>
+                </li>
+            </ul>
+            
+            
+                        <div class="search_box_new fr fixed">
+				<form method="GET" action="index.php?app=search" id='wowsai_sear'>
+				<input type="hidden" name="act" value="index" />
+				<input type="hidden" name="app" value="newsearch" />
+            	<input type="text" name="keyword" placeholder="请输入要搜索的关键词" value="" />
+                <a class="search_btn" href="javascript:wowsai_search()"></a>
+				</form>
+            </div>
+            <ul class="site_nav siteNav fr" style="display:block;">
+            	<li><a href="dynamic">动态</a></li>
+                <li><a href="zixun">画报</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<input type="hidden" id ="appname" value=""/>
+<input type="hidden" id ="actname" value=""/>
+<span id="boxs"></span>
+<span id="alertlogin"></span>
+<script type="text/javascript" src="http://www.wowsai.com/includes/libraries/javascript/yun_login.js" charset="utf-8"></script>
+<!--[if IE ]>
+<script type="text/javascript" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/js/header_ie.js"></script>
+<![endif]-->
+<![if !IE]>
+<script type="text/javascript" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/js/header.js"></script>
+<![endif]>
+<script type="text/javascript">
+	//头部显示双12活动的广告图
+	var WS_URL="http://www.wowsai.com/";
+	var WS_URL2="http://www.wowsai.com/index.php";
+	if(document.URL == WS_URL || document.URL == WS_URL2){
+		$(document).ready(function(){
+			$(".top_advance_small").hide();
+			$(".top_advance").slideDown(3000,function(){
+					setInterval(hide_double12,5000);
+				});
+			})
+		function hide_double12(){
+				$(".top_advance").slideUp(2000,function(){
+					$(".top_advance_small").show();
+					});
+				
+			}
+	}
+	
+	function wowsai_search() {
+		$('#wowsai_sear').submit();
+	}
+/***商品全部分类的滑动效果*****/
+	$(".ws_nav_all_cate li").hover(function(){
+			$(this).children('ul').stop(true,true).show();
+		},function(){
+			$(this).children('ul').stop(true,true).hide();
+			$(".li_flag").removeClass("cate_a");
+			})
+	$(".li_flag").hover(function(){
+			$(".li_flag").removeClass("cate_a");
+			$(this).addClass('cate_a');
+		})
+	$(document).ready(function(){
+		var num=$(".ws_cate_con").length;
+		for(var i=0; i<num; i++){
+				if(i==6 || i==9){
+						$(".ws_cate_con").eq(i).css({"top":-(37+1*36)+"px"});
+					}else{
+						if(i<=6){
+						$(".ws_cate_con").eq(i).css({"top":-(37+i*36)+"px"});
+						}else{
+							$(".ws_cate_con").eq(i).css({"top":-(37+(i-1)*36)+"px"});
+							}
+					}
+			}
+		})
+	var app = $('#appname').val();
+	var act = $('#actname').val();
+	var txt='url'+app+act;
+	var url = window.location.href;
+	if(txt.indexOf('groupidea')>0) { 
+		$("#nav5").addClass("ws_nav_li_checked");
+	}
+	if(txt.indexOf('custom')>0) { 
+		$("#nav6").addClass("ws_nav_li_checked");
+	}
+	if(txt.indexOf("window")>0) { 
+		$("#nav7").addClass("ws_nav_li_checked");
+	}
+	if(txt.indexOf('stroll')>0) { 
+		$("#nav8").addClass("ws_nav_li_checked");
+	}
+	if(txt.indexOf('zixun')>0) { 
+		$("#nav9").addClass("ws_nav_li_checked");
+	}
+	$("#site_nav_diy").hover(function(){
+					$(this).find(".cateTip").stop(true,true).show();
+				},function(){
+					$(this).find(".cateTip").stop(true,true).hide();
+					})
+					
+
+function setsite(){
+		var l = ($(window).width()-$('#loginDiv').width())/2;
+		$('#loginDiv').css({left:l+'px'});
+		$('#over').css({width:$(document).width()+"px",height:$(document).height()+"px"});
+		$('#over').show();
+}				
+</script> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<!--<div class="notice">
+	<div class="notice_con" style="display:none;">
+    	<marquee onmouseover=this.stop() onmouseout=this.start() direction="left" scrollamount=3 style="line-height:45px; width:900px; margin-left:100px; float:left; color:red;">2014年春节期间发货时间调整：所有订单正常接单，付款时间在春节期间（2014年1月25日00：00至2014年2月9日24：00）的订单若和卖家无特殊约定，将于2014年2月12日24：00前发货。详情可点击帮助中心查看《关于2014年春节期间发货时间及退款时间调整通知》
+</marquee>
+    	<img class="notice_close" style="margin-top:17px;" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/close.png"/>
+    </div> 
+</div>-->
+
+<link rel="stylesheet" type="text/css" href="/themes/mall/wowsai/styles/default/engine1/style.css" />
+<div class="focus_banner" id="wowslider-container1">
+        <ul>
+                <li style="background: url('http://img5.wowsai.com/data/files/shoptopic/201512071417566175.jpg') no-repeat scroll  0px transparent;" class="slide_0">
+        	<a href="/index.php?app=shopping&act=total&id=432" target="_blank" title="生活制皂">
+        	&nbsp;</a>
+        </li>
+                <li style="background: url('http://img4.wowsai.com/data/files/shoptopic/201511271652519490.jpg') no-repeat scroll  0px transparent;" class="slide_1">
+        	<a href="/index.php?app=shopping&act=total&id=428" target="_blank" title="遇格耳钉全场包邮">
+        	&nbsp;</a>
+        </li>
+                <li style="background: url('http://img1.wowsai.com/data/files/shoptopic/201511101044445859.jpg') no-repeat scroll  0px transparent;" class="slide_2">
+        	<a href="/index.php?app=shopping&act=total&id=431" target="_blank" title="花间公主满50减10">
+        	&nbsp;</a>
+        </li>
+                <li style="background: url('http://img1.wowsai.com/data/files/shoptopic/201511091142132729.jpg') no-repeat scroll  0px transparent;" class="slide_3">
+        	<a href="/index.php?app=shopping&act=total&id=430" target="_blank" title="Gudi 手绘梳镜">
+        	&nbsp;</a>
+        </li>
+                <li style="background: url('http://img4.wowsai.com/data/files/shoptopic/201509181605344822.jpg') no-repeat scroll  0px transparent;" class="slide_4">
+        	<a href="/index.php?app=shopping&act=total&id=425" target="_blank" title="花边smileflower原创文化服饰">
+        	&nbsp;</a>
+        </li>
+                <li style="background: url('http://img5.wowsai.com/data/files/shoptopic/201510131148412463.jpg') no-repeat scroll  0px transparent;" class="slide_5">
+        	<a href="/index.php?app=shopping&act=total&id=426" target="_blank" title="轻素菊仙堂手工茶">
+        	&nbsp;</a>
+        </li>
+                </ul>
+
+    <a href="javascript:;" id="prev" class="ws_prev"></a>   
+	<a href="javascript:;" id="next" class="ws_next"></a>
+	<div id="page" class="ws_bullets">
+	<div>
+                	<a title="" href="javascript:;" title="">1</a>
+                	<a title="" href="javascript:;" title="">2</a>
+                	<a title="" href="javascript:;" title="">3</a>
+                	<a title="" href="javascript:;" title="">4</a>
+                	<a title="" href="javascript:;" title="">5</a>
+                	<a title="" href="javascript:;" title="">6</a>
+            
+    </div>
+    </div>
+</div>
+
+<div id="warp">
+<div class="container fixed">
+    	<h2>当日精选</h2>
+    	<div class="container_list">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11228" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201510211655277840.jpg" alt="秋季复古小方包" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">秋季复古小方包</div></div></a>        </div>
+        <div class="container_list">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11229" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201510211656087438.jpg" alt="森系渐变小耳朵毛线帽" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">森系渐变小耳朵毛线帽</div></div></a>        </div>
+        <div class="container_list">
+        	        </div>
+        <div class="container_list" style="margin-right:0px;">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11231" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201510211657151590.jpg" alt="复古经典款中跟踝靴 " style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">复古经典款中跟踝靴 </div></div></a>        </div>
+    </div><div class="container fixed">
+    	<h2>定制推荐</h2>
+        <div class="container_list">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10734" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201411302155096106.jpg" alt="简约气质款牛皮靴" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">简约气质款牛皮靴</div></div></a>        </div>
+        <div class="container_list container_list_big">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11182" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201504211133414024.jpg" alt="若爱，请深爱。" style="width:528px;height:314px;" />
+                		<div class="podLabel shadowed podLabel_big"><div class="podTitle">若爱，请深爱。</div></div></a>        </div>
+        <div style="margin-right:0;" class="container_list">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10790" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201412111436048469.jpg" alt="《冰凤凰与蓝缎树》梳镜套装" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">《冰凤凰与蓝缎树》梳镜套装</div></div></a>        </div>
+        <div class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9907" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201406261401074940.jpg" alt="手造原木牛皮台灯" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">手造原木牛皮台灯</div></div></a>        </div>
+        <div class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10630" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201411101751425539.jpg" alt="蓝莲花●手绘日记本" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">蓝莲花●手绘日记本</div></div></a>        </div>
+        <div class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10009" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201407171124353104.jpg" alt="手工牛皮帆布包邮差包" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">手工牛皮帆布包邮差包</div></div></a>        </div>
+        <div style="margin-right:0;" class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10740" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201411302202403008.jpg" alt="铭刻天空之城" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">铭刻天空之城</div></div></a>        </div>
+    </div>	<div class="container fixed">
+    	<h2>设计精选</h2>
+        <div class="container_list">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11216" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201505221428472797.jpg" alt="田园竹编花蕾吊灯" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">田园竹编花蕾吊灯</div></div></a>        </div>
+        <div class="container_list container_list_big">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11210" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201505221423541499.jpg" alt="高级手工皮具定制" style="width:528px;height:314px;" />
+                		<div class="podLabel shadowed podLabel_big"><div class="podTitle">高级手工皮具定制</div></div></a>        </div>
+        <div style="margin-right:0;" class="container_list">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10203" target="_blank"><img src="http://img5.wowsai.com/data/files/ad/201408211502053603.jpg" alt="新款卫衣连帽开衫" style="width:242;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">新款卫衣连帽开衫</div></div></a>        </div>
+        <div class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10486" target="_blank"><img src="http://img5.wowsai.com/data/files/ad/201410161131573922.jpg" alt="原创文艺美包" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">原创文艺美包</div></div></a>        </div>
+        <div class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11214" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201505221427115689.jpg" alt="可定制马赛克爱琴海台灯" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">可定制马赛克爱琴海台灯</div></div></a>        </div>
+        <div class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10488" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201410161133512690.jpg" alt="纯棉针织打底衫" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">纯棉针织打底衫</div></div></a>        </div>
+        <div style="margin-right:0;" class="container_list clt">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11212" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201505221425404098.jpg" alt="森系原创文艺美包" style="width:242px;height:314px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">森系原创文艺美包</div></div></a>        </div>
+    </div>
+    <div style="margin-top:75px;"><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11243" rel="nofollow" target="_blank" id="adsys" class="308"><img src="http://img2.wowsai.com/" alt="编织控"></a></div>
+<div class="container fixed" id="ctime">
+	<h2>闪购<a class="shangouBtn moreBtn" href="http://www.wowsai.com/shopping/groupidea"></a></h2>
+	<div class="shangouList">                    <a target="_blank" href="/goods/191090.html" title="9折 仅售￥88静音简约榉木数字复古摆钟">
+                 
+                 <img src="http://img5.wowsai.com/data/files/groupidea/201511271722222293.jpg" width="337px;" height="337px;" alt="9折 仅售￥88静音简约榉木数字复古摆钟">
+        </a>
+		<dl><dt><img src="http://img3.wowsai.com/themes/mall/wowsai/styles/default/images2/ws_sg_time.gif" /></dt>
+		<dd><span stime="1448676000" etime="1454205600"></span></dd></dl>
+	</div><div class="shangouList">                    <a target="_blank" href="/goods/191050.html" title="COOL感黑色潮流设计印花刺绣钱包">
+                 
+                 <img src="http://img4.wowsai.com/data/files/groupidea/201511271721359701.jpg" width="337px;" height="337px;" alt="COOL感黑色潮流设计印花刺绣钱包">
+        </a>
+		<dl><dt><img src="http://img5.wowsai.com/themes/mall/wowsai/styles/default/images2/ws_sg_time.gif" /></dt>
+		<dd><span stime="1448676000" etime="1454205600"></span></dd></dl>
+	</div><div class="shangouList" style="margin-right:0;">
+	                    <a target="_blank" href="/goods/191120.html" title="男女通款夜光大象艺术印花">
+                 
+                 <img src="http://img5.wowsai.com/data/files/groupidea/201511271721144235.jpg" width="337px;" height="337px;" alt="男女通款夜光大象艺术印花">
+        </a>
+		<dl><dt><img src="http://img5.wowsai.com/themes/mall/wowsai/styles/default/images2/ws_sg_time.gif" /></dt>
+		<dd><span stime="1448676000" etime="1454205600"></span></dd></dl>
+	</div><div class="shangouList">                    <a target="_blank" href="/goods/190752.html" title="白鸭绒立领短款轻薄羽绒服">
+                 
+                 <img src="http://img5.wowsai.com/data/files/groupidea/201511271720522557.jpg" width="337px;" height="337px;" alt="白鸭绒立领短款轻薄羽绒服">
+        </a>
+		<dl><dt><img src="http://img4.wowsai.com/themes/mall/wowsai/styles/default/images2/ws_sg_time.gif" /></dt>
+		<dd><span stime="1448676000" etime="1454205600"></span></dd></dl>
+	</div><div class="shangouList">                    <a target="_blank" href="/goods/191230.html" title="简约客厅卧室床头挂画 ">
+                 
+                 <img src="http://img1.wowsai.com/data/files/groupidea/201511271719414463.jpg" width="337px;" height="337px;" alt="简约客厅卧室床头挂画 ">
+        </a>
+		<dl><dt><img src="http://img5.wowsai.com/themes/mall/wowsai/styles/default/images2/ws_sg_time.gif" /></dt>
+		<dd><span stime="1448676000" etime="1454205600"></span></dd></dl>
+	</div><div class="shangouList" style="margin-right:0;">
+	                    <a target="_blank" href="/goods/192143.html" title="立领加厚拼接色彩加厚棉衣外套">
+                 
+                 <img src="http://img3.wowsai.com/data/files/groupidea/201511271719172044.jpg" width="337px;" height="337px;" alt="立领加厚拼接色彩加厚棉衣外套">
+        </a>
+		<dl><dt><img src="http://img1.wowsai.com/themes/mall/wowsai/styles/default/images2/ws_sg_time.gif" /></dt>
+		<dd><span stime="1448676000" etime="1454205600"></span></dd></dl>
+	</div>
+</div>    <div class="container fixed">
+    	<h2>总有些东西在激励着你</h2>
+        <div class="container_list container_list2">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10623" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201411101714119958.jpg" alt="聚划算 聚奇趣" style="width:337px;height:201px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">聚划算 聚奇趣</div></div></a>        </div>
+        <div class="container_list container_list2">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10450" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201410101703427247.jpg" alt="文艺复古超有范" style="width:337px;height:201px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">文艺复古超有范</div></div></a>        </div>
+        <div style="margin-right:0;" class="container_list container_list2">
+        	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10149" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201408120951529557.jpg" alt="不随波逐流，只要自己的腔调！ " style="width:337px;height:201px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">不随波逐流，只要自己的腔调！ </div></div></a>        </div>
+    </div><div class="container fixed">
+    	<h2>他们会让你生活更有创意<a class="designer moreBtn" href="/zixun/chuangzuoren.html"></a></h2>
+        <ul style="margin:40px 0 0 0;" class="designerList">
+        	<li><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10958"  target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201501191447127937.jpg" alt="偶屿"  width="550" height="180" >
+						            <div style="display: none;" class="leftJ">
+						              <p style="background:#40add8;"></p>
+						              <dl><dt><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/DesMore.png"/></dt><dd>偶屿</dd></dl>
+						            </div></a></li>
+        	<li><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10959"  target="_blank"><img src="http://img5.wowsai.com/data/files/ad/201501191449147248.jpg" alt="艾米小铺"  width="550" height="180" >
+						            <div style="display: none;" class="leftJ">
+						              <p style="background:#8772b5;"></p>
+						              <dl><dt><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/DesMore.png"/></dt><dd>艾米小铺</dd></dl>
+						            </div></a></li>
+            <li><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10960"  target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201501191450378761.jpg" alt="半糖工作室"  width="550" height="180" >
+						            <div style="display: none;" class="rightJ">
+						              <p style="background:#cfa765;"></p>
+						              <dl><dt><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/DesMore.png"/></dt><dd>半糖工作室</dd></dl>
+						            </div></a></li>
+            <li><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10961"  target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201501191452183716.jpg" alt="艾洛手绘布包"  width="550" height="180" >
+						            <div style="display: none;" class="rightJ">
+						              <p style="background:#559a52;"></p>
+						              <dl><dt><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/DesMore.png"/></dt><dd>艾洛手绘布包</dd></dl>
+						            </div></a></li>
+            <li><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10962"  target="_blank"><img src="http://img5.wowsai.com/data/files/ad/201501191453409618.jpg" alt="别样"  width="550" height="180" >
+						            <div style="display: none;" class="leftJ">
+						              <p style="background:#de5e5b;"></p>
+						              <dl><dt><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/DesMore.png"/></dt><dd>别样</dd></dl>
+						            </div></a></li>
+        	<li><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8578"  target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201401241655208150.jpg" alt="士多"  width="550" height="180" >
+						            <div style="display: none;" class="leftJ">
+						              <p style="background:#f075a6;"></p>
+						              <dl><dt><img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/DesMore.png"/></dt><dd>士多</dd></dl>
+						            </div></a></li>
+        </ul>
+    </div><div class="container fixed">
+    	<h2>创意画报<a class="chuangyiBtn moreBtn" href="http://www.wowsai.com/zixun"></a></h2>
+        <div class="chuangyi fixed">
+        <div class="container_list chuangyiLeft">
+            	<a target="_blank" href="/zixun/14605-7-0.html"><img width="528" height="468" src="http://img2.wowsai.com/data/files/zixun/56304af33dffc.jpg">
+                <div class="podLabel shadowed">
+                    <div class="podTitle">不要世纪婚礼~~只想牵手旅行</div>
+                </div>
+                </a>
+         </div>
+				<div class="container_list container_list3">
+                <a target="_blank" href="/zixun/14607-9-0.html"><img width="242" height="200" src="http://img3.wowsai.com/data/files/zixun/56304af372460.jpg">
+                <div class="podLabel shadowed">
+                    <div class="podTitle">手工客[闪购频道]购买下单流程</div>
+                </div>
+                </a>
+        	</div>
+				<div style="margin-right:0;" class="container_list container_list3">
+                <a target="_blank" href="/zixun/14598-9-0.html"><img width="242" height="200" src="http://img3.wowsai.com//data/files/zixun/56304af39211d.jpg">
+                <div class="podLabel shadowed">
+                    <div class="podTitle">〖枫恋雅阁〗原创玉兰花清新系列发饰</div>
+                </div>
+                </a>
+        	</div>
+				<div class="container_list container_list3 clt">
+                <a target="_blank" href="/zixun/14597-2-0.html"><img width="242" height="200" src="http://img4.wowsai.com//data/files/zixun/56304af3b200d.jpg">
+                <div class="podLabel shadowed">
+                    <div class="podTitle">Kouichi Kimura: 滋贺乡下住宅</div>
+                </div>
+                </a>
+        	</div>
+				 <div style="margin-right:0;" class="container_list container_list3 clt">
+                <a target="_blank" href="/zixun/14608-12-0.html"><img width="242" height="200" src="http://img3.wowsai.com//data/files/zixun/56304af3c94e2.jpg">
+                <div class="podLabel shadowed">
+                    <div class="podTitle">越南 不妨看一下这家漂亮的餐厅</div>
+                </div>
+                </a>
+        	</div>        </div>
+    </div> 
+</div>
+<div class="bottom">
+	<div class="width1100" style=" background:#fff;">
+    	<div class="container fixed">
+            <h2>加入变革，焕新自我</h2>
+            <div class="container_list container_list2">
+               <a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8604" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201410101741339722.jpg" alt="定制独一无二的产品" style="width:337px;height:201px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">定制独一无二的产品</div></div></a>            </div>
+            <div class="container_list container_list2">
+               <a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8605" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201410101745571436.jpg" alt="购买设计师成品" style="width:337px;height:201px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">购买设计师成品</div></div></a>            </div>
+            <div class="container_list container_list2" style="margin-right:0;">
+               <a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8606" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201410101746212803.jpg" alt="出售你的创意和设计" style="width:337px;height:201px;" />
+                		<div class="podLabel shadowed "><div class="podTitle">出售你的创意和设计</div></div></a>            </div>
+        </div>
+        
+        <div class="container fixed" style="width:1100px; padding-bottom:100px;">
+            <h2>设计品牌墙</h2>
+            <div class="brandList fixed">
+            	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11169" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201504101028544943.jpg" alt="Different Young" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11155" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201503201636098796.jpg" alt="饰物志" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10544" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201410271627258433.jpg" alt="soye素一" width="160" height="68"></a>            	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9005" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201401161832255022.jpg" alt="oneday" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11154" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201503201616161099.png" alt="城市木匠" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9317" target="_blank"><img src="http://img1.wowsai.com/data/files/ad/201403071739447200.jpg" alt="LoveWithTea爱喝茶" width="160" height="68"></a>            	
+            	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8585" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201312061727148773.jpg" alt="花边" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9007" target="_blank"><img src="http://img5.wowsai.com/data/files/ad/201503251357199926.jpg" alt="little good 手工定制生活" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9008" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201401161842081555.jpg" alt="独立品牌LINE ARTISANAL" width="160" height="68"></a>            	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8588" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201402141543234323.jpg" alt="Joydivision vintage" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11156" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201503201754107213.png" alt="八月的清迈" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=10031" target="_blank"><img src="http://img4.wowsai.com/data/files/ad/201407221058116717.jpg" alt="本来设计 " width="160" height="68"></a>            	
+            	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8591" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201312061732387196.jpg" alt="山背后" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9010" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201401161844329580.jpg" alt="不纸如此" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=9011" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201401161845055464.jpg" alt="八门虫社原创生活杂货" width="160" height="68"></a>            	<a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=8594" target="_blank"><img src="http://img5.wowsai.com/data/files/ad/201312061733373211.jpg" alt="始祖鸟" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11170" target="_blank"><img src="http://img3.wowsai.com/data/files/ad/201504101059394174.jpg" alt="平田家居" width="160" height="68"></a><a href="http://www.wowsai.com/index.php?app=adsystem&act=total&id=11175" target="_blank"><img src="http://img2.wowsai.com/data/files/ad/201504131721426345.jpg" alt="花间公主" width="160" height="68"></a>            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var et,len;
+var index = 0;
+$(function(){
+	//给首页加背景色
+	$('body').css({background:'#f6f6f6'});
+	//轮播
+	len = $('#wowslider-container1 li').length;
+	$('#page a:eq(0)').addClass('ws_selbull');
+	et = setInterval('rollindex(0)',3000);
+	divceter();
+	$(window).resize(function(){
+		divceter();
+	});
+	$('#wowslider-container1').bind({
+		mouseover:function(){
+			clearInterval(et);
+		},
+		mouseleave:function(){
+			et = setInterval('rollindex(0)',4000);
+	   }
+	});
+	$('#next').click(function(){
+		rollindex(0);
+	});
+	$('#prev').click(function(){
+		if(index==0){
+			i = len;
+		}else{
+			i = index;
+		}
+		rollindex(i);
+	});
+	$('#page a').click(function(e){
+		var tx = $(e.target).text();
+		rollindex(tx);
+	});
+});
+function divceter(){
+	var w = $(window).width();
+	var left = -(1920 - Number(w))/2;
+	$('#wowslider-container1').attr('style','width:'+w+'px;');
+	$('#wowslider-container1 ul').css({marginLeft:left+"px"});
+}
+function rollindex(i){
+	//$('#wowslider-container1 li:eq('+index+')').fadeOut('fast');
+	if(i > 0){
+		var n = Number(i)-1;
+	}else{
+		var n = Number(index)+1;
+	}
+	if( n == len){
+		$('#page a:eq(0)').addClass('ws_selbull');
+		$('#page a:eq(0)').siblings().removeClass('ws_selbull');
+		$('#wowslider-container1 li:eq(0)').fadeIn('slow',function(){
+			index = 0;
+		}).siblings().hide();
+	}else{
+		$('#page a:eq('+n+')').addClass('ws_selbull');
+		$('#page a:eq('+n+')').siblings().removeClass('ws_selbull');
+		$('#wowslider-container1 li:eq('+n+')').fadeIn('slow',function(){
+			index = n;
+		}).siblings().hide();
+		
+	}
+	
+
+}
+//倒计时
+var timer = new Array();
+$(function(){
+	$('#ctime span').each(function(idx){
+		var obj = $(this);
+		showTime(obj,idx)
+	});
+});
+function showTime(obj,idx){
+	if(timer == null){
+		var timer = new Array();
+	}
+    timer[idx] = setInterval(function(){
+    	var d = new Date();
+    	var thist = d.getTime();
+    	var time  =  Math.round(thist/1000)
+    	var stime  = obj.attr('stime');
+    	var etime  = obj.attr('etime');
+    	if(time > stime && time< etime){
+    	 var dtime = Number(etime) - Number(time);
+    	  day = Math.floor(dtime/3600/24); 
+  		  hour = Math.floor((dtime/3600)%24); 
+  		  minutes = Math.floor((dtime/60)%60);   
+  		  seconds = Math.floor(dtime%60);   
+  		  msg = "  "+day+"天"+hour+"小时"+minutes+"分"+seconds+"秒";   
+  		  obj.html(msg); 
+    	}else if(time < stime){
+    		clearInterval(timer[idx]); 
+   		 	obj.html('尚未开始！');  
+		}else if(time > etime){
+			clearInterval(timer[idx]); 
+   		 	obj.html('已经结束！');  
+    	}
+    },1000);
+}
+</script> 
+<div class="footer_new">
+<div class="footerTop">
+<div class="footerTopCon fixed">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/js/new_wowsai.js" charset="utf-8"></script> 
+<script type="text/javascript" src="http://www.wowsai.com/themes/mall/wowsai/styles/default/js/popup.js"></script>
+
+	
+			<div class="moreJingCai fl">
+            	<p class="fTit">更多精彩</p>
+                <ul>
+                	<li><a target="_blank" href="shopping/groupidea">闪购</a></li>
+                    <li><a target="_blank" href="shopping/xinpin">新品</a></li>
+                    <li><a target="_blank" href="shopping/ranking">热卖</a></li>
+                    <li><a target="_blank" href="shopping/gift">礼物</a></li>
+                    <!--<li><a target="_blank" href="window">橱窗</a></li>-->
+                    <li><a target="_blank" href="/index.php?app=brand&act=brandindex">品牌</a></li>
+                </ul>
+            </div>
+            
+			<div class="weChengNuo fl">
+            	<p class="fTit">我们承诺</p>
+                <ul>
+                	<li>100％原创设计</li>
+                    <li>365天不打烊</li>
+                    <li>无理由退换货 ( 除定制 )</li>
+                    <li>担保交易</li>
+                    <li>先行赔付</li>
+                    <li>支持定制</li>
+                </ul>
+            </div>
+			<div class="gzwm fl">
+            	<p class="fTit">在这里关注我们</p>
+                <ul>
+                	<li><a target="_blank" class="sina" href="http://e.weibo.com/wowsai">新浪微博</a></li>
+                    <li><a target="_blank" class="qq" href="http://e.t.qq.com/hi_wowsai">腾讯微博</a></li>
+                    <li><a target="_blank" class="douban" href="http://site.douban.com/121656/">豆瓣小站</a></li>
+                    <li><a target="_blank" class="renren" href="http://www.renren.com/600867437">人人小站</a></li>
+                    <li class="ewm">
+                    <a class="weixin" href="javascript:void(0)">哇噻网官方微信</a>
+                    <img src="http://www.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/ewm.png" />
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="tdCode fl">
+            	<img border="0" usemap="#Map" src="http://img2.wowsai.com/themes/mall/wowsai/styles/default/newwowsai/edCode.png"/>
+                <map id="Map" name="Map">
+                  <area href="http://www.wowsai.com/shopping/topics/app.html" coords="13,145,107,165" shape="rect"/>
+                </map>
+            </div>
+      </div>
+    </div>
+    <div class="footerBottom">
+    	<div class="footerBottomCon">
+       	  <p class="gaoduanTit">高端定制上哇噻网</p>
+			<div class="footerNav">
+            	<a target="_blank" href="http://www.wowsai.com/copyright/about_us.html">关于我们</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/contact_us.html">联系我们</a>
+                <a target="_blank" href="http://www.wowsai.com/zixun/meitibaodao.html">媒体报道</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/download.html">创意画报</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/join_us.html">招贤纳士</a>
+                <a target="_blank" href="http://www.wowsai.com/index.php?app=copyright">版权保护</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/user.html">用户条款</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/personality.html">隐私声明</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/links.html">友情链接</a>
+                <a target="_blank" href="http://www.wowsai.com/copyright/map.html">网站地图</a>
+                <a target="_blank" href="http://www.wowsai.com/index.php?app=article&code=help">帮助中心</a>
+                <a target="_blank" href="http://www.shougongke.com">手工客</a>
+            </div>
+          <p class="beian">北京光年创艺信息技术有限公司&nbsp;WowSai.com Copyright&copy; 2008-2013&nbsp;[京ICP备10020900][京公网安备11010502026420][京ICP证090011号]</p>
+            <div class="renzhengPic">
+                <a href='https://search.szfw.org/cert/l/CX20121203002033002108' target='_blank'><img src='/themes/mall/wowsai/styles/default/images1/108_40_cart.png' style="display:inline-block" alt="诚信网站"></a>
+        <a href='http://www.bj.cyberpolice.cn/index.do' target='_blank'><img src='/themes/mall/wowsai/styles/default/images1/ws_safe_icon.png' style="display:inline-block" alt=""></a>
+        <script src="http://kxlogo.knet.cn/seallogo.dll?sn=e12112911010037285000000&size=0"></script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="https://statics.dnspod.cn/yantai/js/3rd-libs/snowstorm.js"></script>
+<script>
+  (function(){
+    var startDate = new Date("2014/12/24 16:00:00");
+    var endDate = new Date("2014/12/25 23:59:59");
+    var nowDate = new Date();
+    if(nowDate >= startDate && nowDate <= endDate){
+      snowStorm.start();
+    }
+  })();
+</script>
+<script type="text/javascript">
+if(SITE_URL.indexOf("wowsai.com") > -1){
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24876943-1']);
+  _gaq.push(['_addOrganic', 'baidu', 'word']);
+  _gaq.push(['_addOrganic', 'soso', 'w']);
+  _gaq.push(['_addOrganic', 'youdao', 'q']);
+  _gaq.push(['_addOrganic', 'sogou', 'query']);
+  _gaq.push(['_setDomainName', '.wowsai.com']);
+  _gaq.push(['_setAllowHash', false]);
+  _gaq.push(['_trackPageLoadTime']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1018095613;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "666666";
+var google_conversion_label = "aVH-CMP2lwIQ_c-75QM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1018095613/?label=aVH-CMP2lwIQ_c-75QM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F042bfe5d3298a8b8706dfe247c7beb2e' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script src="http://count.wowsai.com/wow.php?id=1" language="JavaScript"></script>
+<script src="http://s11.cnzz.com/stat.php?id=1254101694&web_id=1254101694" language="JavaScript"></script>
+</html>

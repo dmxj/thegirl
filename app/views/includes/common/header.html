@@ -1,0 +1,14 @@
+<%- include ../head.html %>
+<header class="page_header" ng-controller="messageCtrl">
+    <h3>这个是头部</h3>
+    <strong ng-bind="totalNotify"></strong>条通知
+    <strong ng-bind="totalCart"></strong>个购物车商品
+    <span class="pull-right">
+        <% if(myuid && myuname){ %>
+            欢迎你，<a href="/user?uid=<%= myuid %>"><%= myuname %></a>&nbsp;&nbsp;
+                   <a href="/logout">退出登录</a>
+        <% }else{ %>
+        <a href="/login">去登录</a>
+        <% } %>
+    </span>
+</header>

@@ -1,0 +1,29 @@
+<%- include ../includes/sign/header.html %>
+<div class="container">
+    <div class="row">
+        <div class="alert alert-success" id="tip" role="alert" style="display: none;"></div>
+        <form action="/login" method="post" name="loginForm">
+            <fieldset class="form-group">
+                <label for="username">*用户名：</label>
+                <input type="text" name="username" class="form-control" placeholder="请输入用户名/邮箱/手机号"/>
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="userpwd">*密   码：</label>
+                <input type="password" name="userpwd" class="form-control" placeholder="请输入密码"/>
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="logincheckcode">*验证码：</label>
+                <input type="text" name="logincheckcode" class="form-control" />
+                <img id="verify_code" src="" onclick="changeCode();" /><a href="javascript:;" onclick="changeCode();">看不清，换一个</a>
+            </fieldset>
+            <fieldset class="form-group">
+                <input type="button" value="登录" id="loginSubmit" class="btn btn-success pull-right"  />
+                <div class="pull-left">
+                    <a href="/findpass">忘记密码？</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/register">注册</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<%- include ../includes/sign/footer.html %>

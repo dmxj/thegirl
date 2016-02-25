@@ -1,0 +1,44 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(typeof goods != 'undefined'){ %>
+    <ul class="search-good-list">
+        <% for(var i = 0;i < goods.length;i++){ %>
+            <li class="search-good-item">
+                <div class="search-good-boss"><a href="/user?uid=<%= goods[i].boss._id %>"><%= goods[i].boss.username %></a><span class="pull-right"><%= goods[i].boss.sex %></span></div>
+                <div>这里是图片</div>
+                <div class="search-good-info">
+                    <h5><a href="/good?gid=<%= goods[i]._id %>"><%= goods[i].goodname %></a></h5>
+                    <strong><%= goods[i].price %></strong>
+                    <p><%= goods[i].aliasStr %></p>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+    <% } %>
+    <% if(typeof stores != 'undefined'){ %>
+    <ul class="search-store-list">
+        <% for(var i = 0;i < stores.length;i++){ %>
+            <li class="search-store-item">
+                <div class="search-store-boss"><a href="/user?uid=<%= stores[i].boss._id %>"><%= stores[i].boss.username %></a><span class="pull-right"><%= stores[i].boss.sex %></span></div>
+                <div>这里是图片</div>
+                <div class="search-store-info">
+                    <h5><a href="/store?sid=<%= stores[i]._id %>"><%= stores[i].storename %></a></h5>
+                    <p><%= stores[i].describe %></p>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+    <% } %>
+    <% if(typeof topics != 'undefined'){ %>
+    <ul class="search-topic-list">
+        <% for(var i = 0;i < topics.length;i++){ %>
+            <li class="search-topic-item">
+                <div class="search-topic-boss"><a href="/user?uid=<%= topics[i].author._id %>"><%= topics[i].author.username %></a><span class="pull-right"><%= topics[i].author.sex %></span></div>
+                <div class="search-topic-title"><a href="/topic?tid=<%= topics[i]._id %>"><%= topics[i].title %></a></div>
+                <div class="search-topic-content"><%= topics[i].content %></div>
+            </li>
+        <% } %>
+    </ul>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

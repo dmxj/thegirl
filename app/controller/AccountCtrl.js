@@ -1,5 +1,4 @@
-var passport = require('passport');
-var user = require('../models/user');
+var user = require('../models/user2');
 
 exports.login = function(req, res, next)
 {
@@ -23,21 +22,6 @@ exports.loginPost = function(req, res, next)
  //        }
  //        res.redirect('/');
  //    });
-
-	passport.authenticate('local', function(err, user, info) {	    
-	   	console.log("passport.authenticate...");
-	    if (err) { return next(err); }
-	    if (!user) {  //用户名不存在或密码不正确
-	    	console.log('info:'+info);
-	    	req.flash('error', info);
-	    	return res.redirect('/user/login'); 
-	    }
-	    req.login(user, function(err) {
-	      if (err) { return next(err); }
-	      req.flash('success','登录成功！');
-	      return res.redirect('/user/space');
-	    });
-	 })(req, res, next);
 }
 exports.loginout = function(req, res, next)
 {

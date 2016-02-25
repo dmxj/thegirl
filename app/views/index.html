@@ -1,0 +1,34 @@
+<%- include ./includes/common/header.html %>
+<div class="container">
+    <div class="band">
+        <form action="/search" name="searchForm" method="GET">
+            <select id="searchtype">
+                <option value="good" selected>东西</option>
+                <option value="store">店铺</option>
+                <option value="topic">话题</option>
+            </select>
+            <input type="hidden" name="type" value="good"/>
+            <input type="text" name="q" placeholder="输入关键词搜索商品、店铺、话题、活动" />
+            <input type="button" id="searchSubmit" value="搜索"/>
+        </form>
+    </div>
+    <% if(topics){ %>
+        <% for(var i in topics){ %>
+        <div>作者：<strong><a href="/user?uid=<%= topics[i].author._id %>"><%= topics[i].author.username %></a></strong></div>
+        <div>标题：<strong><a href="/topic/<%= topics[i]._id %>"><%= topics[i].title %></a></strong></div>
+        <% } %>
+    <%}%>
+    <% if(stores){ %>
+        <% for(var j in stores){ %>
+        <div>店主：<strong><a href="/user?uid=<%= stores[j].boss._id %>"><%= stores[j].boss.username %></a></strong></div>
+        <div>店名：<strong><a href="/store/<%= stores[j]._id %>"><%= stores[j].storename %></a></strong></div>
+        <% } %>
+    <%}%>
+    <% if(goods){ %>
+        <% for(var k in goods){ %>
+        <div>卖家：<strong><a href="/user?uid=<%= goods[k].boss._id %>"><%= goods[k].boss.username %></a></strong></div>
+        <div>商品名：<strong><a href="/good/<%= goods[k]._id %>"><%= goods[k].goodname %></a></strong></div>
+        <% } %>
+    <%}%>
+</div>
+<%- include ./includes/common/footer.html %>

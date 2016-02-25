@@ -1,0 +1,415 @@
+<script src="/javascript/jquery.min.js"></script>
+<script src="/javascript/angular.min.js"></script>
+<script src="/javascript/lib/myPager.js"></script>
+<script type="text/javascript">
+
+    var thegirlApp = angular.module('thegirl',['ng-mypagination']);
+    thegirlApp.run(function($window,$rootScope,$http,$location){
+        $rootScope.$on('needLogin',function(evt){
+            $rootScope.$broadcast('showLoginBox');
+        });
+    });
+    thegirlApp.controller('demoCtrl', function($scope) {
+        $scope.onPageChange = function() {
+            console.log("test show currentPage:"+$scope.currentPage);
+        };
+
+        $scope.pageCount = 100;
+    });
+    thegirlApp.controller('messageCtrl',function($scope,$http){
+        $scope.notifies = [];
+        $scope.totalNotify = 0;
+        $scope.totalCart = 0;
+        $http.post('/getnotify').success(function(resp){
+            if(resp.code == 2){
+                console.log('获取通知成功...'+resp);
+                $scope.notifies = resp.notifys;
+                $scope.totalNotify = resp.notifyTotal;
+                $scope.totalCart = resp.cartTotal;
+            }else{
+                console.log('未登录或获取通知失败...'+resp);
+            }
+
+        }).error(function(resp){
+            console.log('获取通知出错...'+resp);
+        });
+    });
+
+    thegirlApp.controller('goodCtrl',function($scope,$http){
+        $scope.code = 0;
+        $scope.msg = '';
+        $scope.init = function(alreadyFavorite){
+            if(alreadyFavorite){
+                $scope.code = 2;
+            }
+        }
+        $scope.follow = function(url,goodid){
+            $http.post(url,{gid:goodid}).success(function(resp){
+                $scope.code = url.indexOf('cancel') < 0 && resp.code ? resp.code : 0;
+                $scope.msg = resp.msg || "收藏商品失败！";
+                if($scope.code == 1){
+                    $scope.$emit('needLogin');
+                }
+                setTimeout(function(){
+                    console.log('bbb...')
+                    $scope.msg = '';
+                },3000);
+            }).error(function(){
+                alert('收藏商品出错！');
+            });
+        }
+        $scope.favorite = function(goodid){
+            $scope.follow('/good/favorite',goodid);
+        };
+        $scope.cancelFavorite = function(goodid){
+            $scope.follow('/good/cancelFavorite',goodid);
+        }
+    });
+
+    thegirlApp.controller('loginCtrl',function($scope,$http){
+        $scope.needLogin = false;
+        $scope.href=window.location.href;
+        $scope.$on('showLoginBox',function(evt){
+            $scope.needLogin = true;
+        });
+        $scope.closeLoginBox = function(){
+            $scope.needLogin = false;
+        };
+    });
+
+
+    thegirlApp.controller('commentCtrl',function($scope,$http){
+        $scope.comments = [];
+        $scope.hotComments = [];
+        $scope.totalCount = 0;
+        $scope.commentword = "";
+        $scope.msg = "";
+        $scope.sometip = "";
+        $scope.isLoading = false;
+        $scope.loadingOverlay = false;
+        $scope.httping = false;
+        $scope.withImg = false;
+        $scope.gid = "";
+        $scope.initComment = function(gid){
+            $scope.sometip = "正在加载评论中...";
+            if(gid) $scope.gid = gid;
+            this.fetchComment(1);
+        };
+
+        $scope.onPageChange = function(){
+            console.log("$scope.currentPage:"+$scope.currentPage);
+            $scope.loadingOverlay = true;
+            this.fetchComment($scope.currentPage);
+        };
+
+        var commonAjax = function(url,data,success,errorMsg){
+            if(!$scope.httping) {  //如果现在没有进行ajax操作的
+                $scope.httping = true;
+                $http.post(url, data)
+                        .success(function (resp) {
+                            if (resp.code && resp.code == 1) {
+                                $scope.$emit('needLogin');
+                            } else if (resp.code && resp.code == 2) {  //评论成功
+                                success(resp.msg);
+                            } else {
+                                $scope.msg = resp.msg;
+                            }
+                            $scope.commentword = "";
+                            setTimeout(function(){
+                                $scope.httping = false;
+                                console.log("是否有ajax请求："+$scope.httping);
+                            },600);
+                        }).error(function () {
+                            $scope.msg = errorMsg;
+                            setTimeout(function(){
+                                $scope.httping = false;
+                                console.log("是否有ajax请求："+$scope.httping);
+                            },600);
+                        });
+            }
+        };
+
+        $scope.switchwithimg = function(){
+            $scope.withImg = !$scope.withImg;
+            this.initComment($scope.gid);
+
+        }
+        $scope.postcomment = function () {
+            console.log("postcomment...");
+            commonAjax('/good/comment',{gid:$scope.gid,content:$scope.commentword},function(msg){
+                $scope.msg = "评论成功！";
+               // $scope.comments.unshift(msg);
+                $scope.fetchComment(1);
+            },"发布评论错误");
+//            $http.post('/good/comment',{gid:gid,content:$scope.commentword})
+//                    .success(function(resp){
+//                        if(resp.code && resp.code == 1){
+//                            $scope.$emit('needLogin');
+//                        }else if(resp.code && resp.code == 2){  //评论成功
+//                            $scope.msg = "评论成功！";
+//                            $scope.comments.unshift(resp.msg);
+//                        }else{
+//                            $scope.msg = resp.msg;
+//                        }
+//                        $scope.commentword = "";
+//                    }).error(function(){
+//                        $scope.msg = "发布评论错误";
+//                    });
+        };
+        $scope.postreply = function (commentid,index){
+            commonAjax('/comment/reply',{commentid:commentid,content:$scope.commentword},function(msg){
+                $scope.msg = "回复成功！";
+//                $scope.comments[index].u.push($scope.comments[index]);
+//                msg.u = $scope.comments[index].u;
+//                $scope.comments.unshift(msg);
+                $scope.fetchComment(1);
+            },"回复评论发生错误");
+//            $http.post('/comment/reply',{commentid:commentid,content:$scope.commentword})
+//                    .success(function(resp){
+//                        if(resp.code && resp.code == 1){
+//                            $scope.$emit('needLogin');
+//                        }else if(resp.code && resp.code == 2){  //评论成功
+//                            $scope.msg = "回复成功！";
+//                            $scope.comments[index].r.push(resp.msg);
+//                        }else{
+//                            $scope.msg = resp.msg;
+//                        }
+//                        $scope.commentword = "";
+//                    }).error(function(){
+//                        $scope.msg = "回复评论发生错误";
+//                    });
+        };
+        $scope.fetchComment = function(page){
+            $scope.isLoading = true;
+            $http.post('/good/fetchComment',{gid:$scope.gid,page:page,img:$scope.withImg})
+                    .success(function(resp){
+                        $scope.isLoading = false;
+                        //$scope.loadingOverlay = false;
+                        if(resp.code != 2){
+                            $scope.comments = [];
+                            $scope.sometip = resp.msg;
+                        }else{
+                            $scope.comments = resp.comments || [];
+                            $scope.hotComments = resp.hot || [];
+                            $scope.totalCount = resp.totalCount || $scope.totalCount;
+                            $scope.pageCount = resp.pageCount || $scope.pageCount;
+                            $scope.sometip = "";
+                        }
+                    })
+                    .error(function(){
+                        $scope.isLoading = false;
+                        $scope.loadingOverlay = false;
+                        $scope.sometip = "加载评论发生错误！";
+                    });
+        };
+        $scope.likecomment = function(commentid,index){
+            commonAjax('/comment/like',{commentid:commentid},function(msg){
+                $scope.msg = msg;
+                $scope.comments[index].l = !$scope.comments[index].l;
+                if($scope.comments[index].l){   //刚刚点赞成功
+                    $scope.comments[index].lq++;
+                }else{  //刚刚取消点赞成功
+                    $scope.comments[index].lq--;
+                }
+            },"点赞发生错误！");
+//            $http.post('/comment/delete',{cid:commentid})
+//                    .success(function(resp){
+//                        if(resp.code && resp.code == 1){
+//                            $scope.$emit('needLogin');
+//                        }else if(resp.code && resp.code == 2){  //评论成功
+//                            $scope.msg = "点赞成功！";
+//                            $scope.comments[index].l = true;
+//                        }else{
+//                            $scope.msg = resp.msg;
+//                        }
+//                    }).error(function(){
+//                        $scope.msg = "点赞发生错误！";
+//                    });
+        };
+        $scope.deletecomment = function(commentid,index){
+            commonAjax('/comment/delete',{cid:commentid},function(msg){
+                $scope.msg = "删除评论成功！";
+                $scope.comments.splice(index,1);
+            },"删除评论发生错误！");
+//            $http.post('/comment/delete',{cid:commentid})
+//                    .success(function(resp){
+//                        if(resp.code && resp.code == 1){
+//                            $scope.$emit('needLogin');
+//                        }else if(resp.code && resp.code == 2){  //删除评论成功
+//                            $scope.msg = "删除评论成功！";
+//                            $scope.comments.splice(index,1);
+//                        }else{
+//                            $scope.msg = resp.msg;
+//                        }
+//                    }).error(function(){
+//                        $scope.msg = "删除评论发生错误！";
+//                    });
+        };
+    });
+
+    $(function(){
+        $('#loginSubmit').on('click',function(){
+            onLoginSubBtnClick($(this));
+        });
+        $('#registerSubmit').on('click',function(){
+            onRegisterSubBtnClick($(this));
+        });
+        $("#switchRegisterWay a").on('click',function(){
+            $(this).parent('li').siblings().removeClass('active');
+            $(this).parent('li').addClass('active');
+            $('.email-field,.phone-field').toggle();
+        });
+        $('#chooseSchool').on('click',function(){
+            ajaxGetShoolList();
+        });
+        $("#searchtype,#usersearchoption").on("change",function(){
+            var typeVal = $(this).find('option:selected').val();
+            $(this).parent('form').find("input[name='type']").val(typeVal);
+        });
+        $("#searchSubmit,#searchUserSubmit,#searchStoreSubmit,#searchTopicSubmit,searchAskbuySubmit").on('click',function(){
+            var wordInput = $("input[name='q']");
+            if(!$.trim(wordInput.val()) == ""){
+                $(this).parent('form').submit();
+            }
+        });
+        $("#albumAwserSubmit").on('click',function(){
+            var wordInput = $("input[name='anwser']");
+            if(!$.trim(wordInput.val()) == ""){
+                $(this).parent('form').submit();
+            }
+        });
+
+
+    });
+
+    function changeCode(){
+        $('img#verify_code').attr("src",$('img#verify_code').attr('src')+"?a=b");
+    }
+
+    function onLoginSubBtnClick(subbtn){
+        var form = $("form[name='loginForm']");
+        var name = form.find("input[name='username']");
+        var pwd = form.find("input[name='userpwd']");
+        var code = form.find("input[name='logincheckcode']");
+
+        if(name.val().trim() == ""){
+            alert("用户名不能为空");
+            name.focus();
+        }else if(pwd.val().trim() == ""){
+            alert("密码不能为空");
+            pwd.focus();
+        }else if(code.val().trim() == ""){
+            alert("验证码不能为空");
+            code.focus();
+        }else{
+            ajaxLogin(form,subbtn);
+        }
+    }
+    function ajaxLogin(form,subbtn){
+        subbtn.attr('disabled',true);
+        $.ajax({
+            type:'POST',
+            url:'/login',
+            dataType:'json',
+            data:form.serialize(),
+            complete:function(){
+                subbtn.attr('disabled',false);
+            },
+            success:function(res,status,xhr){
+                if(res.code==1) {
+                    window.location.href = res.redirectUrl;
+                }else{
+                    showTip(res.msg);
+                }
+            },
+            error:function(err){
+                alert('登录出现错误！');
+            }
+        });
+    }
+
+    function onRegisterSubBtnClick(subbtn){
+        var form = $("form[name='registerForm']");
+        var name = form.find("input[name='username']");
+        var pwd = form.find("input[name='userpwd']");
+        var repwd = form.find("input[name='userrepwd']");
+        var code = form.find("input[name='registercheckcode']");
+
+        var emailField = form.find("input[name='email']");
+        var phoneField = form.find("input[name='telphone']");
+        var phoneCheckCode = form.find("input[name='phone_checkcode']");
+        var school = form.find("input[name='school']");
+        var isRegByMail = true;
+        if($('.email-field').css('display') == 'none'){
+            isRegByMail = false;
+        }
+
+        if(isRegByMail && emailField.val().trim() == ""){
+            alert("邮箱不能为空");
+            emailField.focus();
+        }else if(name.val().trim() == ""){
+            alert("用户名不能为空");
+            name.focus();
+        }else if(pwd.val().trim() == ""){
+            alert("密码不能为空");
+            pwd.focus();
+        }else if(pwd.val().trim().length < 6 || pwd.val().trim().length > 20){
+            alert("密码长度必须在6~20之间");
+            pwd.focus();
+        }else if(pwd.val().trim() !== repwd.val().trim()){
+            alert("两次密码输入不一致");
+            repwd.focus();
+        }else if(!isRegByMail && phoneField.val().trim() == ""){
+            alert("手机号码不能为空");
+            phoneField.focus();
+        }else if(!isRegByMail && phoneCheckCode.val().trim() == ""){
+            alert("手机号验证码不能为空");
+            phoneCheckCode.focus();
+        }else if(school.val().trim() == ""){
+            alert("学校不能为空");
+            school.focus();
+        }else if(code.val().trim() == ""){
+            alert("验证码不能为空");
+            code.focus();
+        }else{
+            ajaxRegister(form,subbtn,isRegByMail);
+        }
+    }
+    function ajaxRegister(form,subbtn,isRegByMail){
+        subbtn.attr('disabled',true);
+        var postData = form.serialize();
+        postData += "&isRegByMail="+(isRegByMail?1:0);
+        $.ajax({
+            type:'POST',
+            url:'/register',
+            dataType:'json',
+            data:postData,
+            timeout:8000,
+            complete:function(){
+                subbtn.attr('disabled',false);
+            },
+            success:function(res,status,xhr){
+                if(res.code==1) {
+                    window.location.href = res.redirectUrl;
+                }else{
+                    showTip(res.msg);
+                }
+            },
+            error:function(err){
+                alert('注册出现错误！');
+            }
+        });
+    }
+    function ajaxGetShoolList(){
+
+    }
+
+    function showTip(msg){
+        $('#tip').text(msg).slideToggle();
+        setTimeout(function(){
+            $('#tip').slideToggle();
+        },3000);
+    }
+</script>
+</body>
+</html>

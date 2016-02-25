@@ -1,0 +1,9 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <h4>作者：<a href="/user?uid=<%= topic.author._id %>"><%= topic.author.username %></a></h4>
+    <h4>浏览量：<%= topic.view_count %></h4>
+    <h4>发布时间:<%= topic.postDate %></h4>
+    <h4>标题:<%= topic.title %></h4>
+    <h4>内容:<%= topic.content %></h4>
+</div>
+<%- include ../includes/common/footer.html %>

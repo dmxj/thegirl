@@ -1,0 +1,40 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
+    <div>
+        <form action="/store" method="get">
+            <input type="text" name="q" placeholder="搜索店铺名或店铺描述"/>
+            <input type="button" id="searchStoreSubmit" value="搜索"/>
+        </form>
+    </div>
+    <% if(stores){ %>
+        <ul class="store-list">
+            <% for(var i=0 ; i < stores.length ; i++){ %>
+                <li class="store-list-item">
+                    <h3>合法性：<%= stores[i].is_valid %></h3>
+                    <h3>店主：<a href="/user?uid=<%= stores[i].boss._id %>"><%= stores[i].boss.username %></a></h3>
+
+                    <h3>店名：<a href="/store/<%= stores[i]._id %>"><%- stores[i].showSearchThe("storename",keyword) %></a></h3>
+
+                    <h3>描述：<%- stores[i].showSearchThe("describe",keyword) %></h3>
+
+                    <h3>头像：<%= stores[i].avatar %></h3>
+
+                    <h3>收藏数：<%= stores[i].collectionCount %></h3>
+
+                    <h3>商品数：<%= stores[i].goodCount %></h3>
+
+                    <h3>评分：<%= stores[i].score %></h3>
+                    <h3>学校：<%= stores[i].school %></h3>
+                </li>
+            <% } %>
+        </ul>
+    <% }else{ %>
+    <p>没有店铺或查询出错</p>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

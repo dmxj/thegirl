@@ -1,0 +1,88 @@
+<%- include ../includes/common/header.html %>
+<div class="container" ng-controller="goodCtrl" ng-init="init(<%= master != null && good.fans.indexOf(master.id) >= 0 %>)">
+    <h2>商品 <%= good.goodname %> 的首页</h2>
+    <div>
+        老板：<a href="/user?uid=<%= good.boss._id %>"><%= good.boss.username %></a>
+        <% if(good.store){ %>
+        <a href="/store?sid=<%= good.store._id %>"><%= good.store.storename %></a>
+        <% } %>
+        <h3><%= good.goodname %></h3>
+        <% if(good.album && good.album.length > 0){ %>
+            <ul class="goodalbum-list">
+                <% for(var i = 0;i < good.album.length ; i++){ %>
+                <li class="goodalbum-item">
+                   <img src="<%= good.album[i] %>" alt=""/>
+                </li>
+                <% } %>
+            </ul>
+        <% } %>
+        <p>价钱：<%= good.price %></p>
+        <p>标签:<%= good.aliasStr %></p>
+        <h3><%= good.onlyToGirl?"只卖女生":(good.onlyToBoy?"只卖男生":"不限性别") %></h3>
+        <p>销售范围：<%= good.scope ? good.scope.name :"全宇宙" %></p>
+        <p>交易地点：<%= good.tradePosition %></p>
+        <p>商品详情：<%= good.detail %></p>
+        <div>
+            <button ng-show="code == 2" class="btn btn-danger" ng-click="cancelFavorite('<%= good._id.toString() %>')">取消收藏该商品</button>
+            <button ng-hide="code == 2" class="btn btn-info" ng-click="favorite('<%= good._id.toString() %>')">收藏该商品</button>
+        </div>
+        <div class="alert alert-success" role="alert" ng-bind="msg"></div>
+    </div>
+
+    <hr/>
+    <div class="commentBox" ng-controller="commentCtrl" ng-init="initComment('<%= good._id %>')">
+        <h3>评论区(<span ng-bind="totalCount"></span>条评论)</h3>
+        <h4><button ng-click="switchwithimg()" ng-class="{'btn btn-warning':withImg}">有图</button></h4>
+            <div class="comment-message" ng-if="sometip.length > 0">
+                <strong ng-bind="sometip"></strong><a href="javascript:;" ng-click="initComment()" ng-show="!isLoading && sometip.length > 0">刷新重试</a>
+            </div>
+            <div class="comment-list">
+                <ul ng-if="comments.length > 0 && pageCount>0">
+                    <li ng-repeat="item in comments track by $index" class="comment-item">
+                        <section class="comment-section">
+                            <strong>作者：<a href="/user?uid={{item.uid}}" ng-bind="item.uname"></a></strong>
+                            <time ng-bind="item.t"></time>
+                            <p ng-bind="item.w"></p>
+
+                            <a href="javascript:;" ng-click="likecomment(item.id,$index)" ng-if="item.l">已赞</a>
+                            <a href="javascript:;" ng-click="likecomment(item.id,$index)" ng-if="!item.l">点赞</a>
+                            <strong ng-bind="item.lq"></strong>
+
+                            <ul ng-show="item.u.length > 0">
+                                <li class="reply-item" ng-repeat="reply in item.u track by $floor">
+                                    <h5>第<span ng-bind="$floor+1"></span>楼</h5>
+                                    <strong>作者：<a href="/user?uid={{reply.uid}}" ng-bind="reply.uname"></a></strong>
+                                    <time ng-bind="reply.t"></time>
+                                    <p ng-bind="reply.w"></p>
+                                </li>
+                            </ul>
+
+                            <ul ng-show="item.p.length > 0">
+                                <li class="comment-picture-item" ng-repeat="picture in item.p">
+                                    <img src="{{picture}}" alt=""/>
+                                </li>
+                            </ul>
+
+                            <p>
+                                <a href="javascript:;" ng-click="postreply(item.id,$index)">回复</a>
+                                <a href="javascript:;" ng-if="item.m" ng-click="deletecomment(item.id,$index)">删除</a>
+                            </p>
+                        </section>
+                    </li>
+                </ul>
+                <div class="loading-overlay" ng-if="loadingOverlay">正在加载中...</div>
+            </div>
+            <div class="pager">
+                <pager page-count="pageCount" current-page="currentPage" on-page-change="onPageChange()"></pager>
+            </div>
+            <div>
+                <div class="alert alert-success" role="alert" ng-bind="msg"></div>
+                <form name="commentForm">
+                    <textarea name="commentword" id="commentword" cols="100" rows="10" ng-model="commentword" required></textarea>
+                    <p>已写 <strong ng-bind="commentword.length"></strong>个字</p>
+                    <button class="btn btn-danger" ng-click="postcomment()" ng-disabled="commentForm.$invalid">发布评论</button>
+                </form>
+            </div>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

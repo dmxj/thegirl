@@ -15,3 +15,7 @@ exports.sha256 = function(str){
 exports.sha512 = function(str){
 	return crypto.createHash('sha512').update(str).digest();
 };
+
+exports.saltSha1 = function(salt,str){
+	return crypto.createHmac('sha1', salt).update(str).digest('hex');
+}

@@ -1,0 +1,15 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <h2>请回答相册<%= albumname %>的问题</h2>
+    <% if(msg){ %>
+    <strong><%= msg %></strong>
+    <% } %>
+    <form action="/user/<%= uid %>/album/<%= albumid %>/anwser" method="post">
+        <input type="hidden" name="whose" value=""/>
+        <label for=""><%= question %></label>
+        <input type="text" name="anwser"/>
+        <input type="button" id="albumAwserSubmit" value="提交答案"/>
+    </form>
+
+</div>
+<%- include ../includes/common/footer.html %>

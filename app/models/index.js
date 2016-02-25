@@ -1,21 +1,31 @@
-var mongoose = require('mongoose');
-var mogokeeper = require('../services/mongoosekeeper');
-
-//如果数据库未打开
-if(mogokeeper.db.readyState !== 1){
-	mogokeeper.init();
-	mogokeeper.open();
-}
-
-// mongoose.connect(config.db, {
-//   server: {poolSize: 20}
-// }, function (err) {
-//   if (err) {
-//     logger.error('connect to %s error: ', config.db, err.message);
-//     process.exit(1);
-//   }
-// });
-
-
-exports.User         = require('./user');
-exports.Shop        = require('./shop');
+exports.Activity   		=   require('./activity');
+exports.ActivityInfo    =   require('./activityInfo');
+exports.Album          =   require('./album');
+exports.Askbuy          =   require('./askbuy');
+exports.Auction          =   require('./auction');
+exports.CancelReason    =   require('./cancelReason');
+exports.City            =   require('./city');
+exports.Comment         =   require('./comment');
+exports.Credit          =   require('./credit');
+exports.Education       =   require('./education');
+exports.EducationItem   =   require('./educationItem');
+exports.EmotionState   =   require('./emotionState');
+exports.FeedBack        =   require('./feedback');
+exports.Follow          =   require('./follow');
+exports.Good            =   require('./good');
+exports.GoodType        =   require('./goodType');
+exports.Notification    =   require('./notification');
+exports.Order           =   require('./order');
+exports.Photo           =   require('./photo');
+exports.Report          =   require('./report');
+exports.School          =   require('./school');
+exports.SecondHand      =   require('./secondHand');
+exports.SellScope       =   require('./sellScope');
+exports.Shop            =   require('./shop');
+exports.ShopCart        =   require('./shopCart');
+exports.Store           =   require('./store');
+exports.Task            =   require('./task');
+exports.TaskInfo        =   require('./taskInfo');
+exports.Topic           =   require('./topic');
+exports.TopicComment    =   require('./topicComment');
+exports.User            =   require('./user');

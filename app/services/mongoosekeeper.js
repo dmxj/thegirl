@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var util = require("util");
-var conf = require('../../bin/config'),
+var conf = require('../../bin/config/config'),
     conf_db = conf.db;
 
 function MongooseKeeper() {

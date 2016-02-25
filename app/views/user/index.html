@@ -1,0 +1,36 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
+    <div>
+        <form action="/users" method="get">
+            <select id="usersearchoption">
+                <option value="name" selected>用户名</option>
+                <option value="school">学校</option>
+            </select>
+            <input type="hidden" name="type" value="name"/>
+            <input type="text" name="q" placeholder="根据用户名或者学校搜索用户"/>
+            <input type="button" id="searchUserSubmit" value="搜索"/>
+        </form>
+    </div>
+    <div class="row">
+        <% if(users){ %>
+        <ul class="userlist">
+            <% for(var i=0;i < users.length ; i++){ %>
+            <li class="userlist-item">
+                <h3><a href="/user?uid=<%= users[i]._id %>"><%= users[i].username %></a>&nbsp;<%= users[i].sex %></h3>
+                <p><%= users[i].avator %></p>
+                <p><%= users[i].school.schoolname %></p>
+                <p>情感状态：<%= users[i].emotion_state?users[i].emotion_state.name:"未知" %></p>
+            </li>
+            <% } %>
+        </ul>
+        <% }else{ %>
+        <p>出了点错误或者暂时没有用户</p>
+        <% } %>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

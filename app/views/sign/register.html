@@ -1,0 +1,57 @@
+<%- include ../includes/sign/header.html %>
+<div class="container">
+    <div class="row">
+        <ul class="nav-tab" id="switchRegisterWay">
+            <li class="active"><a href="javascript:;" data-regway="email">邮箱注册</a></li>
+            <li><a href="javascript:;" data-regway="phone">手机号注册</a></li>
+        </ul>
+        <div class="alert alert-success" id="tip" role="alert" style="display: none;"></div>
+        <form action="/register" method="post" name="registerForm">
+            <fieldset class="form-group email-field">
+                <label for="email">*邮箱：</label>
+                <input type="text" name="email" class="form-control" />
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="username">*用户名：</label>
+                <input type="text" name="username" class="form-control" />
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="userpwd">*密   码：</label>
+                <input type="password" name="userpwd" class="form-control" />
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="userrepwd">*确认密码：</label>
+                <input type="password" name="userrepwd" class="form-control" />
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="radio"><input type="radio" name="usergender" value="1" checked/>帅哥</label>
+                <label class="radio"><input type="radio" name="usergender" value="2" />美女</label>
+            </fieldset>
+
+            <fieldset class="form-group hide phone-field">
+                <label for="telphone">*手机号：</label>
+                <input type="text" name="telphone" class="form-control" />
+            </fieldset>
+            <fieldset class="form-group hide phone-field">
+                <input type="text" name="phone_checkcode" class="form-control" />
+                <button class="btn btn-danger" disabled="disabled">获取手机验证码</button>
+            </fieldset>
+
+            <fieldset class="form-group">
+                <label for="school">*学  校：</label>
+                <input type="text" name="school" class="form-control" />
+                <a href="javascript:;" id="chooseSchool">选择学校</a>
+            </fieldset>
+
+            <fieldset class="form-group">
+                <label for="registercheckcode">*验证码：</label>
+                <input type="text" name="registercheckcode" class="form-control" />
+                <img id="verify_code" src="" onclick="changeCode();" /><a href="javascript:;" onclick="changeCode();">看不清，换一个</a>
+            </fieldset>
+            <fieldset class="form-group">
+                <input type="button" value="确认注册" id="registerSubmit" class="btn btn-success"  />
+            </fieldset>
+        </form>
+    </div>
+</div>
+<%- include ../includes/sign/footer.html %>

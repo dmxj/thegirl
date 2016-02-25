@@ -1,0 +1,29 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
+    <div>
+        <form action="/topic" method="get">
+            <input type="text" name="q" placeholder="搜索话题标题和内容"/>
+            <input type="button" id="searchTopicSubmit" value="搜索"/>
+        </form>
+    </div>
+    <% if(topics){ %>
+    <ul class="topic-list">
+        <% for(var i=0 ; i < topics.length ; i++){ %>
+        <li class="topic-list-item">
+            <h3>作者：<a href="/user?uid=<%= topics[i].author._id %>"><%= topics[i].author.username %></a></h3>
+
+            <h3>标题：<a href="/topic?tid=<%= topics[i]._id %>"><%- topics[i].showSearchThe("title",keyword) %></a></h3>
+            <p>内容：<%- topics[i].showSearchThe("content",keyword) %></p>
+        </li>
+        <% } %>
+    </ul>
+    <% }else{ %>
+    <p>没有话题或查询出错</p>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

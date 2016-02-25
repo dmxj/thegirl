@@ -1,0 +1,38 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <h2>店铺 <%= store.storename %> 的首页</h2>
+            <h3>店主：<a href="/user?uid=<%= store.boss._id %>"><%= store.boss.username %></a></h3>
+
+            <h3>店名：<a href="/store?sid=<%= store._id %>"><%= store.storename %></a></h3>
+
+            <h3>描述：<%= store.describe %></h3>
+
+            <h3>头像：<%= store.avatar %></h3>
+
+            <h3>收藏数：<%= store.collectionCount %></h3>
+
+            <h3>商品数：<%= store.goodCount %></h3>
+
+            <h3>评分：<%= store.score %></h3>
+            <h3>学校：<%= store.school %></h3>
+
+    <div class="row">
+        <h3>商品数：<%= store.goodCount %></h3>
+        <% if(store.goods && store.goodCount > 0){ %>
+            <ul class="store-goods-list">
+                <% for(var i =0;i < store.goods.length ;i++){ %>
+                <li class="store-goods-item">
+                    <p>商品名：<%= store.goods[i].goodname %></p>
+
+                    <p>商品封面：<%= store.goods[i].coverImg %></p>
+
+                    <p>标签：<%= store.goods[i].aliasStr %></p>
+
+                    <p>价格：<%= store.goods[i].price %></p>
+                </li>
+                <% } %>
+            </ul>
+        <% } %>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

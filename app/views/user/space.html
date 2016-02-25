@@ -1,0 +1,31 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <h3>用户<%= user.username %>的空间</h3>
+
+    <div>
+        <h3>性别：<%= user.sex %></h3>
+
+        <h3>学校：<%= user.school.schoolname %></h3>
+
+        <h3>情感状况：<%= user.emotion_state ? user.emotion_state.name : "未知" %></h3>
+
+        <h3>关注的人数：<%= user.fans.length %></h3>
+
+        <h3>店铺数：<%= user.stores.length %></h3>
+
+        <h3>发布的商品数：<%= user.goods.length %></h3>
+
+        <h3>发布的话题数：<%= user.topics.length %></h3>
+
+        <h4>关注我的用户:</h4>
+        <% for(var i in user.fans){ %>
+        <a href="/user?uid=<%= user.fans[i]._id %>"><%= user.fans[i].username %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <% } %>
+
+        <h4>我关注的用户：</h4>
+        <% for(var i in user.follow.users){ %>
+        <a href="/user?uid=<%= user.follow.users[i]._id %>"><%= user.follow.users[i].username %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <% } %>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

@@ -1,0 +1,19 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <h2>相册<%= album.albumname %>的主页</h2>
+
+    <p>是否加密：<%= album.encrypt.question ? "是": "否" %></p>
+
+    <p>描述</p>
+
+    <% if(album.photos && album.photos.length > 0){ %>
+        <ul class="photolist">
+        <% for(var i=0;i < album.photos.length;i++){ %>
+            <li><img src="<%= album.photos[i].origin %>" alt="<%= album.photos[i].title %>"/></li>
+        <%}%>
+        </ul>
+    <% }else{ %>
+    <p>暂无照片</p>
+    <% } %>
+</div>
+<%- include ../includes/common/footer.html %>

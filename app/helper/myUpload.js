@@ -1,5 +1,5 @@
 var formidable = require('formidable');
-var conf = require('../../bin/config');
+var conf = require('../../bin/config/config');
 var myHash = require('./myHash');
 var util = require('util');
 var fs = require("fs");

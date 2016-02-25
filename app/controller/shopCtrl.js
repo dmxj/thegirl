@@ -1,6 +1,15 @@
-var shop = require('../models/shop');
+var ShopCartModel = require('../models/shopCart');
+var ShopCartProxy = require('../proxy/shopCart');
 
-exports.getMyShop = function(req, res, next)
+//获取某人购物车数量
+exports.fetchShopCartNumber = function(req,res,next)
 {
-	res.status(200).send(new shop().myshop());
-}
+	var uid = req.app.locals.uid;
+	if(!uid){
+		return res.json({msg:'',code:0});
+	}
+
+	ShopCartProxy.fetchShopCartNumByUid(uid,function(amount){
+		return res.json({msg:amount,code:2});
+	});
+};

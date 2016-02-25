@@ -1,0 +1,1 @@
+var checkService = require('./checks');
