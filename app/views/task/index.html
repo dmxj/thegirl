@@ -11,26 +11,29 @@
             <input type="button" id="searchTaskSubmit" value="搜索"/>
         </form>
     </div>
-    <% if(tasks){ %>
+    <% if(tasks && tasks.length > 0){ %>
     <ul class="task-list">
         <% for(var i=0 ; i < tasks.length ; i++){ %>
         <li class="task-list-item">
-            <h3>任务发布者：<a href="/user?uid=<%= tasks[i].goodId.boss %>"><%= tasks[i].goodId.boss %></a></h3>
+            <h3>任务发布者：<a href="/user?uid=<%= tasks[i].author._id %>"><%= tasks[i].author.username %></a> | <%= tasks[i].author.sex %> | <%= tasks[i].author.school.schoolname %></h3>
+
+            <h3>标题：<%= tasks[i].title %></h3>
 
             <h3>报酬：<%= tasks[i].reward %></h3>
 
             <h3>内容：<%= tasks[i].content %></h3>
 
             <div class="receiver">
-                <% for(var k=0 ; k < tasks[i].receiveTasks.length ; k++){ %>
-                <p>接任务者：<%= tasks[i].receiveTasks[k].user %> | 信息：<%= tasks[i].receiveTasks[k].message %> | 接任务的时间:<%= tasks[i].receiveTasks[k].sign_at %></p>
+                <% if(tasks[i].isEnd){ %>
+                <strong>任务已经完成</strong>
                 <% } %>
+                <p><%= tasks[i].receiveTasks.length %>人接受任务</p>
             </div>
         </li>
         <% } %>
     </ul>
     <% }else{ %>
-    <p>没有店铺或查询出错</p>
+    <p>没有任务或查询出错</p>
     <% } %>
 </div>
 <%- include ../includes/common/footer.html %>

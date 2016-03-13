@@ -1,0 +1,33 @@
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
+
+    <% if(votes && votes.length > 0){ %>
+    <ul class="vote-list">
+        <% for(var i=0 ; i < votes.length ; i++){ %>
+        <li class="vote-list-item">
+            <h3>合法性：<%= votes[i].is_valid %></h3>
+            <h3>投票发起者：<a href="/user?uid=<%= votes[i].author._id %>"><%= votes[i].author.username %></a> | <%= votes[i].author.sex %> | <%= votes[i].author.school.schoolname %></h3>
+            <h3>投票标题：<a href="/vote/<%= votes[i]._id %>"><%= votes[i].title %></a></h3>
+            <% for(var j=0;j < Math.min(votes[i].options.length,5);j++){ %>
+                <p><%= votes[i].options[j] %> | (<%= votes[i].ChoiceStats[j].users.length %>人)</p>
+            <% } %>
+            <% if(votes[i].options.length > 5){ %>
+            <a href="/vote/<%= votes[i]._id %>">查看更多</a>
+            <% } %>
+            <h3>截止时间:<%= votes[i].dateline %></h3>
+        </li>
+        <% } %>
+    </ul>
+    <% }else{ %>
+    <p>没有投票或查询出错</p>
+    <% } %>
+    <div class="pager">
+        <pagerlink page-count="<%= pageCount %>" ng-init="init()"></pagerlink>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

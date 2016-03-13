@@ -14,7 +14,7 @@ exports.createLottery = function(uid,goodParams,storeId,callback)
 
     var sumChance = ArrayHelper.getSumOfArray(chanceArr);
     if(sumChance <= 50 || sumChance > 100){
-        return callback("中奖概率之和必须大于50，小于100");
+        return callback("中奖概率之和必须大于50，小于等于100");
     }
 
     var query = {
@@ -37,7 +37,6 @@ exports.createLottery = function(uid,goodParams,storeId,callback)
                 "good":goodArr[i],
                 "rate":rateArr[i],
                 "quantity":numberArr[i],
-                "user":[],
             });
         }
 
@@ -46,11 +45,10 @@ exports.createLottery = function(uid,goodParams,storeId,callback)
                 "good":null,
                 "chance":100 - sumChance,
                 "quantity":-1,
-                "user":[],
             });
         }
 
-        var lottery = new LotteryModel({store:storeId,goods:goodArr});
+        var lottery = new LotteryModel({store:storeId,goods:goodArr,prizeTotalRate:sumChance});
         lottery.save(function(err1){
            if(err1) {
                var errMsg = err1.name == "RuleError" ? err1.message : "创建抽奖牌失败，请稍后重试！";
@@ -74,7 +72,29 @@ exports.removeLottery = function(lotteryId,callback)
 };
 
 //进行抽奖，利用回调返回中奖的商品id，空为没中奖
-exports.lottery = function()
+exports.lottery = function(userid,lotteryId,callback)
 {
+    if(!userid){
+        return callback("请您登录后再进行操作！",1);
+    }
 
+    if(!lotteryId){
+        return callback("无法获取有效的抽奖牌，请刷新页面重试",0);
+    }
+
+    LotteryModel.findOne({_id:lotteryId},function(err,lottery){
+       if(err || !lottery){
+           return callback("未找到对应的抽奖牌，请刷新页面重试",0);
+       }
+
+        lottery.lottery(userid,function(err,goodid){
+            if(err){
+                return callback(err,0)
+            }
+            if(!goodid){
+                return callback("很遗憾，您未中奖，下次继续努力！",2);
+            }
+            return callback("恭喜您中得奖品的商品id是："+goodid,2);
+        });
+    });
 };

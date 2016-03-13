@@ -3,6 +3,7 @@ exports.ActivityInfo    =   require('./activityInfo');
 exports.Album          =   require('./album');
 exports.Askbuy          =   require('./askbuy');
 exports.Auction          =   require('./auction');
+exports.AuctionItem          =   require('./auctionItem');
 exports.CancelReason    =   require('./cancelReason');
 exports.City            =   require('./city');
 exports.Comment         =   require('./comment');

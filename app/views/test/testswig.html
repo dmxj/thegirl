@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}index {{title}} {%endblock%}
+
+{% block head %}
+{{title}}
+{% endblock %}
+
+<% if true %>
+<strong>是对的</strong>
+<% else %>
+<strong>是错的</strong>
+<% endif %>
+
+{% block content %}
+<p>This is just an awesome page.</p>
+{% endblock %}

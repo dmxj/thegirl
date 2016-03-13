@@ -4,7 +4,7 @@
     <strong ng-bind="totalNotify"></strong>条通知
     <strong ng-bind="totalCart"></strong>个购物车商品
     <span class="pull-right">
-        <% if(myuid && myuname){ %>
+        <%if (myuid && myuname){ %>
             欢迎你，<a href="/user?uid=<%= myuid %>"><%= myuname %></a>&nbsp;&nbsp;
                    <a href="/logout">退出登录</a>
         <% }else{ %>

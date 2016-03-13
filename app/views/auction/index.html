@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
 
-</body>
-</html>
+    <% if(auctions && auctions.length > 0){ %>
+    <ul class="auction-list">
+        <% for(var i=0 ; i < auctions.length ; i++){ %>
+        <li class="auction-list-item">
+            <h3>合法性：<%= auctions[i].is_valid %></h3>
+            <h3>拍卖发布者：<a href="/user?uid=<%= auctions[i].goodId.boss._id %>"><%= auctions[i].goodId.boss.username %></a></h3>
+
+            <h3>拍卖商品名称：<a href="/auction/<%= auctions[i]._id %>"><%= auctions[i].goodId.goodname %></a></h3>
+
+        </li>
+        <% } %>
+    </ul>
+    <% }else{ %>
+    <p>没有拍卖或查询出错</p>
+    <% } %>
+    <div class="pager">
+        <pagerlink page-count="<%= pageCount %>" ng-init="init()"></pagerlink>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

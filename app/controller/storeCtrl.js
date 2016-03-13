@@ -7,7 +7,7 @@ var checkService = require('../services/check');
 //如果用户未登录，则显示全国所有的店铺
 exports.index = function(req, res, next){
     var keyword = req.query.q;
-    var sortby = req.query.sortby;
+    var sortby = req.query.sort;
     var page = req.query.page;
     keyword = keyword?keyword.trim().toLowerCase():null;
     sortby = sortby?sortby.trim().toLowerCase():"";
@@ -40,13 +40,17 @@ exports.index = function(req, res, next){
             params['master'] = null;
         }
 
-        StoreProxy.divderPageGetStores(page,30,query,option,function(err,stores){
-            console.log(stores);
-            if(err || !stores) {
-                params['stores'] = null;
-            }else{
-                params['stores'] = stores;
-            }
+        var perpage = 2;
+        StoreProxy.divderPageGetStores(page,perpage,query,option,function(stores,pageCount){
+            params['stores'] = stores;
+            params['pageCount'] = pageCount;
+            //if(err || !stores || stores.length <= 0) {
+            //    params['stores'] = null;
+            //    params['pageCount'] = 0;
+            //}else{
+            //    params['stores'] = stores;
+            //    params['pageCount'] = 0;
+            //}
             return res.render200("store/index",params);
         });
     });

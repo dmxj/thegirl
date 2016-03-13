@@ -6,16 +6,29 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var flash = require('express-flash');
 var bodyParser = require('body-parser');
+var csrf = require('csurf');
+var swig = require('swig');
 var conf = require('./config');
 var resMethodMiddleware = require(path.join(conf.root,'app/middleware/res_method'));
 var errorPageMiddleware = require(path.join(conf.root,'app/middleware/error_page'));
 var RedisStore = require('connect-redis')(session);
 var checkService = require(path.join(conf.root,'app/services/check'));
 
+var env = process.env.NODE_ENV || 'development';
+
 module.exports = function(app){
+
+    // Swig templating engine settings
+    //if (env === 'development' || env === 'test') {
+    //    swig.setDefaults({
+    //        cache: false
+    //    });
+    //}
+
     //路径与使用view模版为html
     app.set('views', conf.views_dir);
     app.set('view engine', 'html');
+    //app.engine('html', swig.renderFile);
     app.engine('.html', require('ejs').__express);
 
 
@@ -43,6 +56,14 @@ module.exports = function(app){
     app.use(express.static(path.join(conf.root, 'public')));
     app.use('/upload',express.static(path.join(conf.root, 'asset')));
     app.use('/hm',express.static(path.join(conf.root, 'app/html')));
+
+    //if (env !== 'test') {
+    //    app.use(function (req, res, next) {
+    //            csrf()(req, res, next);
+    //            res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
+    //            next();
+    //    });
+    //}
 
     app.use(function(req,res,next){ //如果用户已登录，res.locals赋值用户信息
         req.session._garbage = Date();

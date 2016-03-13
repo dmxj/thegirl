@@ -37,12 +37,40 @@ exports.findObjByKey = function(array,attr,key)
 //对于对象数组，抽取出某一属性的值作为新数组并返回
 exports.getAttrArray = function(array,attr)
 {
-    if(!array || util.isArray(array)) return null;
+    if(!array || !util.isArray(array)) return [];
     var newArr = [];
     for(var i in array){
         var val = array[i][attr];
         if(val && typeof val != "undefined"){
             newArr.push(val);
+        }
+    }
+    return newArr;
+};
+
+//对于对象数组，抽取出某一属性的值作为新数组并返回，而且值均唯一
+exports.getAttrArrayUnique = function(array,attr)
+{
+    if(!array || !util.isArray(array)) return [];
+    var newArr = [];
+    for(var i in array){
+        var val = array[i][attr];
+        if(newArr.indexOf(val) < 0 && val && typeof val != "undefined"){
+            newArr.push(val);
+        }
+    }
+    return newArr;
+};
+
+//对于对象数组，抽取出某一属性的值作为新数组并返回，而且值为字符串String
+exports.getAttrArrayString = function(array,attr)
+{
+    if(!array || !util.isArray(array)) return [];
+    var newArr = [];
+    for(var i in array){
+        var val = array[i][attr];
+        if(val && typeof val != "undefined" && newArr.indexOf(val.toString()) < 0){
+            newArr.push(val.toString());
         }
     }
     return newArr;
@@ -90,3 +118,18 @@ exports.getSumOfArray = function(array)
     }
     return sum;
 };
+
+//判断数组是否有重复的内容
+exports.isRepeatInArray = function(array)
+{
+    if(array && util.isArray(array) && array.length > 0){
+        for(var i=0;i<array.length;i++){
+            var item = array[i];
+            if(array.indexOf(item) != array.lastIndexOf(item)){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

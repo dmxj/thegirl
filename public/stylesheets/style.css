@@ -32,3 +32,12 @@ a {
   left: 13%;
   box-shadow: 0px 0px 10px #eee;
 }
+.vote-options-item{
+  padding: 8px;
+  margin: 5px;
+  height: 30px;
+  line-height: 1;
+}
+.vote-options-item.voted{
+  background-color: #85E2BA;
+}

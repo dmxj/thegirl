@@ -218,4 +218,73 @@ router.get('/uuid',function(req,res,next){
     return res.send(StrHelper.uuid(6));
 });
 
+router.get('/swig',function(req,res,next){
+    return res.render('test/testswig',{title:'测试swig好不好用'});
+});
+
+
+var AuctionProxy = require('../proxy/auction');
+var moment = require('moment');
+moment.locale('zh-cn'); // 使用中文
+router.get('/auction/add/:goodid',function(req,res,next){
+    var goodid = req.params.goodid;
+    var postData = {
+        startTime:Date.now(),
+        dateline:moment().add(7,"d"),
+        illustration:"这次拍卖纯粹为了筹集我个人下学期的学费，我们家很穷，交不起学费了，请大家帮帮我，好人一生平安，爱你们！",
+        isDonation:false,
+        donationFor:"",
+        aboutDonationFor:"",
+        donationLevel:0,
+    };
+    console.log("dateline:"+postData.dateline);
+    AuctionProxy.createAuction(req.app.locals.uid,goodid,postData,function(err,auction){
+        if(err){
+            return res.send(err);
+        }
+        return res.redirect('/auction/'+auction._id);
+    });
+});
+
+var VoteModel = require('../models/vote');
+router.get('/vote/add',function(req,res,next){
+    checkService.checkIsLogin(req,function(user){
+        if(!user){
+            return res.send("登录后再进行操作");
+        }
+
+        var vote = new VoteModel();
+        vote.author = user.id;
+        vote.title = "当今足坛谁是最强";
+        vote.content = "没别的意思，就想跟大家探讨一下体育，想知道大家的对足球的偏好";
+        vote.options = ["c罗","梅西","内马尔","苏亚雷斯","贝儿","本泽马","莱万多夫斯基"];
+        vote.user_limitation = 100;
+
+        vote.save(function(err){
+            if(err){
+                return res.send("创建投票失败："+err);
+            }
+
+            return res.redirect('/vote');
+        })
+    })
+});
+
+
+var captchapng = require('captchapng');
+router.get('/checkcode/:width/:height',function(req,res,next){
+    var width = req.params.width;
+    var height = req.params.height;
+    var p = new captchapng(width,height,parseInt(Math.random()*9000+1000)); // width,height,numeric captcha
+    p.color(0, 0, 0, 120);  // First color: background (red, green, blue, alpha)
+    p.color(80, 80, 80, 120); // Second color: paint (red, green, blue, alpha)
+
+    var img = p.getBase64();
+    var imgbase64 = new Buffer(img,'base64');
+    res.writeHead(200, {
+        'Content-Type': 'image/png'
+    });
+    res.end(imgbase64);
+})
+
 module.exports = router;

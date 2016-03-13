@@ -1,15 +1,55 @@
 <%- include ../includes/common/header.html %>
-<div class="container">
-            <h3>任务发布者：<a href="/user?uid=<%= task.goodId.boss %>"><%= task.goodId.boss %></a></h3>
+<div class="container" ng-controller="taskCtrl" ng-init="init('<%= task._id %>',<%= task.receiveTasks.length %>)">
+    <h2>任务：<%= task.title %></h2>
+    <h3>发起人：<a href="/user?uid=<%= task.author._id %>"><%= task.author.username %></a> | <%= task.author.sex %> | <%= task.author.school.schoolname %></h3>
+    <h3>截止日期：<%= task.dateline %></h3>
+    <h3>任务描述：<%= task.content %></h3>
 
-            <h3>报酬：<%= task.reward %></h3>
+    <h4>任务备注：</h4>
+    <ul>
+    <% for(var i = 0 ; i < task.remarks.length ; i++){ %>
+        <strong><%= i+1 %></strong>
+        <span><%= task.remarks[i] %></span>
+    <% } %>
+    </ul>
 
-            <h3>内容：<%= task.content %></h3>
+    <% if(task.is_finished){ %>
+    <br/><br/>
+    <strong style="color: red;font-size: 18px;">任务已完成</strong>
+    <br/><br/>
+    <% }else if(task.isTimeOver){ %>
+    <br/><br/>
+    <strong style="color: red;font-size: 18px;">任务已结束</strong>
+    <br/><br/>
+    <% } %>
 
-            <div class="receiver">
-                <% for(var k=0 ; k < task.receiveTasks.length ; k++){ %>
-                <p>接任务者：<%= task.receiveTasks[k].user %> | 信息：<%= task.receiveTasks[k].message %> | 接任务的时间:<%= task.receiveTasks[k].sign_at %></p>
-                <% } %>
-            </div>
+    <% if(task.sureHelpId){ %>
+    <div>
+        <strong>已经确认了来自<%= task.sureHelpId.user.school.schoolname %>的<a href="/user?uid=<%= task.sureHelpId.user._id %>">task.sureHelpId.user.username</a>的帮助</strong>
+    </div>
+    <p>任务信息：<%= task.sureHelpId.message %></p>
+    <% } %>
+
+    <div class="alert alert-success" role="alert" ng-bind="message"></div>
+
+    <div class="receiver">
+        <% for(var k=0 ; k < task.receiveTasks.length ; k++){ %>
+        <h3><a href="/user?uid=<%= task.receiveTasks[k].user._id %>"><%= task.receiveTasks[k].user.username %></a> | <%= task.receiveTasks[k].user.sex %> | <%= task.receiveTasks[k].user.school.schoolname %></h3>
+        <p>信息：<%= task.receiveTasks[k].message %> | 接任务的时间:<%= task.receiveTasks[k].sign_at %></p>
+        <p>
+            <% if(master && master.id != task.receiveTasks[k].user._id && task.receiveTasks[k].supportUser.indexOf(master.id) >= 0){ %>
+            <a href="javascript:;" ng-click="support">取消支持</a>
+            <% }else if(master && master.id != task.receiveTasks[k].user._id){ %>
+            <a href="javascript:;" ng-click="support">支持</a>
+            <% } %>
+            <span><em ng-bind="suppertNum">task.receiveTasks[k].supportUser.length</em>人支持</span>
+        </p>
+        <% } %>
+    </div>
+    
+    <div id="takeTask">
+        <textarea name="task_task_des" id="" ng-model="taketaskmsg" cols="90" rows="10" placeholder="请介绍你自己，或者接受任务的理由"></textarea>
+        <button class="btn btn-warning-outline">接收任务</button>
+    </div>
 </div>
 <%- include ../includes/common/footer.html %>

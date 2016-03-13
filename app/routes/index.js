@@ -18,6 +18,9 @@ var notifyCtrl = require('../controller/notifyCtrl');
 var followCtrl = require('../controller/followCtrl');
 var commentCtrl = require('../controller/commentCtrl');
 var shopCartCtrl = require('../controller/shopCtrl');
+var auctionCtrl = require('../controller/auctionCtrl');
+var voteCtrl = require('../controller/voteCtrl');
+var taskCtrl = require('../controller/taskCtrl');
 
 var authMiddleware = require('../middleware/auth');
 
@@ -392,8 +395,22 @@ router.post('/good/cancelFavorite',authMiddleware.authAjax,followCtrl.cancelColl
 router.post('/good/comment',authMiddleware.authAjax,commentCtrl.commentGood);	//评论商品
 router.post('/good/fetchComment',commentCtrl.fetchGoodCommentsByPage);	//Ajax分页获取商品的评论
 
+router.get('/auction',auctionCtrl.index);	//拍卖模块主页
+router.get('/auction/:auctionId',auctionCtrl.home);
+router.post('/auction/bid',authMiddleware.authAjax,auctionCtrl.submitBid);
+
+router.get('/vote',voteCtrl.index);	//投票模块主页
+router.get('/vote/:voteId',voteCtrl.home);
+router.post('/vote/submit',authMiddleware.authAjax,voteCtrl.submitVote);
+
 router.get('/askbuy',askbuyCtrl.index);	//求购模块主页
 router.get('/askbuy/:askid',askbuyCtrl.showAskbuy);
+
+router.get('/task',taskCtrl.index);	//任务模块主页
+router.get('/task/:taskid',taskCtrl.showTask);
+router.post('/task/taketask',authMiddleware.authAjax,taskCtrl.receiveTask);
+router.post('/task/surehelp',authMiddleware.authAjax,taskCtrl.sureHelp);
+router.post('/task/addremark',authMiddleware.authAjax,taskCtrl.addRemark);
 
 router.get('/topic',topicCtrl.index);
 router.get('/topic/:topicid',topicCtrl.showTopic);

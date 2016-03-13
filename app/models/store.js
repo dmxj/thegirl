@@ -54,7 +54,7 @@ var StoreRule = {
 
 StoreSchema.virtual('collectionCount')
     .get(function(){
-        return this.followers.length;
+        return this.fans.length;
     });
 
 StoreSchema.virtual('goodCount')

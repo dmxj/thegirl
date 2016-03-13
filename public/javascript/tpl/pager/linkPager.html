@@ -1,0 +1,17 @@
+<div class="ng-pagination">
+    <ul ng-if="pageCount>1 || showIfOnePage">
+        <li ng-if="showFirstLastText"><a href="pageQuery(1)">{{firstText}}</a></li>
+        <li><a href="pageQuery(currentPage-1>0?currentPage-1:1)">{{prevText}}</a></li>
+        <li ng-repeat="pagenum in firstPagenums track by pagenum" ng-class="{active:currentPage===pagenum}"><a href="pageQuery(pagenum)">{{pagenum}}</a></li>
+        <li ng-if="firstEllipses">...</li>
+        <li ng-repeat="pagenum in secondPagenums track by pagenum" ng-class="{active:currentPage===pagenum}"><a href="pageQuery(pagenum)">{{pagenum}}</a></li>
+        <li ng-if="secondEllipses">...</li>
+        <li><a href="pageQuery(currentPage+1<=pageCount?currentPage+1:pageCount)">{{nextText}}</a></li>
+        <li ng-if="showFirstLastText"><a href="pageQuery(pageCount)">{{lastText}}</a></li>
+    </ul>
+    <lable ng-if="showGoto">{{gotoText}}
+        <select>
+            <option ng-repeat="pn in pagenum track by $index" value="{{pn}}">第{{pn}}页</option>
+        </select>
+    </label>
+</div>

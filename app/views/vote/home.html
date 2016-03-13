@@ -1,0 +1,30 @@
+<%- include ../includes/common/header.html %>
+<div class="container" ng-controller="voteCtrl" ng-init="init('<%= vote._id %>',<%= vote.disable==true %>,<%= vote.max_choice %>,<%= vote.max_choice == 1 %>)">
+    <h2>拍卖：<%= vote.title %></h2>
+    <h3>发起人：<a href="/user?uid=<%= vote.author._id %>"><%= vote.author.username %></a> | <%= vote.author.sex %> | <%= vote.author.school.schoolname %></h3>
+    <h3>截止日期：<%= vote.dateline %></h3>
+    <h3>投票说明：<%= vote.content %></h3>
+
+    <ul id="vote-options-list">
+        <% for(var i = 0 ; i < vote.options.length ; i++){ %>
+            <li class="vote-options-item" ng-class="{voted:chooseArr.indexOf(<%= i %>)>=0}" ng-click="choose($event,<%= i %>)">
+                <p>
+                    <strong><%= vote.options[i] %></strong>
+                    <% if(vote.choice.indexOf(i) >= 0){ %>
+                    &nbsp;&nbsp;<span>|  您已选择该项</span>&nbsp;&nbsp;
+                    <% } %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <em>已有<%= vote.ChoiceStats[i].users.length %>人选择此项</em>
+                </p>
+            </li>
+        <% } %>
+    </ul>
+
+    <div class="alert alert-success" role="alert" ng-bind="message"></div>
+
+    <small><%= vote.disableReason %></small>
+    <div>
+        <input type="button" ng-disabled="unable" value="{{unable?'不可投票':'开始投票'}}" class="btn btn-danger-outline" ng-click="submitVote()"/>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

@@ -36,5 +36,8 @@
     <% }else{ %>
     <p>没有店铺或查询出错</p>
     <% } %>
+    <div class="pager">
+        <pagerlink page-count="<%= pageCount %>" ng-init="init()"></pagerlink>
+    </div>
 </div>
 <%- include ../includes/common/footer.html %>

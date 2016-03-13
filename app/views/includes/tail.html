@@ -246,6 +246,162 @@
 //                    });
         };
     });
+    thegirlApp.controller('auctionCtrl',function($scope,$http){
+        $scope.id = null;
+        $scope.resttime = "00:00:00";
+        $scope.restseconds = 0;
+        $scope.message = "";
+        $scope.price = "";
+        $scope.condition = "";
+        var updateRestTime = function(){
+            $scope.restseconds--;
+            var restTime = $scope.restseconds;
+            var times = "";
+            var days = Math.floor(restTime / 86400);
+            times += days > 0 ? days+"天":"";
+            restTime -= days*86400;
+            var hours = Math.floor(restTime / 3600);
+            times += hours > 0 ? hours+"小时":"";
+            restTime -= hours*3600;
+            var minutes = Math.floor(restTime / 60);
+            times += minutes > 0 ? minutes+"分钟":"";
+            restTime -= minutes*60;
+            var seconds = restTime;
+            times += seconds > 0 ? seconds+"秒":"";
+            $scope.resttime = times;
+            $scope.$digest();
+        }
+
+        $scope.init = function(id,restTime){
+            $scope.id = id;
+            $scope.restseconds  = restTime;
+            setInterval(function(){
+                updateRestTime();
+            },1000);
+        }
+
+        var submitBid = function(data){
+            if(!$scope.id){
+                alert("未获取到竞拍id，请刷新页面重试！");
+            }
+            $http.post('/auction/bid',{id:$scope.id,data:data}).success(function(resp){
+                $scope.message = resp.msg;
+                if(resp.code == 1){
+                    $scope.$emit('needLogin');
+                }else if(resp.code == 2){
+                    setTimeout(function(){
+                        location.reload();
+                    },2000);
+                }
+            }).error(function(){
+                $scope.message = "竞拍发生错误，请稍后重试！";
+            })
+        }
+
+        $scope.bidPrice = function(){
+            if(!$scope.price || isNaN($scope.price)){
+                alert("出价必须为数字！");
+                return;
+            }
+            submitBid($scope.price);
+        }
+
+        $scope.bidCondition = function(){
+            if(!$scope.condition){
+                alert("请填写竞拍条件！");
+                return;
+            }
+            submitBid($scope.condition);
+        }
+    });
+
+
+    thegirlApp.controller('voteCtrl',function($scope,$http){
+        $scope.chooseArr = [];
+        $scope.voteId = "";
+        $scope.unable = false;
+        $scope.canChooseCount = 0;
+        $scope.singleChoice  = true;
+        $scope.message = "";
+
+        $scope.init = function(id,disable,count,single){
+            $scope.voteId = id;
+            $scope.unable = disable;
+            $scope.canChooseCount = count;
+            $scope.singleChoice = single;
+            console.log("canChooseCount:"+$scope.canChooseCount);
+        }
+
+        $scope.choose = function(event,index){
+            var obj = event.currentTarget;
+            if($scope.unable){
+
+            }else if($scope.singleChoice){    //单选
+                console.log("$scope.chooseArr.indexOf(index):"+$scope.chooseArr.indexOf(index));
+                if($scope.chooseArr.indexOf(index) >= 0){
+                    $scope.chooseArr = [];
+                }else{
+                    $scope.chooseArr = [index];
+                }
+            }else{
+                if($scope.chooseArr.indexOf(index) < 0){
+                    if($scope.chooseArr.length >= $scope.canChooseCount){
+                        alert("最多可选"+ $scope.canChooseCount+"项");
+                    }else{
+                        $scope.chooseArr.push(index);
+                    }
+                }else{
+                    var _index = $scope.chooseArr.length > 1 ? $scope.chooseArr.indexOf(index) : 1;
+                    $scope.chooseArr.splice(_index,1);
+                }
+            }
+            console.log($scope.chooseArr);
+        }
+
+        $scope.submitVote = function(){
+            console.log("$scope.voteId:"+$scope.voteId);
+            $scope.message = "";
+            if(!$scope.voteId){
+                return alert("未获取到投票信息，请刷新页面重试！");
+            }
+            if($scope.chooseArr.length <= 0){
+                return alert("请选择选项后进行投票");
+            }
+
+            $scope.unable = true;
+
+            $http.post('/vote/submit',{id:$scope.voteId,choice:$scope.chooseArr}).success(function(resp){
+                $scope.message = resp.msg;
+                $scope.unable = false;
+                if(resp.code == 1){
+                    $scope.$emit('needLogin');
+                }else if(resp.code == 2){
+                    $scope.unable = true;
+//                    setTimeout(function(){
+//                        location.reload();
+//                    },2000);
+                }
+            }).error(function(resp){
+                $scope.unable = false;
+                $scope.message = "投票发生错误，请稍后重试！"+resp;
+            })
+        }
+    });
+
+
+    thegirlApp.controller('taskCtrl',function($scope,$http){
+        $scope.takeTaskCount = 0;
+        $scope.message = "";
+        $scope.taskId = null;
+        $scope.taketaskmsg = "";
+
+        $scope.init = function(id,number){
+            $scope.taskId = id;
+            $scope.takeTaskCount = number;
+        }
+
+        $scope.taskTask.
+    });
 
     $(function(){
         $('#loginSubmit').on('click',function(){

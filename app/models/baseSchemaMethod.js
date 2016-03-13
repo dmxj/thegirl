@@ -1,7 +1,11 @@
+var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var ArrayHelper = require('../helper/myArray');
 var ruleType = require('../const/ruleType');
 var moment = require('moment');
 var validator      = require('validator');
 var util = require('util');
+var async = require('async');
 
 moment.locale('zh-cn'); // 使用中文
 
@@ -124,17 +128,51 @@ function checkArrayIn(itemCol,destCol,colName){
     return null;
 }
 
+//数组重复性校验
+function checkArrayUnique(itemCol,destCol,colName)
+{
+    var error = new Error('something wrong when you do some save');
+    error.name = "RuleError";
+
+    var errorMsg = itemCol.msg ? itemCol.msg : colName + "不能存在重复的内容";
+    if(ArrayHelper.isRepeatInArray(destCol)){
+        error.message = errorMsg;
+        return error;
+    }
+    return null;
+}
+
 //日期之前校验
 function checkBeforeNow(itemCol,destCol,colName){
     var error = new Error('something wrong when you do some save');
     error.name = "RuleError";
     var errorMsg = itemCol.msg ? itemCol.msg : colName + "必须在此刻之前";
+    var destDate = null;
+
+    if(!validator.isDate(destCol)){
+        error.message = "不是正确的日期格式";
+        return error;
+    }
+
     if(itemCol.hasOwnProperty("day")){
-        var destDate = moment().subtract(itemCol.day,"d");  //itemCol.day天之前
-        if(moment(destCol).isAfter(destDate)){ //如果时间超过了预定的最晚时间
-            error.message = errorMsg;
-            return error;
-        }
+        destDate = moment().add(itemCol.day,"d");  //itemCol.day天之前
+    }
+    if(itemCol.hasOwnProperty("hour")){
+        destDate = moment().add(itemCol.hour,"h");  //itemCol.hour小时之前
+    }
+    if(itemCol.hasOwnProperty("minute")){
+        destDate = moment().add(itemCol.minute,"m");  //itemCol.minute分钟之前
+    }
+    if(!destDate){
+        destDate = moment();
+    }
+
+    console.log("moment(destCol):"+moment(destCol));
+    console.log("destDate:"+destDate);
+
+    if(moment(destCol).diff(destDate,"second",true) > 2){ //如果时间超过了预定的最晚时间,2秒容忍度
+        error.message = errorMsg;
+        return error;
     }
     return null;
 }
@@ -144,12 +182,29 @@ function checkAfterNow(itemCol,destCol,colName){
     var error = new Error('something wrong when you do some save');
     error.name = "RuleError";
     var errorMsg = itemCol.msg ? itemCol.msg : colName + "必须在此刻之后";
+    var destDate = null;
+
+    if(!validator.isDate(destCol)){
+        error.message = "不是正确的日期格式";
+        return error;
+    }
+
     if(itemCol.hasOwnProperty("day")){
-        var destDate = moment().add(itemCol.day,"d");  //itemCol.day天之后
-        if(moment(destCol).isBefore(destDate)){ //如果时间超过了预定的最晚时间
-            error.message = errorMsg;
-            return error;
-        }
+        destDate = moment().add(itemCol.day,"d");  //itemCol.day天之后
+    }
+    if(itemCol.hasOwnProperty("hour")){
+        destDate = moment().add(itemCol.hour,"h");  //itemCol.hour小时之后
+    }
+    if(itemCol.hasOwnProperty("minute")){
+        destDate = moment().add(itemCol.minute,"m");  //itemCol.minute分钟之后
+    }
+    if(!destDate){
+        destDate = moment();
+    }
+
+    if(destDate.diff(moment(destCol),"second",true) > 2){ //如果时间超过了预定的最晚时间,2秒容忍度
+        error.message = errorMsg;
+        return error;
     }
     return null;
 }
@@ -226,11 +281,19 @@ exports.regBeforeSave = function(schema,notnull,rule,create_at,update_at){
                 //var emptyArr = util.isArray(this[col]) && this[col].length <= 0;
                 if (goodObj(rule[col]) && rule[col].hasOwnProperty('ruleType')) {
 
+                    if(rule[col].hasOwnProperty('isNew') && rule[col].isNew === true && !this.isNew){
+                        continue;
+                    }
+
                     var destCol = this[col];
-                    if(!util.isArray(this[col]) || rule[col].ruleType == ruleType.ARRAYlEN || rule[col].ruleType == ruleType.ARRAYIN){   //集合列项不是数组
+                    if(!util.isArray(this[col]) || rule[col].ruleType == ruleType.ARRAYlEN || rule[col].ruleType == ruleType.ARRAYIN || rule[col].ruleType == ruleType.ARRAYUNIQUE){   //集合列项不是数组
                         destCol = this[col];
                     }else if(util.isArray(this[col]) && this[col].length > 0){ //集合列项是数组且长度大于0
                         destCol = this[col][this[col].length - 1];
+                    }
+
+                    if(!destCol){
+                        continue;
                     }
 
                     switch(rule[col].ruleType){
@@ -256,6 +319,10 @@ exports.regBeforeSave = function(schema,notnull,rule,create_at,update_at){
                             break;
                         case ruleType.ARRAYIN:
                             var result = checkArrayIn(rule[col],destCol,col);
+                            if(result) return next(result);
+                            break;
+                        case ruleType.ARRAYUNIQUE:
+                            var result = checkArrayUnique(rule[col],destCol,col);
                             if(result) return next(result);
                             break;
                         case ruleType.DATEBEFORE:
@@ -347,5 +414,43 @@ exports.regViewCountAdd = function(schema,colname)
             this[colname] = this[colname] + 1;
             this.save(callback);
         }
+    }
+};
+
+exports.regPageQuery = function(schema,ModelName)
+{
+    //var Model = mongoose.model(ModelName,schema);
+    schema.plugin(deepPopulate,{});
+    schema.statics.pageQuery = function(page, pageSize,populate, queryParams, sortParams, callback){
+        var Model = this.model(ModelName);
+        var $page = {
+            pageNumber: page
+        };
+
+        if(page < 1 || pageSize < 1){
+            return callback('page or pageSize cannot less than 1',null);
+        }
+        var start = (page - 1) * pageSize;
+
+        async.parallel({
+            count: function (done) {  // 查询数量
+                Model.count(queryParams).exec(function (err, count) {
+                    done(err, count);
+                });
+            },
+            records: function (done) {   // 查询一页的记录
+                Model.find(queryParams).skip(start).limit(pageSize).deepPopulate(populate).sort(sortParams).exec(function (err, doc) {
+                    done(err, doc);
+                });
+            }
+        }, function (err, results) {
+            var count = results.count;
+            if(count<1){
+                return callback(err, null);
+            }
+            $page.pageCount = count % pageSize == 0 ? count / pageSize : Math.floor(count / pageSize) + 1;
+            $page.results = results.records;
+            return callback(err, $page);
+        });
     }
 };

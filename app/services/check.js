@@ -141,3 +141,22 @@ exports.checkCreateCouponPermission = function(req,done)
         done(err);
     });
 };
+
+//检验用户发布拍卖的权限
+exports.checkCreateAuctionPermission = function(req,done)
+{
+    var uid = req.app.locals.uid;
+    async.waterfall([
+        function(callback){    //检验用户是否登录
+            exports.checkPublishGoodPermisson(req,function(err){
+                callback(err);
+            });
+        },
+        function(callback){ //检验用户是否达到了某个销售量才可以创建优惠券
+            callback(null);
+        }
+    ],function(err,results){
+        console.log('checkCreateAuctionPermission error:'+err);
+        done(err);
+    });
+};

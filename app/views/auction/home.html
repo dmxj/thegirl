@@ -1,10 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<%- include ../includes/common/header.html %>
+<div class="container" ng-controller="auctionCtrl" ng-init="init('<%= auction._id %>',<%= auction.restTime %>)">
+    <h2>拍卖 <%= auction.goodId.goodname %> 的首页</h2>
+    <% if(auction.isEnd){ %>
+        <strong>拍卖已结束</strong>
+    <% }else{ %>
+        <h4>拍卖进行中</h4>
+        剩余时间：<time ng-bind="resttime">00</time>
+    <% } %>
+    <% if(auction.type == 0){ %>
+        <h3>起步价¥<%= auction.startPrice %></h3>
+    <% } %>
+    <h3>拍卖商品描述：<%= auction.goodId.detail %></h3>
+    <h3>拍卖商品图集：</h3>
+    <% if(auction.goodId.album.length > 0){ %>
+    <ul>
+        <% for(var pi in auction.goodId.album){ %>
+        <li><img src="<%= auction.goodId.album[pi] %>" alt=""/></li>
+        <% } %>
+    </ul>
+    <% } %>
 
-</body>
-</html>
+    <h3>拍卖说明：<%= auction.illustration %></h3>
+
+    <h3>交易方式：<%= auction.goodId.tradeBy %></h3>
+
+    <h3>交易地点：<%= auction.goodId.tradePosition %></h3>
+
+    <h3>现在有<%= auction.bidUserCount %>人进行了<%= auction.bidCount %>次竞拍</h3>
+
+    <h3>发布者：<%= auction.goodId.boss.username %></h3>
+    <h3>发布者的学校：<%= auction.goodId.boss.school.schoolname %></h3>
+
+    <% if(auction.isDonation){ %>
+        <h3>此拍卖为公益拍卖</h3>
+        <p>拍卖对象：<%= auction.donationFor %></p>
+        <p>关于拍卖对象：<%= auction.aboutDonationFor %></p>
+        <p>拍卖捐献比例：<%= auction.donationLevel %>%</p>
+    <% } %>
+
+    <div class="alert alert-success" role="alert" ng-bind="message"></div>
+    <% if(auction.isEnd){ %>
+        <h1>竞拍结束</h1>
+    <% }else if(auction.type == 0){ %>
+        <button class="btn btn-info" ng-click="bidPrice()">出价</button>
+        <input type="text" ng-model="price"/>
+    <% }else{ %>
+        <button class="btn btn-info" ng-click="bidCondition()">出条件</button>
+        <textarea name="" id="" cols="30" rows="10" ng-model="condition"></textarea>
+    <% } %>
+
+    <% if(auction.type == 0){ %>
+        <strong>目前出价最高价¥<%= auction.maxPrice %></strong>
+    <% } %>
+
+    <div class="row">
+        <h3>现在有<%= auction.bidUserCount %>人进行了<%= auction.bidCount %>次竞拍</h3>
+        <% if(auction.bidCount > 0){ %>
+        <ul class="auction-bid-list">
+            <% for(var i = 0;i < auction.auctions.length ;i++){ %>
+            <li class="auction-bid-item">
+                <p>用户：<%= auction.auctions[i].user.username %>&nbsp;&nbsp;&nbsp;&nbsp;学校：<%= auction.auctions[i].user.school.schoolname %></p>
+
+                <% if(auction.type == 0){ %>
+                <p>出价：<%= auction.auctions[i].bidPrice %></p>
+                <% }else{ %>
+                <p>出的条件：<%= auction.auctions[i].bidCondition %></p>
+                <% } %>
+
+                <p>竞拍时间：<%= auction.auctions[i].bidTime %></p>
+
+                <p>赞数：<%= auction.auctions[i].likeUser.length %></p>
+            </li>
+            <% } %>
+        </ul>
+        <% }else{ %>
+        <p>暂无人竞拍</p>
+        <% } %>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

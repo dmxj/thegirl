@@ -11,11 +11,20 @@ exports.divderPageGetStores = function(index,perpage,query,option,callback)
     _query.inuse = true;
     _query.is_valid = true;
     var _option = option || {};
-    StoreModel.find(_query,'',_option)
-        .skip((index-1)*perpage)
-        .limit(perpage)
-        .populate('boss goods comments credit')
-        .exec(callback);
+    StoreModel.count(_query,function(err,total){
+        StoreModel.find(_query,'',_option)
+            .skip((index-1)*perpage)
+            .limit(perpage)
+            .populate('boss goods comments credit')
+            .exec(function(err1,stores){
+                if(err || err1 || total <= 0 || !stores || stores.length <= 0){
+                    return callback(null,0);
+                }
+                var pageCount = total % perpage == 0 ? total / perpage : Math.floor(total / perpage) + 1;
+                return callback(stores,pageCount);
+            });
+    });
+
 };
 
 //获取热门店铺

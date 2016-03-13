@@ -13,15 +13,16 @@ var GoodSchema = new Schema({
     cover:{type:String,default:'',trim:true},   //商品封面
     album:[{type:String,default:'',trim:true}],    //商品图册
     detail:{type:String,default:'',trim:true},    //商品详情
-    price:{type:Number,default:0},  //商品价钱
-    condition:{type:String,default:'',trim:true},   //或者等价条件
+    price:{type:Number,default:null},  //商品价钱,0为免费
     unit:{type:String,default:'个',trim:true},    //商品出售单位
+    condition:{type:String,default:'',trim:true},   //或者等价条件
     alias:[{type:String,default:'',trim:true}], //商品标签
     quantity:{type:Number,default:1},   //库存,小于0则为无限多
 
     type:{type:Schema.Types.ObjectId,ref:'GoodType',default:null},   //商品类型
     scope:{type:Schema.Types.ObjectId,ref:'SellScope',default:null}, //销售范围
-    tradePosition:{type:String,default:'快递',trim:true},    //交易地点，默认快递
+    tradeWay:{type:Number,default:3},    //交易方式，1：线上，2：线下联系，3：快递
+    tradePosition:{type:String,default:'',trim:true},    //交易地点，只有交易方式为线下联系才需要填写
     onlyToGirl:{type:Boolean,default:false},    //只卖女生
     onlyToBoy:{type:Boolean,default:false},     //只卖男生
 
@@ -75,7 +76,7 @@ var GoodRule = {
     },
     unit:{
         min:1,
-        max:6,
+        max:5,
         ruleType:ruleType.STRLEN,
         msg:"商品的出售单位必须在1~6个字符之间"
     },
@@ -84,6 +85,11 @@ var GoodRule = {
         max:5,
         ruleType:ruleType.STRLEN,
         msg:"商品的标签必须在1~5个字符之间"
+    },
+    tradeWay:{
+        array:[1,2,3],
+        ruleType:ruleType.ARRAYIN,
+        msg:"交易方式必须只能是线上、线下联系或是快递",
     },
     tradePosition:{
         min:1,
@@ -122,6 +128,16 @@ GoodSchema.virtual("coverImg")
         }
         return this.cover;
     });
+
+GoodSchema.virtual('tradeBy')
+        .get(function(){
+            if(this.tradeWay == 1){
+                return "线上";
+            }else if(this.tradeWay == 2){
+                return "线下联系";
+            }
+            return "快递";
+        });
 
 GoodSchema.methods = {
     isFollowedBy:function(masterUid){
