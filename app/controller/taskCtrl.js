@@ -1,4 +1,5 @@
 var TaskModel = require('../models/task');
+var TaskInfoModel = require('../models/taskInfo');
 var TaskProxy = require('../proxy/task');
 var checkService = require('../services/check');
 
@@ -34,8 +35,8 @@ exports.index = function(req,res,next){
             params['master'] = null;
         }
 
-        TaskProxy.divderPageGetTasks(page,10,query,option.order,function(err,tasks){
-            params['votes'] = $query ? $query.results : null;
+        TaskProxy.divderPageGetTasks(page,10,query,option.order,function($query){
+            params['tasks'] = $query ? $query.results : null;
             params['pageCount'] = $query ? $query.pageCount : 0;
             return res.render200("task/index",params);
         });
@@ -73,7 +74,7 @@ exports.receiveTask = function(req,res,next)
             return res.json({msg:'请登录后再进行操作',code:1});
         }
 
-        var taskid = req.body.taskid;
+        var taskid = req.body.id;
         var message = req.body.msg;
         taskid = taskid ? taskid.trim().toLowerCase() : null;
         message = message ? message.trim() : '';
@@ -137,6 +138,24 @@ exports.addRemark = function(req,res,next){
             }
 
             return res.json({msg:'添加remark成功',code:2});
+        });
+    });
+};
+
+
+//支持接受任务
+exports.supportTakeTask = function(req,res,next)
+{
+    checkService.checkIsLogin(req,function(user){
+        if(!user){
+            return res.json({msg:'请登录后再进行操作',code:1});
+        }
+
+        var taskInfoId = req.body.id;
+        taskInfoId = taskInfoId ? taskInfoId.trim().toLowerCase() : null;
+
+        TaskProxy.supportTakeTask(user.id,taskInfoId,function(msg,code){
+            return res.json({msg:msg,code:code});
         });
     });
 };

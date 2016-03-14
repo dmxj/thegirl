@@ -31,6 +31,7 @@
     <% } %>
 
     <div class="alert alert-success" role="alert" ng-bind="message"></div>
+    <p><%= task.receiveTasks.length %>人申请接受任务</p>
 
     <div class="receiver">
         <% for(var k=0 ; k < task.receiveTasks.length ; k++){ %>
@@ -38,9 +39,9 @@
         <p>信息：<%= task.receiveTasks[k].message %> | 接任务的时间:<%= task.receiveTasks[k].sign_at %></p>
         <p>
             <% if(master && master.id != task.receiveTasks[k].user._id && task.receiveTasks[k].supportUser.indexOf(master.id) >= 0){ %>
-            <a href="javascript:;" ng-click="support">取消支持</a>
+            <a href="javascript:;" ng-click="support('<%= task.receiveTasks[k]._id %>')">取消支持</a>
             <% }else if(master && master.id != task.receiveTasks[k].user._id){ %>
-            <a href="javascript:;" ng-click="support">支持</a>
+            <a href="javascript:;" ng-click="support('<%= task.receiveTasks[k]._id %>')">支持</a>
             <% } %>
             <span><em ng-bind="suppertNum">task.receiveTasks[k].supportUser.length</em>人支持</span>
         </p>
@@ -49,7 +50,7 @@
     
     <div id="takeTask">
         <textarea name="task_task_des" id="" ng-model="taketaskmsg" cols="90" rows="10" placeholder="请介绍你自己，或者接受任务的理由"></textarea>
-        <button class="btn btn-warning-outline">接收任务</button>
+        <button class="btn btn-warning-outline" ng-disabled="{{taketaskmsg == ''}}" ng-click="takeTask()">接受任务</button>
     </div>
 </div>
 <%- include ../includes/common/footer.html %>

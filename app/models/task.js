@@ -20,9 +20,9 @@ var TaskSchema = new Schema({
     title:{type:String,default:'',trim:true},  //任务标题
     content:{type:String,default:'',trim:true}, //内容
     reward:{type:String,default:'',trim:true},  //报酬
-    remarks:[{type:String,default:'',trim:true}],  //作者添加的标注，可添加多条
+    remarks:[{type:String,default:'',trim:true,default:null}],  //作者添加的标注，可添加多条
 
-    endTime:{type:Date,default:Date.now},   //截止时间
+    endTime:{type:Date,default:Date.now,default:null},   //截止时间,空为不截止
 
     comments:[{type:Schema.Types.ObjectId,ref:'Comment'}],  //评论
     receiveTasks:[{type:Schema.Types.ObjectId,ref:'TaskInfo'}], //接收任务的条目
@@ -69,7 +69,7 @@ var TaskRule = {
         min:3,
         max:140,
         ruleType:ruleType.STRLEN,
-        msg:"任务的remark必须在3~140个字符之间"
+        msg:"任务的remark必须少于140个字符"
     },
     endTime:{
         isNew:true,
@@ -117,7 +117,7 @@ TaskSchema.statics = {};
 TaskSchema.plugin(deepPopulate,{})
 
 baseSchemaMethod.regBeforeSave(TaskSchema,NotNullRule,TaskRule);
-baseSchemaMethod.regMyfind(TaskSchema,'Task','goodId comments receiveTasks sureHelpId');
-baseSchemaMethod.regPageQuery(TaskSchema,'Vote');
+baseSchemaMethod.regMyfind(TaskSchema,'Task','author comments receiveTasks sureHelpId');
+baseSchemaMethod.regPageQuery(TaskSchema,'Task');
 
 module.exports = mongoose.model('Task',TaskSchema);

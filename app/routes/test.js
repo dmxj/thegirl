@@ -285,6 +285,40 @@ router.get('/checkcode/:width/:height',function(req,res,next){
         'Content-Type': 'image/png'
     });
     res.end(imgbase64);
-})
+});
+
+var TaskModel = require('../models/task');
+var validator = require('validator');
+router.get('/task/add/:title/:content/:reward/:endtime',function(req,res,next){
+    var title = req.params.title;
+    var content = req.params.content;
+    var reward = req.params.reward;
+    var endtime = req.params.endtime;
+
+    if(!validator.isDate(endtime)){
+        return res.send("截止日期不是合法的时间格式");
+    }
+
+    checkService.checkIsLogin(req,function(user){
+       if(!user){
+           return res.send("登录后操作");
+       }
+
+       var task = new TaskModel({
+           author:user.id,
+           title:title,
+           content:content,
+           reward:reward,
+           endTime:new Date(endtime),
+       });
+        task.save(function(err){
+            if(err){
+                return res.send("save task error:"+err);
+            }
+
+            return res.redirect('/task');
+        })
+    });
+});
 
 module.exports = router;

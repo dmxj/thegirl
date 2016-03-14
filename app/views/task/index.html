@@ -17,7 +17,7 @@
         <li class="task-list-item">
             <h3>任务发布者：<a href="/user?uid=<%= tasks[i].author._id %>"><%= tasks[i].author.username %></a> | <%= tasks[i].author.sex %> | <%= tasks[i].author.school.schoolname %></h3>
 
-            <h3>标题：<%= tasks[i].title %></h3>
+            <h3>标题：<a href="/task/<%= tasks[i]._id %>"><%= tasks[i].title %></a></h3>
 
             <h3>报酬：<%= tasks[i].reward %></h3>
 
@@ -27,7 +27,7 @@
                 <% if(tasks[i].isEnd){ %>
                 <strong>任务已经完成</strong>
                 <% } %>
-                <p><%= tasks[i].receiveTasks.length %>人接受任务</p>
+                <p><%= tasks[i].receiveTasks.length %>人申请接受任务</p>
             </div>
         </li>
         <% } %>

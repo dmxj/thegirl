@@ -7,6 +7,7 @@ exports.removeElement = function(array,item)
     if(!array) return [];
     if(!util.isArray(array)) return [];
     if(!item || array.indexOf(item) < 0) return array;
+    if(array.length == 1) return [];
     array.splice(array.indexOf(item),1);
     return array;
 };

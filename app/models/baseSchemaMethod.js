@@ -17,6 +17,13 @@ function goodObj(obj){
     return false;
 }
 
+function isNullAttrOfObj(obj,attr){
+    if(goodObj(obj) && obj[attr] && typeof obj[attr] != "undefined"){
+        return true;
+    }
+    return false;
+}
+
 //空值检验
 function checkIsNull(schema,notnull){
     var error = new Error('something wrong when you do some save');
@@ -93,6 +100,18 @@ function checkEmail(itemCol,destCol,colName){
     error.name = "RuleError";
     var errorMsg = itemCol.msg ? itemCol.msg : colName + "不是合法的邮箱";
     if(!validator.isEmail(destCol)){
+        error.message = errorMsg;
+        return error;
+    }
+    return null;
+}
+
+//手机号校验
+function checkTelphone(itemCol,destCol,colName){
+    var error = new Error('something wrong when you do some save');
+    error.name = "RuleError";
+    var errorMsg = itemCol.msg ? itemCol.msg : colName + "不是合法的手机号码";
+    if(!validator.isMobilePhone(destCol)){
         error.message = errorMsg;
         return error;
     }
@@ -313,6 +332,10 @@ exports.regBeforeSave = function(schema,notnull,rule,create_at,update_at){
                             var result = checkEmail(rule[col],destCol,col);
                             if(result) return next(result);
                             break;
+                        case ruleType.PHONE:
+                            var result = checkTelphone(rule[col],destCol,col);
+                            if(result) return next(result);
+                            break;
                         case ruleType.ARRAYLEN:
                             var result = checkArrayLen(rule[col],destCol,col);
                             if(result) return next(result);
@@ -417,6 +440,7 @@ exports.regViewCountAdd = function(schema,colname)
     }
 };
 
+//分页查询
 exports.regPageQuery = function(schema,ModelName)
 {
     //var Model = mongoose.model(ModelName,schema);
@@ -451,6 +475,50 @@ exports.regPageQuery = function(schema,ModelName)
             $page.pageCount = count % pageSize == 0 ? count / pageSize : Math.floor(count / pageSize) + 1;
             $page.results = results.records;
             return callback(err, $page);
+        });
+    }
+};
+
+//喜欢、点赞、支持
+exports.regLike = function(schema,col,msgMap)
+{
+    if(!col || (col.length <= 0)){
+        return false;
+    }
+
+    var likeFault = isNullAttrOfObj(msgMap,"likeFault") ? msgMap["likeFault"] : "点赞失败";
+    var likeSuccess = isNullAttrOfObj(msgMap,"likeSuccess") ? msgMap["likeSuccess"] : "点赞成功";
+    var cancelLikeFault = isNullAttrOfObj(msgMap,"cancelLikeFault") ? msgMap["cancelLikeFault"] : "取消点赞失败";
+    var cancelLikeSuccess = isNullAttrOfObj(msgMap,"cancelLikeSuccess") ? msgMap["cancelLikeSuccess"] : "取消点赞成功";
+
+    schema.methods.likeOrSupport = function(userid,callback){
+
+        if(!userid){
+            return callback(false,"请登录后再进行操作");
+        }
+
+        var like = true;
+        if(this[col].indexOf(userid) >= 0){
+            var like = false;
+            ArrayHelper.removeElement(this[col],userid);
+        }else{
+            this[col].push(userid);
+        }
+
+        this.save(function(err){
+            if(err && like){
+                return callback(false,likeFault);
+            }
+
+            if(err && !like){
+                return callback(false,cancelLikeFault);
+            }
+
+            if(like){
+                return callback(true,likeSuccess);
+            }else{
+                return callback(true,cancelLikeSuccess);
+            }
         });
     }
 };

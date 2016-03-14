@@ -162,3 +162,18 @@ exports.addRemark = function(userid,taskid,remark,callback){
         });
     });
 };
+
+//支持接受任务
+exports.supportTakeTask = function(userid,taskInfoId,callback)
+{
+    TaskInfoModel.findOne({_id:taskInfoId},function(err,taskInfo){
+        if(err || !taskInfo){
+            callback("未找到对应信息，操作失败",0);
+        }
+
+        taskInfo.likeOrSupport(userid,function(isSuccess,msg){
+            var code = isSuccess ? 2 : 0;
+            callback(msg,code);
+        });
+    });
+}

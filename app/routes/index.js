@@ -411,6 +411,7 @@ router.get('/task/:taskid',taskCtrl.showTask);
 router.post('/task/taketask',authMiddleware.authAjax,taskCtrl.receiveTask);
 router.post('/task/surehelp',authMiddleware.authAjax,taskCtrl.sureHelp);
 router.post('/task/addremark',authMiddleware.authAjax,taskCtrl.addRemark);
+router.post('/task/support',authMiddleware.authAjax,taskCtrl.supportTakeTask);
 
 router.get('/topic',topicCtrl.index);
 router.get('/topic/:topicid',topicCtrl.showTopic);

@@ -3,6 +3,7 @@ module.exports = {
     STRLEN:11,
     NUMVAL:22,
     EMAIL:33,
+    PHONE:34,
     WEBSITE:44,
     ARRAYLEN:55,    //数组长度
     ARRAYIN:66,   //必须在某个数组中

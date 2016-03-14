@@ -400,7 +400,35 @@
             $scope.takeTaskCount = number;
         }
 
-        $scope.taskTask.
+        $scope.support = function(taketaskid){
+            $http.post("/task/support",{id:taketaskid}).success(function(resp){
+                $scope.message = resp.msg;
+                if(resp.code == 1){
+                    $scope.$emit('needLogin');
+                }else if(resp.code == 2){
+                    $scope.taketaskmsg = "";
+                }
+            }).error(function(){
+                $scope.message = "操作出现错误";
+            });
+        }
+
+        $scope.takeTask = function(){
+            if($scope.taketaskmsg == ""){
+                return alert("申请接受任务信息不能为空");
+            }
+
+            $http.post("/task/taketask",{id:$scope.taskId,msg:$scope.taketaskmsg}).success(function(resp){
+                    $scope.message = resp.msg;
+                    if(resp.code == 1){
+                        $scope.$emit('needLogin');
+                    }else if(resp.code == 2){
+                        $scope.taketaskmsg = "";
+                    }
+                }).error(function(){
+                    $scope.message = "申请接受任务失败";
+                });
+        }
     });
 
     $(function(){
