@@ -14,6 +14,7 @@ var ReceiveAddressSchema = new Schema({
     author:{type:Schema.Types.ObjectId,ref:'User'},   //用户
 
     receiverName:{type:String,default:'',trim:true},    //收货人
+    site:{type:Schema.Types.ObjectId,ref:'Site',default:null},    //地址
     detailAddress:{type:String,default:'',trim:true},    //详细地址
     telphoneNumber:{type:String,default:'',trim:true},    //手机号码
 

@@ -4,7 +4,8 @@ var myHash = require('./myHash');
 var util = require('util');
 var fs = require("fs");
 
-function upload(req,res,options,onProgress,onEnd,onError){
+function upload(req,options,onProgress,onEnd,onError){
+
 	var opt = options || {};
 	var file , saveFileName ;
 	var isUploadEnd = false , isRenameEnd = false;
@@ -18,12 +19,22 @@ function upload(req,res,options,onProgress,onEnd,onError){
 	else
 		form.uploadDir = conf.upload_default_dir;
 
+	if(!fs.existsSync(form.uploadDir)){
+		console.log("文件夹不存在...");
+		fs.mkdirSync(form.uploadDir);
+		if (!fs.existsSync(form.uploadDir)){
+			console.log("创建文件夹失败...");
+			onError("文件夹不存在，服务器错误！");
+		}
+	}
+
 	if(opt.hasOwnProperty('maxFieldsSize'))
 		form.maxFieldsSize = opt['maxFieldsSize'];
 	else
-		form.maxFieldsSize = 2 * 1024 *1024; //默认2M
+		form.maxFieldsSize = 2 * 1024 * 1024; //默认2M
 
 	form.parse(req, function(err, fields, files) {
+		console.log('开始解析。。。');
 	   console.log(util.inspect({fields: fields, files: files}));
 	   var fileField = Object.keys(files)[0];
 	   file = files[fileField];
@@ -31,11 +42,6 @@ function upload(req,res,options,onProgress,onEnd,onError){
 	   var fileExt = types[types.length-1];
 	   var ms = Date.parse(new Date());
 	   saveFileName = ms+"."+fileExt;
-	   fs.rename(file.path, form.uploadDir+"/"+saveFileName,function(){
-	   		isRenameEnd = true;
-	   		if(isUploadEnd)
-	   			onEnd&&onEnd(file,saveFileName);	   		
-	   });	   
 	});
 
 	//开始上传
@@ -58,16 +64,16 @@ function upload(req,res,options,onProgress,onEnd,onError){
    form.on('progress', function(bytesReceived, bytesExpected) {
    		var percent = bytesReceived * 1.0 / bytesExpected * 100;
    		percent = Math.floor(percent);
-   		//onProgress&&onProgress(percent);
+   		onProgress&&onProgress(percent);
    });
 
    //上传结束...
    form.on('end', function() {
-   		isUploadEnd = true;
-   		if(isRenameEnd)
-   			onEnd&&onEnd(file,saveFileName);
+	   console.log("上传结束了，end。。。");
+	   fs.rename(file.path, form.uploadDir+"/"+saveFileName,function(){
+		   onEnd&&onEnd(file,saveFileName);
+	   });
    });
-	
 }
 
 exports.upload = upload;

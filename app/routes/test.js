@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var checkService=  require('../services/check');
+var conf = require('../../bin/config/config');
 
 var GoodTypeModel = require('../models/goodType');
 router.get('/goodtype/add/:name',function(req,res,next){
@@ -319,6 +320,30 @@ router.get('/task/add/:title/:content/:reward/:endtime',function(req,res,next){
             return res.redirect('/task');
         })
     });
+});
+
+
+//上传文件
+var UploadHelper = require('../helper/myUpload');
+var join = require('path').join;
+router.get('/upload',function(req,res,next){
+    return res.render200('test/upload');
+});
+router.post('/upload',function(req,res,next){
+    var option = {
+        'uploadPath':conf.upload_goods_dir,
+        'maxFieldsSize':2 * 1024 *1024
+    };
+    UploadHelper.upload(req,option,
+        function(percent){ //onProgress
+            console.log('上传了'+percent+"%");
+        },
+        function(file,saveFileName){ //ONEnd
+            var srcPath = conf.upload_goods_dir+"\\"+saveFileName;
+            return res.sendFile(srcPath);
+        },function(err){ //OnError
+            console.log("上传出错啦啦："+err);
+        });
 });
 
 module.exports = router;

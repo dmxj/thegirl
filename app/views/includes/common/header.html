@@ -3,6 +3,16 @@
     <h3>这个是头部</h3>
     <strong ng-bind="totalNotify"></strong>条通知
     <strong ng-bind="totalCart"></strong>个购物车商品
+    <ul id="guidetab">
+        <li><a href="/">首页</a></li>
+        <li><a href="/topic">话题</a></li>
+        <li><a href="/store">店铺</a></li>
+        <li><a href="/askbuy">求购</a></li>
+        <li><a href="/vote">投票</a></li>
+        <li><a href="/auction">拍卖</a></li>
+        <li><a href="/task">任务</a></li>
+        <li><a href="/activity">活动</a></li>
+    </ul>
     <span class="pull-right">
         <%if (myuid && myuname){ %>
             欢迎你，<a href="/user?uid=<%= myuid %>"><%= myuname %></a>&nbsp;&nbsp;

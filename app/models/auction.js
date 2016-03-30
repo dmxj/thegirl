@@ -4,6 +4,7 @@ var ArrayHelper = require('../helper/myArray');
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var baseSchemaMethod = require('./baseSchemaMethod');
 var ruleType = require('../const/ruleType');
+var timeHelper = require('../helper/myTime');
 var moment = require('moment');
 
 moment.locale('zh-cn'); // 使用中文
@@ -113,6 +114,11 @@ AuctionSchema.virtual('bidCount')
         .get(function(){
             return this.auctions.length;
         });
+//截止时间
+AuctionSchema.virtual('endTime')
+    .get(function(){
+        return timeHelper.formatDate(this.dateline,false);
+    });
 
 AuctionSchema.methods = {
 

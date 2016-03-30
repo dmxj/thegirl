@@ -6,11 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+ul,li{
+  list-style: none;
+}
 .hide{
   display: none;
 }
 .red{
   color: red;
+}
+#guidetab{
+
+}
+#guidetab li{
+  display: inline;
 }
 .overlay{
   width: 100%;

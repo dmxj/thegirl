@@ -11,6 +11,7 @@ var	searchCtrl = require('../controller/searchCtrl');
 var userCtrl = require('../controller/userCtrl');
 var storeCtrl = require('../controller/storeCtrl');
 var topicCtrl = require('../controller/topicCtrl');
+var topicCommentCtrl = require('../controller/topicCommentCtrl');
 var goodCtrl = require('../controller/goodCtrl');
 var albumCtrl = require('../controller/albumCtrl');
 var askbuyCtrl = require('../controller/askbuyCtrl');
@@ -192,7 +193,7 @@ router.get('/test2/search',function(req,res,next){
 	}
 });
 
-var CityModel = require('../models/city');
+var CityModel = require('../models/site');
 router.get('/city/add/:name',function(req, res, next){
 	var name = req.params.name;
 	if(!name){
@@ -417,6 +418,10 @@ router.get('/topic',topicCtrl.index);
 router.get('/topic/:topicid',topicCtrl.showTopic);
 router.post('/topic/follow',authMiddleware.authAjax,followCtrl.followTopic);	//关注某话题
 router.post('/topic/cancelFollow',authMiddleware.authAjax,followCtrl.cancelFollowTopic);	//取消关注某话题
+
+router.post('/topicReply/get',topicCommentCtrl.get);
+router.post('/topicReply/post',authMiddleware.authAjax,topicCommentCtrl.publish);
+router.post('/topicReply/like',authMiddleware.authAjax,topicCommentCtrl.likeTopicComment);
 
 router.post('/comment/reply',authMiddleware.authAjax,commentCtrl.replyTheComment);	//回复某一评论
 router.post('/comment/like',authMiddleware.authAjax,commentCtrl.likeComment);	//赞某一评论

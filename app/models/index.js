@@ -1,11 +1,11 @@
 exports.Activity   		=   require('./activity');
-exports.ActivityInfo    =   require('./activityInfo');
+exports.ActivityInfo    =   require('./activitySignInfo');
 exports.Album          =   require('./album');
 exports.Askbuy          =   require('./askbuy');
 exports.Auction          =   require('./auction');
 exports.AuctionItem          =   require('./auctionItem');
 exports.CancelReason    =   require('./cancelReason');
-exports.City            =   require('./city');
+exports.City            =   require('./site');
 exports.Comment         =   require('./comment');
 exports.Credit          =   require('./credit');
 exports.Education       =   require('./education');

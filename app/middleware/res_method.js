@@ -13,6 +13,16 @@ exports.ResMethod = function (req, res, next) {
         return res.status(200).render(path,_option);
     }
 
+    res.renderDelete = function(msg){
+        var params = msg ? {msg:msg} : {msg:"资源已被删除，请浏览其他资源"};
+        return res.status(404).render("unusual/deleted",params);
+    }
+
+    res.renderInvalid = function(msg){
+        var params = msg ? {msg:msg} : {msg:"资源不合法，请浏览其他资源"};
+        return res.status(404).render("unusual/invalid",params);
+    }
+
     res.charset = "utf-8";
 
     next();

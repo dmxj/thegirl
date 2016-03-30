@@ -18,7 +18,7 @@ var TaskSchema = new Schema({
     //goodId:{type:Schema.Types.ObjectId,ref:'Good'},  //对应的商品
     author:{type:Schema.Types.ObjectId,ref:'User'},   //发布者
     title:{type:String,default:'',trim:true},  //任务标题
-    content:{type:String,default:'',trim:true}, //内容
+    content:{type:String,default:'',trim:true}, //内容，富文本，可包含图片
     reward:{type:String,default:'',trim:true},  //报酬
     remarks:[{type:String,default:'',trim:true,default:null}],  //作者添加的标注，可添加多条
 
@@ -32,6 +32,7 @@ var TaskSchema = new Schema({
 
     is_finished:{type:Boolean,default:false}, //任务是否完成
 
+    fans:[{type:Schema.Types.ObjectId,ref:'User'}], //收藏者
     view_count:{type:Number,default:0}, //浏览量
     is_delete:{type:Boolean,default:false},
     is_valid:{type:Boolean,default:true},  //合法的任务，不违反规定
@@ -55,9 +56,9 @@ var TaskRule = {
     },
     content:{
         min:7,
-        max:600,
+        max:300,
         ruleType:ruleType.STRLEN,
-        msg:"任务详情描述必须在7~600个字符之间"
+        msg:"任务详情描述必须在7~300个字符之间"
     },
     reward:{
         min:3,

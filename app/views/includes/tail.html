@@ -1,4 +1,5 @@
 <script src="/javascript/jquery.min.js"></script>
+<script src="/javascript/util.js"></script>
 <script src="/javascript/angular.min.js"></script>
 <script src="/javascript/lib/myPager.js"></script>
 <script type="text/javascript">
@@ -141,43 +142,12 @@
                // $scope.comments.unshift(msg);
                 $scope.fetchComment(1);
             },"发布评论错误");
-//            $http.post('/good/comment',{gid:gid,content:$scope.commentword})
-//                    .success(function(resp){
-//                        if(resp.code && resp.code == 1){
-//                            $scope.$emit('needLogin');
-//                        }else if(resp.code && resp.code == 2){  //评论成功
-//                            $scope.msg = "评论成功！";
-//                            $scope.comments.unshift(resp.msg);
-//                        }else{
-//                            $scope.msg = resp.msg;
-//                        }
-//                        $scope.commentword = "";
-//                    }).error(function(){
-//                        $scope.msg = "发布评论错误";
-//                    });
         };
         $scope.postreply = function (commentid,index){
             commonAjax('/comment/reply',{commentid:commentid,content:$scope.commentword},function(msg){
                 $scope.msg = "回复成功！";
-//                $scope.comments[index].u.push($scope.comments[index]);
-//                msg.u = $scope.comments[index].u;
-//                $scope.comments.unshift(msg);
                 $scope.fetchComment(1);
             },"回复评论发生错误");
-//            $http.post('/comment/reply',{commentid:commentid,content:$scope.commentword})
-//                    .success(function(resp){
-//                        if(resp.code && resp.code == 1){
-//                            $scope.$emit('needLogin');
-//                        }else if(resp.code && resp.code == 2){  //评论成功
-//                            $scope.msg = "回复成功！";
-//                            $scope.comments[index].r.push(resp.msg);
-//                        }else{
-//                            $scope.msg = resp.msg;
-//                        }
-//                        $scope.commentword = "";
-//                    }).error(function(){
-//                        $scope.msg = "回复评论发生错误";
-//                    });
         };
         $scope.fetchComment = function(page){
             $scope.isLoading = true;
@@ -212,38 +182,12 @@
                     $scope.comments[index].lq--;
                 }
             },"点赞发生错误！");
-//            $http.post('/comment/delete',{cid:commentid})
-//                    .success(function(resp){
-//                        if(resp.code && resp.code == 1){
-//                            $scope.$emit('needLogin');
-//                        }else if(resp.code && resp.code == 2){  //评论成功
-//                            $scope.msg = "点赞成功！";
-//                            $scope.comments[index].l = true;
-//                        }else{
-//                            $scope.msg = resp.msg;
-//                        }
-//                    }).error(function(){
-//                        $scope.msg = "点赞发生错误！";
-//                    });
         };
         $scope.deletecomment = function(commentid,index){
             commonAjax('/comment/delete',{cid:commentid},function(msg){
                 $scope.msg = "删除评论成功！";
                 $scope.comments.splice(index,1);
             },"删除评论发生错误！");
-//            $http.post('/comment/delete',{cid:commentid})
-//                    .success(function(resp){
-//                        if(resp.code && resp.code == 1){
-//                            $scope.$emit('needLogin');
-//                        }else if(resp.code && resp.code == 2){  //删除评论成功
-//                            $scope.msg = "删除评论成功！";
-//                            $scope.comments.splice(index,1);
-//                        }else{
-//                            $scope.msg = resp.msg;
-//                        }
-//                    }).error(function(){
-//                        $scope.msg = "删除评论发生错误！";
-//                    });
         };
     });
     thegirlApp.controller('auctionCtrl',function($scope,$http){
@@ -430,6 +374,140 @@
                 });
         }
     });
+
+    thegirlApp.controller('topicCtrl',function($scope,$http){
+        $scope.replyCount = 0;
+        $scope.message = "";
+        $scope.topicId = null;
+        $scope.totalCount = 0;  //总评论数
+        $scope.likecount = 0;
+        $scope.replys = [];
+        $scope.loadingReply = false;
+
+        $scope.islike = false;
+
+        $scope.replyTo = null;
+        $scope.replyToUser = "";
+        $scope.replyword = "";
+
+        $scope.httping = false;
+
+        var commonAjax = function(url,data,success,complete,errorMsg){
+            if(!$scope.httping) {  //如果现在没有进行ajax操作的
+                $scope.httping = true;
+                $http.post(url, data)
+                    .success(function (resp) {
+                        if (resp.code && resp.code == 1) {
+                            $scope.$emit('needLogin');
+                        } else if (resp.code && resp.code == 2) {  //评论成功
+                            $scope.message = resp.msg;
+                            success(resp);
+                        } else {
+                            $scope.message = resp.msg;
+                        }
+                        goto($('#tipbox'));
+                        complete && complete();
+                        setTimeout(function(){
+                            $scope.httping = false;
+                            console.log("是否有ajax请求："+$scope.httping);
+                        },600);
+                    }).error(function () {
+                        goto($('#tipbox'));
+                        $scope.message = errorMsg;
+                        complete && complete();
+                        setTimeout(function(){
+                            $scope.httping = false;
+                            console.log("是否有ajax请求："+$scope.httping);
+                        },600);
+                    });
+            }
+        };
+
+        $scope.init = function(topicId,likecount,islike){
+            $scope.topicId = topicId;
+            $scope.likecount = likecount;
+            $scope.islike = islike;
+            $scope.fetchComment(1);
+        }
+
+        $scope.onPageChange = function(){
+            console.log("$scope.currentPage:"+$scope.currentPage);
+            this.fetchComment($scope.currentPage);
+        };
+
+        $scope.likeTopic = function(){
+            commonAjax('/topic/follow',{tid:$scope.topicId},
+                    function(resp){
+                        $scope.likecount ++;
+                        $scope.islike = true;
+                    },function(){
+                    },"发生错误，关注话题失败");
+        };
+
+        $scope.cancelLikeTopic = function(){
+            commonAjax('/topic/cancelFollow',{tid:$scope.topicId},
+                    function(resp){
+                        $scope.likecount --;
+                        $scope.islike = false;
+                    },function(){
+                    },"发生错误，取消关注话题失败");
+        };
+
+        $scope.likeComment = function(cid){
+            commonAjax('/topicReply/like',{cid:cid},
+                    function(resp){
+                        reply.lq = resp.likecount ? resp.likecount : reply.lq;
+                    },function(){
+                    },"发生错误，操作失败");
+        };
+
+        $scope.prepareReply = function(replyTo,replyToUser){
+            $scope.replyTo = replyTo ? replyTo : null;
+            $scope.replyToUser = replyToUser ? replyToUser : "";
+            goto($("#post-reply"));
+        }
+
+        $scope.postComment = function(){
+            var actionType = $scope.replyTo != null && $scope.replyToUser.trim() != "" ? "回复" : "评论";
+            if($scope.replyword.trim() == ""){
+                return alert(actionType+"内容不能为空");
+            }
+
+            commonAjax('/topicReply/post',{tid:$scope.topicId,to:$scope.replyTo,content:$scope.replyword},
+                  function(resp){
+                      $scope.fetchComment(1);
+                      $scope.replyTo = null;
+                      $scope.replyToUser = "";
+                      $scope.replyword = "";
+                  },function(){
+                  },"发生错误，"+actionType+"失败");
+        };
+
+        $scope.fetchComment = function(page){
+            $scope.loadingReply = true;
+            $http.post('/topicReply/get',{tid:$scope.topicId,page:page})
+                    .success(function(resp){
+                        $scope.loadingReply = false;
+                        if(resp.code != 1){
+                            $scope.message = resp.msg;
+                        }else{
+                            $scope.replys = resp.comments || [];
+                            $scope.totalCount = resp.count || $scope.totalCount;
+                            $scope.pageCount = resp.pageCount || $scope.pageCount;
+                            $scope.message = "";
+                        }
+                    })
+                    .error(function(){
+                        $scope.loadingReply = false;
+                        $scope.message = "加载评论发生错误！";
+                    });
+        };
+    });
+
+
+
+
+    //==========================jQuery==============
 
     $(function(){
         $('#loginSubmit').on('click',function(){

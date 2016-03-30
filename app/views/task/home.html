@@ -4,7 +4,7 @@
     <h3>发起人：<a href="/user?uid=<%= task.author._id %>"><%= task.author.username %></a> | <%= task.author.sex %> | <%= task.author.school.schoolname %></h3>
     <h3>截止日期：<%= task.dateline %></h3>
     <h3>任务描述：<%= task.content %></h3>
-
+    <h3>报酬:<%= task.reward %></h3>
     <h4>任务备注：</h4>
     <ul>
     <% for(var i = 0 ; i < task.remarks.length ; i++){ %>
@@ -47,10 +47,12 @@
         </p>
         <% } %>
     </div>
-    
+
+    <% if(!task.is_finished && !task.isTimeOver){ %>
     <div id="takeTask">
         <textarea name="task_task_des" id="" ng-model="taketaskmsg" cols="90" rows="10" placeholder="请介绍你自己，或者接受任务的理由"></textarea>
         <button class="btn btn-warning-outline" ng-disabled="{{taketaskmsg == ''}}" ng-click="takeTask()">接受任务</button>
     </div>
+    <% } %>
 </div>
 <%- include ../includes/common/footer.html %>

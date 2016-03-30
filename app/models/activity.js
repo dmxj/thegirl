@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var baseSchemaMethod = require('./baseSchemaMethod');
 var ruleType = require('../const/ruleType');
 var TimeHelper = require('../helper/myTime');
@@ -10,33 +11,20 @@ var FormType = require('../const/formType');
  * 如果活动结束或者活动人数已满则不能报名，不符合条件也不能报名
  */
 var ActivitySchema = new Schema({
-    goodId:{type:Schema.Types.ObjectId,ref:'Good'},  //对应的商品
+    author:{type:Schema.Types.ObjectId,ref:'User'},  //对应的发布者
     title:{type:String,default:'',trim:true},   //活动标题
     detail:{type:String,default:'',trim:true},  //活动详情
     maxPeople:{type:Number,default:0},  //最多人数,0为不限制
     offline:{type:Boolean,default:true},   //默认线下活动
     activity_condition:{type:String,default:'',trim:true},  //报名活动的条件，空为不限
     activity_position:{type:String,trim:true,default:''},    //活动地点
+
     activity_time:{type:Date,default:null},  //活动开始时间
-    activity_length:{type:Number,default:0},   //活动时长,单位：小时,0为无限制
+    activity_timelength:{type:Number,default:0},   //活动时长,单位：小时,0为无限制
+    canSignAfterStart:{type:Boolean,default:true},  //活动开始后是否可以继续报名
 
     isNeedReview:{type:Boolean,default:false},  //是否需要审核，一旦确定，不能更改
-    signForm:{type:Schema.Types.ObjectId,ref:'ActivityForm',default:null},  //对应的报名的表单
-    signInfos:[
-        {
-            signUser:{type:Schema.Types.ObjectId,ref:'User'},   //对应的报名者
-            isReviewSucess:{type:Boolean,default:true},  //是否通过审核，默认是
-            reviewStatus:{type:Number,default:0,enum:[0,1,2]},    //0为正在审核，1为审核失败，2为审核成功
-            noPassReason:{type:String,default:'',trim:true},    //未审核通过的原因
-            signTime:{type:Date,default:Date.now},  //报名时间
-            enterTime:{type:Date,default:Date.now}, //通过审核的时间
-            is_quit:{type:Boolean,default:false},   //是否退出报名
-            postFormInfo:[{
-                key:{type:Boolean,default:true},    //键
-                value:{type:Schema.Types.Mixed,default:null},   //值
-            }],    //报名的提交的表单的信息
-        }
-    ],    //报名的信息
+    signForm:{type:Schema.Types.ObjectId,ref:'ActivityForm',default:null},  //报名表单
 
     viewCount:{type:Number,default:0},   //浏览次数
     is_delete:{type:Boolean,default:false}, //是否已被删除
@@ -83,23 +71,11 @@ var ActivityRule = {
         ruleType:ruleType.STRLEN,
         msg:"活动地点的长度在2~10个字符之间"
     },
-    "activity_length":{
+    "activity_timelength":{
         min:0,
         max:60*24*100,
         ruleType:ruleType.NUMVAL,
         msg:"活动的时长不能超过100天"
-    },
-    "signInfos.noPassReason":{
-        min:2,
-        max:20,
-        ruleType:ruleType.STRLEN,
-        msg:"报名者未通过审核的原因的长度在2~20个字符之间"
-    },
-    "signInfos.postFormInfo.value":{
-        min:0,
-        max:500,
-        ruleType:ruleType.STRLEN,
-        msg:"报名的表单内容长度不能大于500个字符"
     },
 };
 
@@ -145,21 +121,53 @@ ActivitySchema.virtual('passer')
         return passer;
     });
 
-//热度
-ActivitySchema.virtual('hotlevel')
-    .get(function(){
-        return this.viewCount + this.signInfos.length * 6;
-    });
-
 //创建时间
 ActivitySchema.virtual('create_time')
     .get(function(){
         return TimeHelper.formatDate(this.create_at,false);
     });
 
-ActivitySchema.methods = {};
-ActivitySchema.statics = {};
+var ActivitySignInfoModel = require('./activitySignInfo');
+ActivitySchema.methods = {
+    getSingInfoStat:function(callback){ //查找报名统计
+        ActivitySignInfoModel.find({activityId:this._id})
+            .deepPopulate("signUser signUser.school")
+            .exec(function(err,userInfos){
+                if(err || !userInfos || userInfos.length <= 0){
+                    return callback(null);
+                }
+
+                var signBoy = 0,signGirl = 0,passBoy = 0,passGirl = 0;
+                var schoolGroup = {};
+                userInfos.forEach(function(info){
+                    if(info.signUser.gender){   //男
+                        signBoy ++;
+                        if(info.reviewStatus == 2) passBoy ++;
+                    }else{
+                        signGirl ++;
+                        if(info.reviewStatus == 2) passGirl ++;
+                    }
+
+                    var schoolName = info.signUser.school.schoolname;
+                    if(schoolGroup.hasOwnProperty(schoolName)){
+                        schoolGroup[schoolName] ++;
+                    }else{
+                        schoolGroup[schoolName] = 0;
+                    }
+
+                    return callback({signBoy:signBoy,signGirl:signGirl,passBoy:passBoy,passGirl:passGirl,school:schoolGroup});
+                });
+            });
+    }
+};
+
+ActivitySchema.statics = {
+
+};
+
+ActivitySchema.plugin(deepPopulate,{});
 
 baseSchemaMethod.regBeforeSave(ActivitySchema,NotNullRule,ActivityRule);
+baseSchemaMethod.regPageQuery(ActivitySchema,'Activity');
 
 module.exports = mongoose.model('Activity',ActivitySchema);

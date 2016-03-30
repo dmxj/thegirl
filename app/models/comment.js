@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var baseSchemaMethod = require('./baseSchemaMethod');
 var ruleType = require('../const/ruleType');
 var TimeHelper = require('../helper/myTime');
@@ -31,7 +32,7 @@ var CommentSchema = new Schema({
 },{collection:'comments'});
 
 var NotNullRule = [
-    {col:'author',msg:'发表评论失败，无法获取店铺卖家信息！'},
+    {col:'author',msg:'发表评论失败，无法获取您的账号信息！'},
     {col:'content',msg:'评论内容不能为空'},
 ];
 
@@ -99,6 +100,8 @@ CommentSchema.methods = {
 };
 CommentSchema.statics = {};
 
+
+CommentSchema.plugin(deepPopulate,{});
 baseSchemaMethod.regBeforeSave(CommentSchema,NotNullRule,CommentRule);
 
 module.exports = mongoose.model('Comment',CommentSchema);

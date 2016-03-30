@@ -1,9 +1,63 @@
 <%- include ../includes/common/header.html %>
-<div class="container">
+<div class="container" ng-controller="topicCtrl" ng-init="init('<%= topic._id %>',<%= topic.fans.length%>,<%= islike%>)">
     <h4>作者：<a href="/user?uid=<%= topic.author._id %>"><%= topic.author.username %></a></h4>
     <h4>浏览量：<%= topic.view_count %></h4>
     <h4>发布时间:<%= topic.postDate %></h4>
     <h4>标题:<%= topic.title %></h4>
     <h4>内容:<%= topic.content %></h4>
+    <h4>
+        <a href="javscript:;" ng-if="!islike" ng-click="likeTopic()">关注</a>
+        <a href="javascript:;" ng-if="islike" ng-click="cancelLikeTopic()">取消关注</a>
+        <strong ng-bind="likecount"></strong>
+    </h4>
+    <hr/>
+    <div id="reply-area">
+        <h2>共有 <strong ng-bind="totalCount"></strong>条评论</h2>
+        <h3 ng-hide="replys.length > 0 && !loadingReply">暂无评论,快<a href="javascript:;" ng-click="prepareReply()">抢占沙发</a>吧</h3>
+        <p ng-show="loadingReply">正在加载评论</p>
+        <ul id="topic-reply-list">
+            <li class="topic-reply-item" data-cid="{{item.id}}" ng-repeat="item in replys track by $index" >
+                <section class="topic-reply-section">
+                    <p>作者：<a href="/user?uid={{item.uid}}" ng-bind="item.uname"></a> | <strong ng-bind="item.usex"></strong> | <strong ng-bind="item.uschool"></strong></p>
+                    <p>
+                        <label for="">发表日期：</label><time class="reply-time" ng-bind="item.t"></time>
+                    </p>
+                    <p class="reply-content" ng-bind="item.w"></p>
+                    <p><a ng-if="!item.l" href="javascript:;" ng-click="likeComment(item.id)">点赞</a><a ng-if="item.l" href="javascript:;" ng-click="likeComment(item.id)">取消点赞</a> <span ng-bind="item.lq"></span></p>
+
+                    <ul ng-show="item.r.length > 0">
+                        <li class="reply-ofreply-item" data-cid="{{reply.id}}" ng-repeat="reply in item.r track by $floor">
+                            <h5>第<span ng-bind="$floor+1"></span>楼</h5>
+                            <strong>作者：
+                                <a href="/user?uid={{reply.uid}}" ng-bind="reply.uname"></a> 回复
+                                <a href="/user?uid={{reply.to.uid}}" ng-bind="reply.to.uname"></a>
+                            </strong>
+                            <time ng-bind="reply.t"></time>
+                            <p ng-bind="reply.w"></p>
+                            <p><a ng-if="!reply.l" href="javascript:;" ng-click="likeComment(reply.id)">点赞</a><a ng-if="reply.l" href="javascript:;" ng-click="likeComment(reply.id)">取消点赞</a> <span ng-bind="item.lq"></span></p>
+                            <p><a href="javascript:;" ng-click="prepareReply(reply.id,reply.uname)">回复</a></p>
+                        </li>
+                    </ul>
+
+                    <p><a href="javascript:;" ng-click="prepareReply(item.id,item.uname)">回复</a></p>
+
+                </section>
+            </li>
+        </ul>
+
+        <div class="pager">
+            <pager page-count="pageCount" current-page="currentPage" on-page-change="onPageChange()"></pager>
+        </div>
+
+    </div>
+    <div id="post-reply">
+        <div class="alert alert-success" id="tipbox" role="alert" ng-bind="message"></div>
+        <div class="replyLabel" ng-if="replyToUser.length > 0">回复 <strong ng-bind="replyToUser"></strong></div>
+        <form name="replyForm">
+            <textarea name="replyword" id="replyword" cols="100" rows="10" ng-model="replyword" required></textarea>
+            <p>已写 <strong ng-bind="replyword.length"></strong>个字</p>
+            <button class="btn btn-danger" ng-click="postComment()" ng-disabled="replyForm.$invalid">发表评论</button>
+        </form>
+    </div>
 </div>
 <%- include ../includes/common/footer.html %>

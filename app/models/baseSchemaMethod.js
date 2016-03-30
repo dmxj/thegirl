@@ -469,9 +469,10 @@ exports.regPageQuery = function(schema,ModelName)
             }
         }, function (err, results) {
             var count = results.count;
-            if(count<1){
+            if(count < 0){
                 return callback(err, null);
             }
+            $page.totalCount = count;
             $page.pageCount = count % pageSize == 0 ? count / pageSize : Math.floor(count / pageSize) + 1;
             $page.results = results.records;
             return callback(err, $page);

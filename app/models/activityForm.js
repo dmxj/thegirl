@@ -15,6 +15,7 @@ for(var item in FormType){
  * 由活动创建者创建，供用户报名者填写，最多可以创建十项
  */
 var ActivityFormSchema = new Schema({
+    activityId:{type:Schema.Types.ObjectId,ref:'Activity'}, //对应的Activity
     items:[{
         key:{type:String,default:'',trim:true}, //键
         name:{type:String,default:'',trim:true}, //标题
@@ -22,7 +23,7 @@ var ActivityFormSchema = new Schema({
         tip:{type:String,default:'',trim:true}, //提示信息
         required:{type:Boolean,default:true},  //是否必须
         minLength:{type:Number,default:0}, //最小长度,0-10
-        maxLength:{type:Number,default:300}, //最大长度,10-500
+        maxLength:{type:Number,default:500}, //最大长度,10-500
     }],
     create_at:{type:Date,default:Date.now}, //创建时间
 },{collection:'activityforms'});

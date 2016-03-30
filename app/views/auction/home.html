@@ -5,6 +5,7 @@
         <strong>拍卖已结束</strong>
     <% }else{ %>
         <h4>拍卖进行中</h4>
+        截止到：<time><%= auction.endTime %></time>
         剩余时间：<time ng-bind="resttime">00</time>
     <% } %>
     <% if(auction.type == 0){ %>

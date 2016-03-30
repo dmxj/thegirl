@@ -18,7 +18,7 @@
     <file url="file://$PROJECT_DIR$/app/helper/myStrHelper.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/middleware/res_method.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/models/activity.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/models/activityInfo.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/models/activitySignInfo.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/models/askbuy.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/models/auction.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/models/baseModel.js" charset="UTF-8" />
@@ -45,6 +45,7 @@
     <file url="file://$PROJECT_DIR$/app/views/includes/tail.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/bin/config/authLogin.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/bin/config/express.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/remarks/20160217.txt" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

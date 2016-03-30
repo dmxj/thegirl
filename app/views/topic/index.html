@@ -11,13 +11,13 @@
             <input type="button" id="searchTopicSubmit" value="搜索"/>
         </form>
     </div>
-    <% if(topics){ %>
+    <% if(topics && topics.length > 0){ %>
     <ul class="topic-list">
         <% for(var i=0 ; i < topics.length ; i++){ %>
         <li class="topic-list-item">
             <h3>作者：<a href="/user?uid=<%= topics[i].author._id %>"><%= topics[i].author.username %></a></h3>
 
-            <h3>标题：<a href="/topic?tid=<%= topics[i]._id %>"><%- topics[i].showSearchThe("title",keyword) %></a></h3>
+            <h3>标题：<a href="/topic/<%= topics[i]._id %>"><%- topics[i].showSearchThe("title",keyword) %></a></h3>
             <p>内容：<%- topics[i].showSearchThe("content",keyword) %></p>
         </li>
         <% } %>
@@ -25,5 +25,8 @@
     <% }else{ %>
     <p>没有话题或查询出错</p>
     <% } %>
+    <div class="pager">
+        <pagerlink page-count="<%= pageCount %>" ng-init="init()"></pagerlink>
+    </div>
 </div>
 <%- include ../includes/common/footer.html %>

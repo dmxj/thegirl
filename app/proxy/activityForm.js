@@ -1,3 +1,4 @@
+var ActivityModel = require('../models/activity');
 var ActivityFormModel = require('../models/activityForm');
 var ArrayHelper = require('../helper/myArray');
 var StrHelper = require('../helper/myStrHelper');
@@ -55,9 +56,9 @@ exports.createSignForm = function(formCreateData,callback)
 
 
 //检验用户提交报名表的表单的正误
-exports.checkFormSubmit = function(activityFormId,postData,callback)
+exports.checkFormSubmit = function(formId,activityId,postData,callback)
 {
-    ActivityFormModel.findOne({_id:activityFormId},function(err,activityForm){
+    ActivityFormModel.findOne({_id:formId,activityId:activityId},function(err,activityForm){
         if(err || !activityForm){
             return callback("出现错误，未查找到活动报名表信息");
         }
