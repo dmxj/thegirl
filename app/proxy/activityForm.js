@@ -1,6 +1,7 @@
 var ActivityModel = require('../models/activity');
 var ActivityFormModel = require('../models/activityForm');
 var ArrayHelper = require('../helper/myArray');
+var ObjectHelper = require('../helper/myObject');
 var StrHelper = require('../helper/myStrHelper');
 var FormType = require('../const/formType');
 var validator = require('validator');
@@ -14,44 +15,51 @@ for(var item in FormType){
 //创建活动报名表
 exports.createSignForm = function(formCreateData,callback)
 {
-    if(!util.isArray(formCreateData)){
-        return callback("出现一些错误，创建活动报名表失败！",null);
-    }
-    if(formCreateData.length > 10){
-        return callback("最多可以创建10个表单项，请重新创建！",null);
-    }
+   if(ObjectHelper.checkObjArrayHasNull(formCreateData)){
+       return callback("参数类型有误，创建活动报名表失败！",null);
+   }
+   if(formCreateData.length > 20){
+       return callback("最多可以创建20个表单项，请重新创建！",null);
+   }
 
-    var formObj = {};
-    for(var i in formCreateData){
-        var item = formCreateData[i];
-        var itemType = parseInt(item.t,10);
-        if(formTypeArray.indexOf(itemType) < 0){  //check type
-            return callback("报名表的表单项类型不合法，请重新创建！",null);
-        }
-        if(!item.n){    //check name
-            return callback("报名表的表单项名称不能为空，请重新创建！",null);
-        }
-        if(item.t == FormType.INPUT || item.t == FormType.TEXTAREA){
-            if(item.min){
-                formObj.minLength = item.min;
+   var activityForm = new ActivityFormModel();
+   var formObj = {};
+   for(var i in formCreateData){
+       var item = formCreateData[i];
+       var itemType = parseInt(item.t,10);
+       if(formTypeArray.indexOf(itemType) < 0){  //check type
+          return callback("报名表的表单项类型不合法，请重新创建！",null);
+       }
+       if(!item.n){    //check name
+           return callback("报名表的表单项名称不能为空，请重新创建！",null);
+       }
+
+       if(item.t == FormType.INPUT || item.t == FormType.TEXTAREA){
+           if(item.min){
+               formObj.minLength = item.min;
+           }
+           if(item.max){
+               formObj.maxLength = item.max;
+           }
+       }else if(item.t == FormType.RADIO || item.t == FormType.CHECKBOX){
+            if(!item.option || !util.isArray(item.option) || item.option.length <= 0){
+                return callback(item.n + "的选项不能为空",null);
             }
-            if(item.max){
-                formObj.maxLength = item.max;
-            }
-        }
+       }
+
         formObj.key = StrHelper.uuid(6);
         formObj.name = item.n.toString().trim();
         formObj.type = itemType;
         formObj.tip = item.msg ? item.msg : "";
-        formObj.required = item.require ? item.require : true;
+        formObj.options = item.option && item.option.length > 0 ? item.option : [];
+        formObj.required = item.require === true ? true : false;
 
-        var activityForm = new ActivityFormModel();
-        activityForm.items.push(formObj);
-        activityForm.save(function(err){
-            var errMsg = err ? (err.name == "RuleError" ? err.message : "发生错误，创建活动报名表失败！") : null;
-            return callback(errMsg,activityForm);
-        });
-    }
+       activityForm.items.push(formObj);
+   }
+   activityForm.save(function(err){
+       var errMsg = err ? (err.name == "RuleError" ? err.message : "发生错误，创建活动报名表失败！") : null;
+       return callback(errMsg,activityForm);
+   });
 };
 
 
@@ -90,6 +98,9 @@ exports.checkFormSubmit = function(formId,activityId,postData,callback)
                 if(postVal.length < item.minLength || postVal.length > item.maxLength){
                     return callback(itemName + "必须在" + item.minLength + "~" + item.maxLength + "个字符之间，请检查重填！");
                 }
+            }
+            if(item.type == FormType.RADIO || item.options.indexOf(postVal) < 0){
+                return callback(itemName + "的选择不在选项范围内，请重新选择");
             }
         }
 

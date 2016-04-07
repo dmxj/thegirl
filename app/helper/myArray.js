@@ -133,4 +133,38 @@ exports.isRepeatInArray = function(array)
     }
 
     return false;
-}
+};
+
+//过滤掉数组空值
+exports.filterNull = function(array)
+{
+    var newArr = [];
+    if(array && util.isArray(array) && array.length > 0){
+        array.forEach(function(item){
+            if(item != null && item.toString() != ""){
+                newArr.push(item);
+            }
+        });
+    }
+
+    return newArr;
+};
+
+//检查数组的每个元素的长度是否超过一个范围
+exports.checkArrayStringLength = function(array,min,max){
+    var isOver = false;
+    if(array && util.isArray(array) && array.length > 0){
+        array.forEach(function(eachStr){
+            if(min && eachStr.toString().length < min){
+                isOver = true;
+                return isOver;
+            }
+            if(max && eachStr.toString().length > max){
+                isOver = true;
+                return isOver;
+            }
+        });
+    }
+
+    return isOver;
+};

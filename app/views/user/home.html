@@ -1,5 +1,5 @@
 <%- include ../includes/common/header.html %>
-<div class="container">
+<div class="container" ng-controller="spaceCtrl" ng-init="init('<%= user._id %>',<%= followed %>)">
     <h1>个人主页</h1>
     <h3>用户<%= user.username %>的空间</h3>
     <div>
@@ -7,9 +7,11 @@
 
         <h3>学校：<%= user.school.schoolname %></h3>
 
-        <h3>情感状况：<%= user.emotion_state ? user.emotion_state.name : "未知" %></h3>
+        <h3>星座：<%= user.star %></h3>
 
-        <h3>关注的人数：<%= user.fans.length %></h3>
+        <h3>情感状况：<%= user.emotionState %></h3>
+
+        <h3>关注的人数：<%= user.fansCount %></h3>
 
         <h3>店铺数：<%= user.stores.length %></h3>
 
@@ -17,15 +19,25 @@
 
         <h3>发布的话题数：<%= user.topics.length %></h3>
 
-        <h4>关注他的用户:</h4>
-        <% for(var i in user.fans){ %>
-            <a href="/user?uid=<%= user.fans[i]._id %>"><%= user.fans[i].username %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <% } %>
+        <div>关注（<%= user.followUserCount %>）|粉丝（<%= user.fansCount %>）</div>
 
-        <h4>他关注的用户：</h4>
-        <% for(var i in user.follow.users){ %>
-            <a href="/user?uid=<%= user.follow.users[i]._id %>"><%= user.follow.users[i].username %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <% } %>
+
+        <div class="alert alert-success" role="alert" ng-if="message" ng-bind="message"></div>
+        <button class="btn btn-danger" ng-if="!followed" ng-click="follow()" ng-disabled="loading">关注</button>
+        <button class="btn btn-info" ng-if="followed" ng-click="cancelFollow()" ng-disabled="loading">取消关注</button>
+
+        <div>
+            <p>
+                <h3 ng-bind="replylabel">留言：</h3>
+            </p>
+            <p>
+                <textarea name="message" id="" cols="100" rows="10" ng-model="leavemessage" placeholder="留言信息在3-500个字符之间" maxlength="500" required></textarea>
+            </p>
+            <p>
+                <small>已输入<strong ng-bind="leavemessage.length"></strong>字</small>
+                <button class="btn btn-large btn-warning" ng-click="replyMessage()" ng-disabled="leavemessage.length <= 0">回复</button>
+            </p>
+        </div>
     </div>
 </div>
 <%- include ../includes/common/footer.html %>

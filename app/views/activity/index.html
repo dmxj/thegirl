@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<%- include ../includes/common/header.html %>
+<div class="container">
+    <% if(master){ %>
+    <a href="javascript:;" class="selectSchoolToShow"><%= master.school.schoolname %></a>
+    <% }else{ %>
+    <a href="javascript:;" class="selectSchoolToShow">全国</a>
+    <%}%>
 
-</body>
-</html>
+    <% if(activities && activities.length > 0){ %>
+    <ul class="activity-list">
+        <% for(var i=0 ; i < activities.length ; i++){ %>
+        <li class="activity-list-item">
+            <h3>作者：<a href="/user?uid=<%= activities[i].author._id %>"><%= activities[i].author.username %></a></h3>
+            <p>开始时间: <time class="start_time"><%= activities[i].activityTime %></time> 至 <time class="finish_time"><%= activities[i].activityFinishTime %></time></p>
+            <h3>标题：<a href="/activity/<%= activities[i]._id %>"><%= activities[i].title %></a></h3>
+            <p>内容：<%= activities[i].detail %></p>
+        </li>
+        <% } %>
+    </ul>
+    <% }else{ %>
+    <p>没有活动或查询出错</p>
+    <% } %>
+    <div class="pager">
+        <pagerlink page-count="<%= pageCount %>" ng-init="init()"></pagerlink>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

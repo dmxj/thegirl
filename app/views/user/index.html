@@ -21,7 +21,7 @@
         <ul class="userlist">
             <% for(var i=0;i < users.length ; i++){ %>
             <li class="userlist-item">
-                <h3><a href="/user?uid=<%= users[i]._id %>"><%= users[i].username %></a>&nbsp;<%= users[i].sex %></h3>
+                <h3><a href="/user/<%= users[i]._id %>"><%= users[i].username %></a>&nbsp;<%= users[i].sex %></h3>
                 <p><%= users[i].avator %></p>
                 <p><%= users[i].school.schoolname %></p>
                 <p>情感状态：<%= users[i].emotion_state?users[i].emotion_state.name:"未知" %></p>

@@ -1,6 +1,29 @@
+html {
+  font-size: 10px;
+  height: 100%;
+  font-family: NotoSansHans-Regular,AvenirNext-Regular,arial,Hiragino Sans GB,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+  letter-spacing: 2px;
+  -webkit-font-smoothing: antialiased;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #f5f5f5;
+  font-size: 14px;
+  line-height: 2;
+  color: #666;
+}
+*, :after, :before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 a {
@@ -49,4 +72,85 @@ ul,li{
 }
 .vote-options-item.voted{
   background-color: #85E2BA;
+}
+
+form {
+  padding-top: 2px;
+}
+.input-group, form {
+  position: relative;
+}
+.activity-signform-content {
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 15px 0 rgba(0,0,0,.1);
+  -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.1);
+  -moz-box-shadow: 0 0 15px 0 rgba(0,0,0,.1);
+}
+.activity-signform-main {
+  margin: 49px auto;
+  width: 500px;
+}
+.activity-signform-title {
+  margin-top: 0;
+  margin-bottom: 11px;
+  line-height: 1;
+  font-size: 36px;
+  color: #333;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 25px;
+}
+.fzlt {
+  font-family: fzltxh,NotoSansHans-Regular,AvenirNext-Regular,arial,Hiragino Sans GB,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+}
+.input-title {
+  margin: 25px 0 10px;
+  line-height: 1;
+  letter-spacing: 1px;
+  font-size: 16px;
+  color: #333;
+}
+.input-group .input-fill {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.input-group input[type='text'],.input-group input[type='email'],.input-group input[type='datetime'],.input-group input[type='number'],.input-group textarea {
+  padding-left: 14px;
+  padding-right: 24px;
+  width: 100%;
+  height: 42px;
+  border: 1px solid #999;
+  border-radius: 3px;
+}
+.warning {
+  right: -20px;
+  width: 180px;
+  line-height: 26px;
+  color: #fff;
+  border-radius: 3px;
+  font-style: italic;
+  letter-spacing: 0;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  transition: opacity .1s,top .1s;
+  visibility: hidden;
+  opacity: 0;
+  top: 90%;
+}
+.warning, .warning:before {
+  position: absolute;
+  background-color: #eb3232;
+}
+.input-tip{
+  margin-top: 6px;
+  font-size: 12px;
+  color: #999;
+  letter-spacing: 1px;
+}
+.text-center {
+  text-align: center;
 }

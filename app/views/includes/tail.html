@@ -36,6 +36,88 @@
         });
     });
 
+    thegirlApp.controller('spaceCtrl',function($scope,$http){
+        $scope.loading = false;
+        $scope.followed = false;
+        $scope.userid = null;
+        $scope.message = "";
+        $scope.leavemessage = "";
+        $scope.replylabel = "留言：";
+
+        $scope.$watch('message',function(newValue, oldValue){
+           if(newValue != ""){
+               setTimeout(function(){
+                   $scope.message='';
+               },5000);
+           }
+        });
+
+        $scope.init = function(uid,followed){
+            $scope.userid = uid;
+            $scope.followed = followed;
+        }
+
+        $scope.follow = function(){
+            if(!$scope.userid){
+                $scope.message = "出现错误，请刷新页面重试";
+                return ;
+            }
+            $scope.loading = true;
+            $http.post("/user/follow",{uid:$scope.userid}).success(function(resp){
+                $scope.loading = false;
+                if(resp.code == 1){
+                    $scope.$emit('needLogin');
+                }
+                $scope.message = resp.msg ? resp.msg : "";
+                $scope.followed = resp.code == 2;
+            }).error(function(){
+                $scope.loading = false;
+                $scope.message = "系统繁忙，请稍后重试";
+            });
+        }
+
+        $scope.cancelFollow = function(){
+            if(!$scope.userid){
+                $scope.message = "出现错误，请刷新页面重试";
+                return ;
+            }
+            $scope.loading = true;
+            $http.post("/user/cancelFollow",{uid:$scope.userid}).success(function(resp){
+                $scope.loading = false;
+                if(resp.code == 1){
+                    $scope.$emit('needLogin');
+                }
+                $scope.message = resp.msg ? resp.msg : "";
+                $scope.followed = resp.code == 2 ? !$scope.followed : $scope.followed;
+            }).error(function(){
+                $scope.loading = false;
+                $scope.message = "系统繁忙，请稍后重试";
+            });
+        }
+
+        $scope.replyMessage = function(){
+            if(!$scope.userid){
+                $scope.message = "出现错误，请刷新页面重试";
+                return ;
+            }else if($scope.leavemessage.length <= 0){
+                $scope.message = "留言信息不能为空，请刷新后重试";
+                return ;
+            }
+            $scope.loading = true;
+            $http.post("/user/leaveMessage",{uid:$scope.userid,msg:$scope.leavemessage}).success(function(resp){
+                $scope.loading = false;
+                if(resp.code == 1){
+                    $scope.$emit('needLogin');
+                }
+                $scope.message = resp.msg ? resp.msg : "";
+                (resp.code == 2) && ($scope.leavemessage = "");
+            }).error(function(){
+                $scope.loading = false;
+                $scope.message = "系统繁忙，请稍后重试";
+            });
+        }
+    });
+
     thegirlApp.controller('goodCtrl',function($scope,$http){
         $scope.code = 0;
         $scope.msg = '';
@@ -502,6 +584,60 @@
                         $scope.message = "加载评论发生错误！";
                     });
         };
+    });
+
+    thegirlApp.controller('activityCtrl',function($scope,$http) {
+        $scope.activityId = null;
+        $scope.signBoy = 0;
+        $scope.signGirl = 0;
+        $scope.passBoy = 0;
+        $scope.passGirl = 0;
+        $scope.ifSigned = false;
+        $scope.message = "";
+
+        $scope.init = function(activityId,ifSigned){
+            $scope.activityId = activityId;
+            $scope.ifSigned = ifSigned;
+        }
+
+        $scope.initStat = function(signBoy,signGirl,passBoy,passGirl){
+            $scope.signBoy = signBoy;
+            $scope.signGirl = signGirl;
+            $scope.passBoy = passBoy;
+            $scope.passGirl = passGirl;
+        }
+
+        $scope.signActivity = function(){
+            console.log("报名活动");
+            if($scope.activityId == null){
+                return alert("未获取到活动ID，请刷新页面重试");
+            }
+
+            $http.post('/activity/sign',{aid:$scope.activityId})
+                .success(function(resp){
+                    if (resp.code && resp.code == 1) {
+                        $scope.$emit('needLogin');
+                    } else if (resp.code && resp.code == 2) {  //报名成功
+                        successSignActivity(resp);
+                    } else {
+                        $scope.message = resp.msg;
+                    }
+                }).error(function(){
+                    $scope.message = "报名发生错误，请稍后重试！";
+                });
+        }
+
+        var successSignActivity = function(resp)
+        {
+            $scope.message = resp.msg;
+            if(resp.gender){
+                $scope.signBoy ++;
+                if(resp.status == 2) $scope.passBoy ++;
+            }else{
+                $scope.signGirl ++;
+                if(resp.status == 2) $scope.passGirl ++;
+            }
+        }
     });
 
 

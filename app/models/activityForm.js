@@ -15,7 +15,7 @@ for(var item in FormType){
  * 由活动创建者创建，供用户报名者填写，最多可以创建十项
  */
 var ActivityFormSchema = new Schema({
-    activityId:{type:Schema.Types.ObjectId,ref:'Activity'}, //对应的Activity
+    //activityId:{type:Schema.Types.ObjectId,ref:'Activity'}, //对应的Activity
     items:[{
         key:{type:String,default:'',trim:true}, //键
         name:{type:String,default:'',trim:true}, //标题
@@ -24,6 +24,7 @@ var ActivityFormSchema = new Schema({
         required:{type:Boolean,default:true},  //是否必须
         minLength:{type:Number,default:0}, //最小长度,0-10
         maxLength:{type:Number,default:500}, //最大长度,10-500
+        options:[{type:String,default:'',trim:true}], //单选或者多选的选项
     }],
     create_at:{type:Date,default:Date.now}, //创建时间
 },{collection:'activityforms'});
@@ -42,9 +43,10 @@ var NotNullRule = [
 
 var ActivityFormRule = {
     "items":{
-        lengthMax:10,
+        lengthMin:1,
+        lengthMax:20,
         ruleType:ruleType.ARRAYlEN,
-        msg:"您最多可以创建10项",
+        msg:"您至少创建1项，最多可以创建20项",
     },
     "items.name":{
         min:1,
@@ -69,6 +71,18 @@ var ActivityFormRule = {
         max:500,
         ruleType:ruleType.NUMVAL,
         msg:"文本类型的表单项的最小长度在10-500之间"
+    },
+    "item.options":{
+        min:1,
+        max:20,
+        ruleType:ruleType.STRLEN,
+        msg:"选项长度在0-20个字符之间"
+    },
+    "item.options":{
+        lengthMin:2,
+        lengthMax:10,
+        ruleType:ruleType.ARRAYLEN,
+        msg:"选项数量至少为2个，至多为20个"
     },
 };
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= msg %></title>
+</head>
+<body>
+<h3><%= msg %></h3>
+<small id="countDownTip"></small>
+<input type="hidden" value="<%= seconds %>" name="remainSeconds"/>
+<input type="hidden" value="<%= url %>" name="redirectUrl"/>
+<script type="application/javascript">
+    window.onload = function(){
+        var remainSeconds = document.getElementsByName("remainSeconds")[0].value;
+        remainSeconds = parseInt(remainSeconds,10);
+        var redirectUrl = document.getElementsByName("redirectUrl")[0].value;
+        var countDownTipEl = document.getElementById("countDownTip");
+        var directRedirectHtml = "<a href='"+redirectUrl+"'>点击直接跳转</a>";
+        countDownTipEl.innerHTML = remainSeconds + "秒后跳转,"+directRedirectHtml;
+
+        setInterval(function(){
+            if(--remainSeconds >= 0)
+                countDownTipEl.innerHTML = remainSeconds + "秒后跳转,"+directRedirectHtml;
+            if(remainSeconds == 0){
+                window.location.href = redirectUrl;
+            }
+        },1000);
+    }
+</script>
+</body>
+</html>

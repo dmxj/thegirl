@@ -1,5 +1,9 @@
 var uid = require('uid-safe').sync;
 
+exports.isNull = function(str){
+    return !str || str.trim() == "";
+};
+
 exports.trimLeft = function(str,find){
     if(!str)
         return "";

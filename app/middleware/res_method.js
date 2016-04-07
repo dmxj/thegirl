@@ -13,6 +13,14 @@ exports.ResMethod = function (req, res, next) {
         return res.status(200).render(path,_option);
     }
 
+    res.renderCountDown = function(msg,seconds,redirectUrl){
+        var params = {};
+        params.msg = msg ? msg : "操作有误，正在等候跳转";
+        params.seconds = seconds ? seconds : 5;
+        params.url = redirectUrl ? redirectUrl : "/";
+        return res.status(404).render("unusual/countDown",params);
+    }
+
     res.renderDelete = function(msg){
         var params = msg ? {msg:msg} : {msg:"资源已被删除，请浏览其他资源"};
         return res.status(404).render("unusual/deleted",params);

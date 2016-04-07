@@ -53,11 +53,15 @@ function checkStrLength(itemCol,destCol,colName){
     var error = new Error('something wrong when you do some save');
     error.name = "RuleError";
     var errorMsg = itemCol.msg ? itemCol.msg : colName + "的长度不符合规定";
-    if (itemCol.hasOwnProperty('min') && destCol.length < itemCol.min) {
+    if (typeof destCol === "string" && itemCol.hasOwnProperty('min') && destCol.length < itemCol.min) {
         error.message = errorMsg;
         return error;
     }
-    if (itemCol.hasOwnProperty('max') && destCol.length > itemCol.max) {
+    if (typeof destCol === "string" && itemCol.hasOwnProperty('max') && destCol.length > itemCol.max) {
+        error.message = errorMsg;
+        return error;
+    }
+    if(util.isArray(destCol) && ArrayHelper.checkArrayStringLength(destCol)){
         error.message = errorMsg;
         return error;
     }
@@ -438,6 +442,27 @@ exports.regViewCountAdd = function(schema,colname)
             this.save(callback);
         }
     }
+};
+
+//查找，若没找到，创建新的
+exports.regFindAndCreate = function(schema,model)
+{
+    schema.methods.findAndCreate = function(query,createBson,callback){
+        var Model = this.model(model);
+        Model.findOne(query,function(err,doc){
+            if(err || !doc){
+                var newDoc = new Model(createBson);
+                newDoc.save(function(saveError){
+                    if(saveError){
+                        return callback(null);
+                    }
+                    return callback(newDoc);
+                });
+            }else{
+                return callback(doc);
+            }
+        });
+    };
 };
 
 //分页查询

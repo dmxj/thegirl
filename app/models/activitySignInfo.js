@@ -49,6 +49,12 @@ var ActivitySignInfoRule = {
     },
 };
 
+var signStatusCollection = ["正在审核","审核失败","审核成功"];
+ActivitySignInfoSchema.virtual("signStatus")
+            .get(function(){
+                return signStatusCollection[this.reviewStatus];
+             });
+
 ActivitySignInfoSchema.methods = {
 
 };

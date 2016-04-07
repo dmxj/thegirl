@@ -22,6 +22,9 @@ var shopCartCtrl = require('../controller/shopCtrl');
 var auctionCtrl = require('../controller/auctionCtrl');
 var voteCtrl = require('../controller/voteCtrl');
 var taskCtrl = require('../controller/taskCtrl');
+var activityCtrl = require('../controller/activityCtrl');
+var leaveMessageCtrl = require('../controller/leaveMessageCtrl');
+var blackListCtrl = require('../controller/blackListCtrl');
 
 var authMiddleware = require('../middleware/auth');
 
@@ -371,10 +374,14 @@ router.get('/regsuccess',signCtrl.regsuccess);
 router.get('/',indexCtrl.index);
 router.get('/search',searchCtrl.search);
 router.get('/users',userCtrl.index);
-router.get('/user',userCtrl.userSpace);
+router.get('/user/:uid',userCtrl.userSpace);
 router.get('/myspace',userCtrl.mySpace);
 router.post('/user/follow',authMiddleware.authAjax,followCtrl.followSomebody);	//关注某人
 router.post('/user/cancelFollow',authMiddleware.authAjax,followCtrl.cancelFollowSomebody);	//取消关注某人
+router.post('/user/leaveMessage',authMiddleware.authAjax,leaveMessageCtrl.leaveMessage);	//给某人留言
+router.post('/user/reply',authMiddleware.authAjax,leaveMessageCtrl.replyLeaveMessage);	//回复留言
+router.post('/user/pullToBlack',authMiddleware.authAjax,blackListCtrl.pullToBlackList);	//拉黑
+router.post('/user/cancelBlack',authMiddleware.authAjax,blackListCtrl.removeFromBlackList);	//取消拉黑
 
 router.post('/getnotify',authMiddleware.authAjax,notifyCtrl.fetchNotifications);
 router.post('/setreaded',authMiddleware.authAjax,notifyCtrl.setReaded);
@@ -395,6 +402,11 @@ router.post('/good/favorite',authMiddleware.authAjax,followCtrl.collectGood);	//
 router.post('/good/cancelFavorite',authMiddleware.authAjax,followCtrl.cancelCollectGood);	//取消收藏商品
 router.post('/good/comment',authMiddleware.authAjax,commentCtrl.commentGood);	//评论商品
 router.post('/good/fetchComment',commentCtrl.fetchGoodCommentsByPage);	//Ajax分页获取商品的评论
+
+router.get('/activity',activityCtrl.index);	//活动模块主页
+router.get('/activity/:activityId',activityCtrl.home);	//活动详情主页
+router.get('/activity/:activityId/signForm',activityCtrl.signForm);	//活动填写报名表主页
+router.post('/activity/sign',authMiddleware.authAjax,activityCtrl.signActivity);	//活动报名
 
 router.get('/auction',auctionCtrl.index);	//拍卖模块主页
 router.get('/auction/:auctionId',auctionCtrl.home);

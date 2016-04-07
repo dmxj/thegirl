@@ -346,4 +346,40 @@ router.post('/upload',function(req,res,next){
         });
 });
 
+//创建活动
+var ActivityProxy = require('../proxy/activity');
+var ActivityModel = require('../models/activity');
+var FormType = require('../const/formType');
+router.get("/add/activity",function(req,res,next){
+    var myUid = "56b1a447a762e6e40907b184";
+    var title = "大咖分享III: 大数据分析中的主流工具实例介绍";
+    var detail = "大数据(BigData)相关的技术一直比较火，甚至有很多BigData的公司拿到了大额投资。这期我们也来应下景，由两位专业做大数据的国内外专家来聊聊Go/C/Scala/Spark在BigData的运用，感兴趣的朋友可以过来一起交流下。";
+    var maxPeople = 88;
+    var offline = req.body.offline;
+    var condition = "全日制在校大学生，包括研究生、博士生";
+    var position = "（上海长宁）安西路100号一楼";
+    var timestart = new Date();
+    var timeend = moment().add(2,"d").toDate();
+    var canSignAfterStart = true;
+    var isNeedReview = true;
+    var canOtherUpdateScene = true;
+    var formData  = [
+        {n:"姓名",t:FormType.INPUT,min:2,max:6,msg:"请输入姓名"},
+        {n:"性别",t:FormType.RADIO,msg:"请选择性别",option:["男","女"]},
+        {n:"学校",t:FormType.INPUT,msg:"请输入学院"},
+        {n:"兴趣爱好",t:FormType.CHECKBOX,option:["看电影","踢球","谈恋爱","吃瓜子","唱歌跳舞","写代码","其他"]},
+        {n:"头像",t:FormType.PICTURE,msg:"请上传你的头像",require:false},
+        {n:"常用邮箱",t:FormType.PHONE,msg:"请输入您的常用邮箱"},
+    ];
+
+    ActivityProxy.createActivity(myUid,title,detail,maxPeople,offline,condition,position,timestart,timeend,canSignAfterStart,isNeedReview,canOtherUpdateScene,formData,function(err,activity){
+        if(err){
+            return res.send(err);
+        }
+        console.log("创建活动成功！！！！");
+        console.log(activity);
+        return res.redirect('/activity/'+activity._id);
+    })
+});
+
 module.exports = router;

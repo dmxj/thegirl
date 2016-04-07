@@ -6,6 +6,8 @@ var StoreProxy = require('../proxy/store');
 var TimeHelper = require('../helper/myTime');
 var ValidatorHelper = require('../helper/myValidatorHelper');
 var async = require('async');
+var util = require('util');
+var validator = require('validator');
 
 exports.checkUser = function(name,pwd,done)
 {
@@ -40,6 +42,39 @@ exports.checkTelphoneCode = function()
     return true;
 };
 
+//根据用户ID或id数组检查id是否存在相应id的用户
+exports.checkUserIdValid = function(id,callback)
+{
+    if(!id || id.length <= 0){
+        return callback("用户id不能为空");
+    }
+
+    var useridArr = id;
+    if(!util.isArray(id)){
+        useridArr = [id];
+    }
+
+    var taskArray = useridArr.map(function(item,index){
+        return function(done){
+            if(!validator.isMongoId(item)){
+                return done("存在不合法的用户id参数，请检查后重试",null);
+            }
+            UserModel.find({_id:item,confirm:true},function(err,user){
+                if(err || !user){
+                    return done("存在不合法的用户id参数，请检查后重试",null);
+                }else{
+                    return done(null,null);
+                }
+            });
+        }
+    });
+
+    async.series(taskArray,function(err,results){
+        return callback(err);
+    });
+};
+
+
 exports.checkIsLogin = function(req,done)
 {
     var uid = req.app.locals.uid;
@@ -54,6 +89,7 @@ exports.checkIsLogin = function(req,done)
         var master = {};
         master.name = user.username;
         master.id = user._id;
+        master.gender = user.gender;
         master.school = user.school;
         return done(master);
     });

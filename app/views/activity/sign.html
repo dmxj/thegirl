@@ -1,10 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<%- include ../includes/common/header.html %>
+<div class="container" ng-controller="activityCtrl">
+    <h2>活动 <font color="red"><a href="/activity/<%= activity._id %>"><%= activity.title %></a></font> 的活动表单填写页面</h2>
 
-</body>
-</html>
+    <p class="authorinfo"><a href="/user?uid=<%= activity.author._id %>"><%= activity.author.username %></a>|<%= activity.author.sex %>|<%= activity.author.school.schoolname %>|创建于 <%= activity.createTime %></p>
+
+    <div class="activity-signform-content clearfix">
+    <div class="activity-signform-main">
+    <% if(activity.signForm){ %>
+    <h2 class="fzlt activity-signform-title">活动报名——表单填写</h2>
+    <form accept-charset="utf-8" role="form" class="activity-form" name="activity-form" novalidate>
+        <% for(var i = 0 ; i < activity.signForm.items.length ; i ++){ var item = activity.signForm.items[i]  %>
+            <!-- 输入框 -->
+            <% if(item.type == Type.INPUT){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <input type="text" name="<%= item.key %>" ng-required="<%= item.required %>" placeholder="<%= item.tip ? item.tip : '' %>" ng-minlength="<%= item.minLength %>" ng-maxlength="<%= item.maxLength %>"/>
+                    </div>
+                    <span class="warning text-center" ng-show="activity-form.<%= item.key %>.$dirty && activity-form.<%= item.key %>.$valid" ng-bind="activity-form.<%= item.key %>.$error"></span>
+                </div>
+            <% } %>
+            <!-- 长文本 -->
+            <% if(item.type == Type.TEXTAREA){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <textarea type="text" name="<%= item.key %>" cols="100" rows="30" ng-required="<%= item.required %>" placeholder="<%= item.tip ? item.tip : '' %>" ng-minlength="<%= item.minLength %>" ng-maxlength="<%= item.maxLength %>"></textarea>
+                    </div>
+                    <span class="warning text-center"></span>
+                </div>
+            <% } %>
+            <!-- 单选 -->
+            <% if(item.type == Type.RADIO){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <% for(var p = 0 ; p < item.options.length ; p ++){ %>
+                        <input type="radio" name="<%= item.key %>" value="<%= item.options[p] %>" /><%= item.options[p] %>
+                        <% } %>
+                    </div>
+                    <span class="warning text-center"></span>
+                    <p>
+                        <small class="input-tip"><%= item.tip ? item.tip : '' %></small>
+                    </p>
+                </div>
+            <% } %>
+            <!-- 多选 -->
+            <% if(item.type == Type.CHECKBOX){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <% for(var p = 0 ; p < item.options.length ; p ++){ %>
+                        <input type="checkbox" name="<%= item.key %>" value="<%= item.options[p] %>" /><%= item.options[p] %>
+                        <% } %>
+                    </div>
+                    <span class="warning text-center"></span>
+                    <p>
+                        <small class="input-tip"><%= item.tip ? item.tip : '' %></small>
+                    </p>
+                </div>
+            <% } %>
+            <!-- 日期时间 -->
+            <% if(item.type == Type.DATE){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <input type="datetime" name="<%= item.key %>" ng-required="<%= item.required %>" />
+                    </div>
+                    <span class="warning text-center"></span>
+                    <p>
+                        <small class="input-tip"><%= item.tip ? item.tip : '请选择日期' %></small>
+                    </p>
+                </div>
+            <% } %>
+            <!-- 数字 -->
+            <% if(item.type == Type.NUMBER){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <input type="number" name="<%= item.key %>" ng-required="<%= item.required %>" />
+                    </div>
+                    <span class="warning text-center"></span>
+                    <p>
+                        <small class="input-tip"><%= item.tip ? item.tip : '请输入数字' %></small>
+                    </p>
+                </div>
+            <% } %>
+            <!-- 邮箱 -->
+            <% if(item.type == Type.EMAIL){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <input type="email" name="<%= item.key %>" ng-required="<%= item.required %>" />
+                    </div>
+                    <span class="warning text-center"></span>
+                    <p>
+                        <small class="input-tip"><%= item.tip ? item.tip : '请输入正确格式的邮箱' %></small>
+                    </p>
+                </div>
+            <% } %>
+            <!-- 手机号码 -->
+            <% if(item.type == Type.PHONE){ %>
+                <div class="input-group">
+                    <p class="input-title"><%= item.name + "：" %></p>
+                    <div class="input-fill">
+                        <input type="text" name="<%= item.key %>" ng-required="<%= item.required %>" placeholder="<%= item.tip ? item.tip : '请输入正确格式的手机号码' %>"/>
+                    </div>
+                    <span class="warning text-center"></span>
+                </div>
+            <% } %>
+            <!-- 手机号码 -->
+            <% if(item.type == Type.PICTURE){ %>
+            <div class="input-group">
+                <p class="input-title"><%= item.name + "：" %></p>
+                <div class="input-fill">
+                    <input type="file" name="<%= item.key %>" ng-required="<%= item.required %>" />
+                </div>
+                <span class="warning text-center"></span>
+                <p>
+                    <small class="input-tip"><%= item.tip ? item.tip : '' %></small>
+                </p>
+            </div>
+            <% } %>
+        <% } %><!-- endFor -->
+        <div class="input-group  text-center">
+            <input class="btn btn-primary btn-lg" ng-disabled="activity-form.$invalid" type="submit" value="提交" />
+        </div>
+    </form>
+    <% } %><!-- endIf -->
+    </div>
+    </div>
+</div>
+<%- include ../includes/common/footer.html %>

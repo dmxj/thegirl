@@ -40,12 +40,12 @@ exports.index = function(req,res,next){
 
 //进入某人的个人空间
 exports.userSpace = function(req,res,next){
-    var userid = req.query.uid;
+    var userid = req.params.uid;
     if(!userid){
         return res.redirect('/users');
     }
-    checkService.checkIsLogin(req,function(user){
-        if(user && user.id == userid){ //如果用户已经登录，而且现在访问的用户的id是自己的id
+    checkService.checkIsLogin(req,function(master){
+        if(master && master.id == userid){ //如果用户已经登录，而且现在访问的用户的id是自己的id
             return res.redirect('/myspace');
         }
 
@@ -53,7 +53,8 @@ exports.userSpace = function(req,res,next){
             if(!user){
                 return res.renderError("该用户不存在",404);
             }
-            return res.render200("user/home",{user:user});
+            var followed = master ? user.isFollowedBy(master.id) : false;
+            return res.render200("user/home",{user:user,followed:followed});
         });
     });
 };

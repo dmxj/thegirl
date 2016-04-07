@@ -20,7 +20,7 @@ exports.getUserByIdSavely = function (id, callback) {
 		return callback(null);
 	}
 	UserModel.findOne({_id: id, confirm: true})
-		.populate("emotion_state school education albums follow.users follow.goods follow.stores follow.topics fans")
+		.populate("school education albums")
 		.exec(function(err,user){
 			if(err || !user){
 				return callback(null);
@@ -29,9 +29,9 @@ exports.getUserByIdSavely = function (id, callback) {
 			delete user.hashed_password;
 			delete user.salt;
 			delete user.randomKey;
-			delete user.stores;
-			delete user.goods;
-			delete user.topics;
+			//delete user.stores;
+			//delete user.goods;
+			//delete user.topics;
 
 			return callback(user);
 		});
@@ -147,7 +147,6 @@ exports.addFans = function(myUid,fanUid,callback)
 		}
 
 		user.fans.indexOf(fanUid) < 0 && user.fans.push(fanUid);
-		user.followers.indexOf(followerUid) < 0 && user.followers.push(followerUid);
 		user.save(function(err2){
 			if(err2){
 				return callback(err2);

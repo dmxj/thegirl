@@ -1,10 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<%- include ../includes/common/header.html %>
+<div class="container" ng-controller="activityCtrl" ng-init="init('<%= activity._id %>',<%= activity.ifSigned %>)">
+    <h2>活动 <font color="red"><%= activity.title %></font> 的首页</h2>
 
-</body>
-</html>
+    <p class="title"><%= activity.title %></p>
+
+    <p class="authorinfo"><a href="/user?uid=<%= activity.author._id %>"><%= activity.author.username %></a>|<%= activity.author.sex %>|<%= activity.author.school.schoolname %>|创建于 <%= activity.createTime %></p>
+
+    <p class="detail"><%= activity.detail %></p>
+
+    <p class="baseinfo">
+        形式：<%= activity.line %> <br/>
+        地点：<%= activity.where %> <br/>
+        人数限制：<%= activity.signLimit %> <br/>
+        报名条件：<%= activity.signCondition %> <br/>
+        开始时间：<%= activity.activityTime %> <br/>
+        结束时间：<%= activity.activityFinishTime %> <br/>
+        是否需要审核：<%= activity.ifNeedReview %>
+    </p>
+
+    <% if(activity.stat && activity.stat.mySignStatus){ %>
+        <h3><%= activity.stat.mySignStatus %></h3>
+    <% } %>
+
+    <div ng-if="!ifSigned">
+        <% if(activity.signForm == null){ %>
+        <button ng-click="signActivity()" class="btn btn-warning-outline">报名活动</button>
+        <% }else{ %>
+        <a class="btn btn-warning-outline" href="/activity/<%= activity._id %>/signForm/">报名活动</a>
+        <% } %>
+    </div>
+
+    <div ng-if="ifSigned">
+        <button class="btn btn-warning-outline" disabled="disabled">已经报过名了</button>
+    </div>
+
+    <div class="alert alert-success" role="alert" ng-bind="message"></div>
+
+    <p class="signstat" ng-init="initStat(<%= activity.signBoy %>,<%= activity.signGirl %>,<%= activity.passBoy %>,<%= activity.passGirl %>)">
+
+    <p><strong>报名总人数：</strong><span ng-bind="signBoy+signGirl"></span></p>
+
+    <p><strong>报名通过总人数：</strong><span ng-bind="passBoy+passGirl"></span></p>
+
+    <h4>报名统计：</h4>
+        <% if(activity.stat){ %>
+
+            <p><strong>报名的男生：</strong><%= activity.stat.signBoy %></p>
+
+            <p><strong>报名的女生：</strong><%= activity.stat.signGirl %></p>
+
+            <p><strong>通过的男生：</strong><%= activity.stat.passBoy %></p>
+
+            <p><strong>通过的女生：</strong><%= activity.stat.passGirl %></p>
+
+            <% for(var key in activity.stat.school){ %>
+                <p><strong><%= key %>：</strong><%= activity.stat.school[key] %></p>
+            <% } %>
+
+            <h3>所有的报名者：</h3>
+            <ul id="signUserList">
+            <% for(var pos in activity.stat.userList){ %>
+                <li>
+                    <div><a href="/user?uid=<%= activity.stat.userList[pos]._id %>"><img src="avator" alt=""/></a></div>
+                    <div><a href="/user?uid=<%= activity.stat.userList[pos]._id %>"><%= activity.stat.userList[pos].username %></a></div>
+                </li>
+            <% } %>
+            </ul>
+        <% } %>
+    </p>
+</div>
+<%- include ../includes/common/footer.html %>
